@@ -1,0 +1,4 @@
+Attributes:
+
+|!| CachedFunctionReturns : true/false
+This denotes whether the class should remember what was returned to which parameters( memory INTESIVE )
