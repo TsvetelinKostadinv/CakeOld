@@ -39,7 +39,8 @@ public class TokenPatternContainer implements Iterable< TokenPattern >
             TokenPattern.IDENTIFIER_PATTERN,
             TokenPattern.STRING_LITERAL_PATTERN,
             TokenPattern.REAL_NUMBER_LITERAL_PATTERN,
-            TokenPattern.INTEGER_NUMBER_LITERAL_PATTERN
+            TokenPattern.INTEGER_NUMBER_LITERAL_PATTERN,
+            TokenPattern.BOOLEAN_LITERAL
     };
     
     /**

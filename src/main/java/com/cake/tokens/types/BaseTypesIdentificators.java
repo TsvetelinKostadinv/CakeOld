@@ -20,7 +20,8 @@ public enum BaseTypesIdentificators
     STRING_LITERAL ( "STRING_LITERAL") ,
     NUMBER_LITERAL( "NUMBER_LITERAL") ,
     INTEGER_NUMBER_LITERAL( "INTEGER_LITERAL") ,
-    REAL_NUMBER_LITERAL( "REAL_LITERAL") ;
+    REAL_NUMBER_LITERAL( "REAL_LITERAL"), 
+    BOOLEAN_LITERAL( "BOOLEAN_LITERAL" ) ;
     
     
     private String value = null;

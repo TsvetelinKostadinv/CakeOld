@@ -111,6 +111,10 @@ public class TokenPattern
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ), 
             Pattern.compile( "^((-)?[1-9][0-9]*)" ) );
+    public static final TokenPattern BOOLEAN_LITERAL =
+            new TokenPattern( 
+                    typesCont.getTypeForIdentifier( BaseTypesIdentificators.BOOLEAN_LITERAL.getValue() ), 
+                    Pattern.compile( "^(true|false)" ) );
 
     /**
      * @return
@@ -141,6 +145,7 @@ public class TokenPattern
                 "\\)",
                 
                 "as",
+                "|!|",
                 
                 "\\.",
                 "\\,",
