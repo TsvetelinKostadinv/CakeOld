@@ -68,13 +68,9 @@ public class StringTokenizer implements Iterator< Token > , Tokenizator< String 
     @Override
     public Token next ()
     {
-
         source = source.trim();
 
-        if ( source.isEmpty() )
-        {
-            new Token( "" , types.getTypeForIdentifier( BaseTypesIdentificators.EMPTY.getValue() ) );
-        }
+        if ( source.isEmpty() ) new Token( "" , types.getTypeForIdentifier( BaseTypesIdentificators.EMPTY.getValue() ) );
 
         for ( TokenPattern pattern : patterns )
         {
@@ -137,9 +133,9 @@ public class StringTokenizer implements Iterator< Token > , Tokenizator< String 
         {
             return new Token( token , types
                     .getTypeForIdentifier( BaseTypesIdentificators.REAL_NUMBER_LITERAL.getValue() ) );
-        }else {
-            return null;
         }
+        
+        return null;
     }
 
 

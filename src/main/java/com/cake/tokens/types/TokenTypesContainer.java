@@ -109,15 +109,14 @@ public class TokenTypesContainer  implements Iterable< TokenTypesContainer.Token
      */
     public TokenTypeHolder getTypeForIdentifier( String identifier )
     {
-        TokenTypeHolder searched = new TokenTypeHolder( identifier );
         for( TokenTypeHolder type : types)
         {
-            if(type.equals( searched ))
+            if( type.getIdentifier().equals( identifier ) )
             {
                 return type;
             }
         }
-        return searched;
+        return null;
     }
     
     /* (non-Javadoc)

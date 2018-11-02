@@ -101,10 +101,15 @@ public class TokenPattern
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTypesIdentificators.STRING_LITERAL.getValue() ), 
             Pattern.compile( "^(\".*\")" ) );
+    
+    public static final TokenPattern NUMBER_LITERAL_PATTERN =
+            new TokenPattern( 
+                    typesCont.getTypeForIdentifier( BaseTypesIdentificators.NUMBER_LITERAL.getValue() ), 
+                    Pattern.compile( "((-)?[1-9]?(([0-9])*)(\\.[0-9]*)?){1}" ) );
 
     public static final TokenPattern REAL_NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTypesIdentificators.NUMBER_LITERAL.getValue() ), 
+            typesCont.getTypeForIdentifier( BaseTypesIdentificators.REAL_NUMBER_LITERAL.getValue() ), 
             Pattern.compile( "((-)?[1-9]?(([0-9])*)(\\.[0-9]*)?){1}" ) );
 
     public static final TokenPattern INTEGER_NUMBER_LITERAL_PATTERN =
@@ -145,7 +150,9 @@ public class TokenPattern
                 "\\)",
                 
                 "as",
-                "|!|",
+                "\\|\\!\\|", // the |!| symbol to annotate attributes ( or frosting of the Cake I should say )
+                "\\:",
+                "////",
                 
                 "\\.",
                 "\\,",

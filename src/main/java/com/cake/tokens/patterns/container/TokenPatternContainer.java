@@ -8,7 +8,6 @@ package com.cake.tokens.patterns.container;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import com.cake.tokens.patterns.TokenPattern;
 
 /**
@@ -38,6 +37,7 @@ public class TokenPatternContainer implements Iterable< TokenPattern >
             TokenPattern.OPERATOR_PATTERN,
             TokenPattern.IDENTIFIER_PATTERN,
             TokenPattern.STRING_LITERAL_PATTERN,
+            TokenPattern.NUMBER_LITERAL_PATTERN,
             TokenPattern.REAL_NUMBER_LITERAL_PATTERN,
             TokenPattern.INTEGER_NUMBER_LITERAL_PATTERN,
             TokenPattern.BOOLEAN_LITERAL
@@ -68,22 +68,19 @@ public class TokenPatternContainer implements Iterable< TokenPattern >
      * 
      * Searches the list of defined patterns for one which defines this name
      * 
-     * @return the <code>TokenPattern</code> if such exists
+     * @return the <code>TokenPattern</code> if such exists or null otherwise
      * 
      */
     public TokenPattern getTokenPatternForToken ( final String forToken )
     {
-        TokenPattern foundPattern;
-        try {
-            foundPattern = patterns.stream()
-                    .filter( pattern -> pattern.forType().getIdentifier().equals( forToken ) )
-                    .distinct()
-                    .reduce( ( x, y ) -> x )
-                    .get();
-        }catch (NoSuchElementException e) {
-            foundPattern = null;
+        for(TokenPattern pattern : patterns)
+        {
+            if(pattern.forType().getIdentifier().equals( forToken ))
+            {
+                return pattern;
+            }
         }
-        return foundPattern;
+        return null;
     }
     
     /* (non-Javadoc)
