@@ -4,8 +4,10 @@ Make programming a piece of cake. \
 This is a custom programming language written in Java for learning purposes.
 
 ## Main goals
-The main purpose of this project is to develop a language fully object-oriented in design. \
-and yet so easy and simple to understand to be taught at schools. 
+The main purpose of this project is to develop a language modern and somewhat revolutionary, \
+and yet so easy and simple to understand to be taught at schools. \
+The paradigm of OOP is dying, functional programming is getting more popular, so it is mandatory to keep up. \
+Also because the nature of the language is to teach, the connection between functional programming and mathematics is significant.
 
 ## Grammar(Syntax)
 
@@ -156,7 +158,8 @@ for <type> <identifier> in <iterable_structure> <block>
 
 ### Method declaration
 The intricate nature of OOP slightly suggests the idea that everything should be modeled after real life. Well I took the idea and \
-raised it to the next level. Methods will be treated as variables in most cases while keeping the core functionality of methods. 
+raised it to the next level. Methods will be treated as variables in most cases while keeping the core functionality of methods. \
+Because the paradigm of OOP is dying I thought I should suggest the functional programming rules so the language is modern.
 * access_modifier - See "[Modifiers]" section 
 * identifier - See "[Identifiers]" section 
 * typeS - See "[Types]" section (A method can return multiple values of different types) 
