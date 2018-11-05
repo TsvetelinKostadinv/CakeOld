@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import com.cake.tokens.patterns.TokenPattern;
+import com.cake.utils.container.Container;
 
 /**
  * 
@@ -17,7 +18,7 @@ import com.cake.tokens.patterns.TokenPattern;
  * @author Tsvetelin
  *
  */
-public class TokenPatternContainer implements Iterable< TokenPattern >
+public class TokenPatternContainer extends Container< TokenPattern >
 {
     /**
      * The singleton pattern ensures that there is one and only one instance of this object at any time
@@ -58,10 +59,7 @@ public class TokenPatternContainer implements Iterable< TokenPattern >
      */
     public void addPattern ( TokenPattern newPattern)
     {
-        if ( !patterns.contains( newPattern ) )
-        {
-            patterns.add( newPattern );
-        }
+        super.addElement( newPattern );
     }
     
     /**
