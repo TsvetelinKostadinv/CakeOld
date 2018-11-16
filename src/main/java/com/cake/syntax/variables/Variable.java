@@ -6,6 +6,7 @@
 package com.cake.syntax.variables;
 
 
+import com.cake.syntax.AccessModifier;
 import com.cake.syntax.variables.values.Value;
 
 
@@ -20,7 +21,8 @@ public class Variable
 {
 
     private String name;
-
+    
+    private AccessModifier accessModifier;
 
     private Value value;
 
@@ -29,12 +31,13 @@ public class Variable
      * @param name
      * @param value
      */
-    public Variable ( String name , Value value )
+    public Variable ( String name , Value value, AccessModifier accessModifier )
     {
 
         super();
         this.name = name;
         this.value = value;
+        this.accessModifier = accessModifier;
     }
 
 
@@ -77,6 +80,26 @@ public class Variable
     {
 
         this.value = value;
+    }
+
+
+    /**
+     * @return the accessModifier
+     */
+    public AccessModifier getAccessModifier ()
+    {
+
+        return accessModifier;
+    }
+
+
+    /**
+     * @param accessModifier the accessModifier to set
+     */
+    public void setAccessModifier ( AccessModifier accessModifier )
+    {
+
+        this.accessModifier = accessModifier;
     }
 
 

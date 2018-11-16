@@ -23,7 +23,7 @@ public class ConstantValue extends Value
         super( type , value );
         // TODO Auto-generated constructor stub
     }
-    
+
     /* (non-Javadoc)
      * @see com.cake.syntax.variables.values.Value#setType(java.lang.String)
      */
