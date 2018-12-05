@@ -8,6 +8,8 @@ package com.cake.syntax.parsers;
 
 import java.util.List;
 
+import com.cake.syntax.variables.Variable;
+import com.cake.syntax.variables.parser.VariableDeclarationParser;
 import com.cake.tokens.Token;
 
 
@@ -16,10 +18,23 @@ import com.cake.tokens.Token;
  * 
  * @author Tsvetelin
  *
- * @param <Type> - the type to which the tokens will be parsed.
+ * @param <Type>
+ *            - the type to which the tokens will be parsed.
  */
-public interface Parser < Type >
+public abstract class Parser < Type >
 {
+    
+    public static Parser<Variable> varParser = new VariableDeclarationParser();
+    
+    /**
+     * 
+     */
+    public Parser ()
+    {
+
+        ParsersContainer.INSTANCE.addParser( this );
+    }
+
 
     /**
      * 
@@ -30,14 +45,16 @@ public interface Parser < Type >
      * @return true of the parser can parse the supplied sequence and false
      *         otherwise
      */
-    public boolean canParse ( List< Token > sequence );
+    public abstract boolean canParse ( List< Token > sequence );
+
 
     /**
      * 
      * Parses the tokens to the <code>Type</code>
      * 
-     * @param tokens - the tokens to be parsed
+     * @param tokens
+     *            - the tokens to be parsed
      * @return - <code>Type</code> representing the parsed tokens
      */
-    public Type parse ( List< Token > tokens );
+    public abstract Type parse ( List< Token > tokens );
 }

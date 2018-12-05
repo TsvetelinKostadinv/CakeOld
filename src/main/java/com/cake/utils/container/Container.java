@@ -5,6 +5,7 @@
 
 package com.cake.utils.container;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public abstract class Container< ContainedElement > implements Iterable< ContainedElement >
 {
-    protected List< ContainedElement > elements;
+    protected List< ContainedElement > elements = new LinkedList<>();
     
     /**
      * 

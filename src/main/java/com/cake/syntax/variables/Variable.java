@@ -7,6 +7,10 @@ package com.cake.syntax.variables;
 
 
 import com.cake.syntax.AccessModifier;
+import com.cake.syntax.SyntaxElement;
+import com.cake.syntax.parsers.Parser;
+import com.cake.syntax.parsers.ParsersContainer;
+import com.cake.syntax.variables.parser.VariableDeclarationParser;
 import com.cake.syntax.variables.values.Value;
 
 
@@ -17,12 +21,9 @@ import com.cake.syntax.variables.values.Value;
  * @author Tsvetelin
  *
  */
-public class Variable
+public class Variable extends SyntaxElement
 {
 
-    private String name;
-    
-    private AccessModifier accessModifier;
 
     private Value value;
 
@@ -31,34 +32,11 @@ public class Variable
      * @param name
      * @param value
      */
-    public Variable ( String name , Value value, AccessModifier accessModifier )
+    public Variable ( String name , Value value , AccessModifier accessModifier )
     {
 
-        super();
-        this.name = name;
+        super( name , accessModifier );
         this.value = value;
-        this.accessModifier = accessModifier;
-    }
-
-
-    /**
-     * @return the name
-     */
-    public String getName ()
-    {
-
-        return name;
-    }
-
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName ( String name )
-    {
-
-        this.name = name;
     }
 
 
@@ -79,28 +57,44 @@ public class Variable
     public void setValue ( Value value )
     {
 
-        this.value = value;
+        if ( value != this.value ) this.value = value;
+
     }
 
 
-    /**
-     * @return the accessModifier
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cake.syntax.SyntaxElement#toString()
      */
-    public AccessModifier getAccessModifier ()
+    @Override
+    public String toString ()
     {
 
-        return accessModifier;
+        return "Variable: " + super.toString() + " = " + this.value;
     }
 
 
-    /**
-     * @param accessModifier the accessModifier to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cake.syntax.SyntaxElement#equals(java.lang.Object)
      */
-    public void setAccessModifier ( AccessModifier accessModifier )
+    @Override
+    public boolean equals ( Object obj )
     {
 
-        this.accessModifier = accessModifier;
+        return super.equals( obj ) && obj instanceof Variable && ( (Variable) obj ).value.equals( this.value );
     }
 
 
+    public static void main ( String [] args )
+    {
+        VariableDeclarationParser pars = new VariableDeclarationParser();
+        for ( Parser< ? > parser : ParsersContainer.INSTANCE )
+        {
+            System.out.println( parser.toString() );
+        }
+        System.out.println( "Ended " + pars.toString() );
+    }
 }
