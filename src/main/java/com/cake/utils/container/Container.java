@@ -5,6 +5,7 @@
 
 package com.cake.utils.container;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public abstract class Container< ContainedElement > implements Iterable< ContainedElement >
 {
-    protected List< ContainedElement > elements = new LinkedList<>();
+    protected final List< ContainedElement > elements = new LinkedList<>();
     
     /**
      * 
@@ -39,6 +40,15 @@ public abstract class Container< ContainedElement > implements Iterable< Contain
     protected void removeElement ( ContainedElement element )
     {
         elements.remove( element );
+    }
+    
+    /* (non-Javadoc)
+     * @see java.lang.Iterable#iterator()
+     */
+    @Override
+    public Iterator< ContainedElement > iterator ()
+    {
+        return elements.iterator();
     }
     
 }

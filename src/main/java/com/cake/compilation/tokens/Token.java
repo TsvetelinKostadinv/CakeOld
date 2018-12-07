@@ -3,9 +3,9 @@
  * Token.java created by Tsvetelin
  */
 
-package com.cake.tokens;
+package com.cake.compilation.tokens;
 
-import com.cake.tokens.types.TokenTypesContainer.TokenTypeHolder;
+import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
 
 /**
  * 

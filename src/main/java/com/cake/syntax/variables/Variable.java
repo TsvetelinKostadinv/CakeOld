@@ -8,9 +8,6 @@ package com.cake.syntax.variables;
 
 import com.cake.syntax.AccessModifier;
 import com.cake.syntax.SyntaxElement;
-import com.cake.syntax.parsers.Parser;
-import com.cake.syntax.parsers.ParsersContainer;
-import com.cake.syntax.variables.parser.VariableDeclarationParser;
 import com.cake.syntax.variables.values.Value;
 
 
@@ -71,7 +68,7 @@ public class Variable extends SyntaxElement
     public String toString ()
     {
 
-        return "Variable: " + super.toString() + " = " + this.value;
+        return "Variable: " + super.toString() + " => " + this.value;
     }
 
 
@@ -85,16 +82,5 @@ public class Variable extends SyntaxElement
     {
 
         return super.equals( obj ) && obj instanceof Variable && ( (Variable) obj ).value.equals( this.value );
-    }
-
-
-    public static void main ( String [] args )
-    {
-        VariableDeclarationParser pars = new VariableDeclarationParser();
-        for ( Parser< ? > parser : ParsersContainer.INSTANCE )
-        {
-            System.out.println( parser.toString() );
-        }
-        System.out.println( "Ended " + pars.toString() );
     }
 }

@@ -9,4 +9,4 @@
  * @author Tsvetelin
  *
  */
-package com.cake.tokens.types;
+package com.cake.compilation.tokens.types;

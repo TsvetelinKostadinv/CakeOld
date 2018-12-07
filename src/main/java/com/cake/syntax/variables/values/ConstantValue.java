@@ -21,7 +21,6 @@ public class ConstantValue extends Value
     {
 
         super( type , value );
-        // TODO Auto-generated constructor stub
     }
 
     /* (non-Javadoc)

@@ -3,10 +3,9 @@
  * TokenTypeHolder.java created by Tsvetelin
  */
 
-package com.cake.tokens.types;
+package com.cake.compilation.tokens.types;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import com.cake.utils.container.Container;
@@ -95,7 +94,6 @@ public class TokenTypesContainer extends Container< TokenTypesContainer.TokenTyp
      */
     private TokenTypesContainer ()
     {
-        elements = new ArrayList<>();
         Iterator< String > iter = Arrays.asList( BaseTypesIdentificators.values() )
                                         .stream()
                                         .map( x -> x.getValue() )
@@ -135,20 +133,6 @@ public class TokenTypesContainer extends Container< TokenTypesContainer.TokenTyp
             if ( type.getIdentifier().equals( identifier ) ) { return type; }
         }
         return null;
-    }
-
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Iterable#iterator()
-     */
-    @Override
-    public Iterator< TokenTypeHolder > iterator ()
-    {
-
-        return elements.iterator();
-
     }
 
 

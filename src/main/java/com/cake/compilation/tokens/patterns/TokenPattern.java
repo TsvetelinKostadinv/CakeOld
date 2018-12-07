@@ -3,14 +3,14 @@
  * TokenPattern.java created by Tsvetelin
  */
 
-package com.cake.tokens.patterns;
+package com.cake.compilation.tokens.patterns;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-import com.cake.tokens.types.BaseTypesIdentificators;
-import com.cake.tokens.types.TokenTypesContainer;
-import com.cake.tokens.types.TokenTypesContainer.TokenTypeHolder;
+import com.cake.compilation.tokens.types.BaseTypesIdentificators;
+import com.cake.compilation.tokens.types.TokenTypesContainer;
+import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
 
 /**
  * 
@@ -92,20 +92,20 @@ public class TokenPattern
     public static final TokenPattern OPERATOR_PATTERN = 
     generateOperatorsPattern();
 
+    public static final TokenPattern BOOLEAN_LITERAL =
+    new TokenPattern( 
+            typesCont.getTypeForIdentifier( BaseTypesIdentificators.BOOLEAN_LITERAL.getValue() ), 
+            Pattern.compile( "^(true|false)" ) );
+
     public static final TokenPattern IDENTIFIER_PATTERN = 
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTypesIdentificators.IDENTIFIER.getValue() ), 
             Pattern.compile( "^([a-zA-z_][a-zA-z_0-9]*)" ) );
 
-    public static final TokenPattern STRING_LITERAL_PATTERN = 
-    new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTypesIdentificators.STRING_LITERAL.getValue() ), 
-            Pattern.compile( "^(\".*\")" ) );
-    
     public static final TokenPattern NUMBER_LITERAL_PATTERN =
-            new TokenPattern( 
-                    typesCont.getTypeForIdentifier( BaseTypesIdentificators.NUMBER_LITERAL.getValue() ), 
-                    Pattern.compile( "((-)?[1-9]?(([0-9])*)(\\.[0-9]*)?){1}" ) );
+    new TokenPattern( 
+            typesCont.getTypeForIdentifier( BaseTypesIdentificators.NUMBER_LITERAL.getValue() ), 
+            Pattern.compile( "((-)?[1-9]?(([0-9])*)(\\.[0-9]*)?){1}" ) );
 
     public static final TokenPattern REAL_NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
@@ -116,10 +116,16 @@ public class TokenPattern
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ), 
             Pattern.compile( "^((-)?[1-9][0-9]*)" ) );
-    public static final TokenPattern BOOLEAN_LITERAL =
+    
+    public static final TokenPattern STRING_LITERAL_PATTERN = 
+    new TokenPattern( 
+            typesCont.getTypeForIdentifier( BaseTypesIdentificators.STRING_LITERAL.getValue() ), 
+            Pattern.compile( "^(\".*\")" ) );
+
+    public static final TokenPattern ACESS_MODIFIER =
             new TokenPattern( 
-                    typesCont.getTypeForIdentifier( BaseTypesIdentificators.BOOLEAN_LITERAL.getValue() ), 
-                    Pattern.compile( "^(true|false)" ) );
+                    typesCont.getTypeForIdentifier( BaseTypesIdentificators.ACCESS_MODIFIER.getValue() ), 
+                    Pattern.compile( "^(global|public|groupscoped|private)" ) );
 
     /**
      * @return

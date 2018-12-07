@@ -18,7 +18,6 @@ public class Value
 
     private String type;
 
-
     private Object value;
 
 
@@ -86,7 +85,7 @@ public class Value
     public String toString ()
     {
 
-        return "A value with type: " + this.getType() + " and value: " + this.value.toString();
+        return "type: " + this.getType() + " with value: " + this.value.toString();
     }
 
 

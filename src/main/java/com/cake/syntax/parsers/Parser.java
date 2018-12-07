@@ -7,10 +7,10 @@ package com.cake.syntax.parsers;
 
 
 import java.util.List;
-
-import com.cake.syntax.variables.Variable;
-import com.cake.syntax.variables.parser.VariableDeclarationParser;
-import com.cake.tokens.Token;
+import com.cake.compilation.tokens.Token;
+import com.cake.running.runtime.CakeRuntime;
+import com.cake.syntax.blocks.Block;
+import javafx.util.Pair;
 
 
 /**
@@ -23,9 +23,7 @@ import com.cake.tokens.Token;
  */
 public abstract class Parser < Type >
 {
-    
-    public static Parser<Variable> varParser = new VariableDeclarationParser();
-    
+
     /**
      * 
      */
@@ -54,7 +52,27 @@ public abstract class Parser < Type >
      * 
      * @param tokens
      *            - the tokens to be parsed
-     * @return - <code>Type</code> representing the parsed tokens
+     * @param superblock
+     *            - the scope of the sequence of tokens
+     * @return - a pair of values, the key being the fully-qualified name of the
+     *         variable and a <code>Type</code> representing the parsed tokens
      */
-    public abstract Type parse ( List< Token > tokens );
+    public abstract Pair< String , Type > parse ( Block superblock , List< Token > tokens );
+
+
+    /**
+     * 
+     * Parses the tokens to the <code>Type</code>
+     * 
+     * @param tokens
+     *            - the tokens to be parsed
+     * @param superblock
+     *            - the scope of the sequence of tokens
+     * @param runtime
+     *            - the runtime to be added to
+     * @return - a pair of values, the key being the fully-qualified name of the
+     *         variable and a <code>Type</code> representing the parsed tokens
+     */
+    public abstract Pair< String , Type > parseAndAddToRuntime ( CakeRuntime runtime , Block superblock ,
+            List< Token > tokens );
 }

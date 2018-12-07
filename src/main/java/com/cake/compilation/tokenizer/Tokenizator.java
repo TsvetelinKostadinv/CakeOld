@@ -3,11 +3,11 @@
  * Tokenizator.java created by Tsvetelin
  */
 
-package com.cake.tokenizer;
+package com.cake.compilation.tokenizer;
 
 import java.util.List;
 
-import com.cake.tokens.Token;
+import com.cake.compilation.tokens.Token;
 
 /**
  * 

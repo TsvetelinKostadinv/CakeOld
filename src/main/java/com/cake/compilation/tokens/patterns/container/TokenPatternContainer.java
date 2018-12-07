@@ -3,12 +3,14 @@
  * TokenPatternContainer.java created by Tsvetelin
  */
 
-package com.cake.tokens.patterns.container;
+package com.cake.compilation.tokens.patterns.container;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import com.cake.tokens.patterns.TokenPattern;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import com.cake.compilation.tokens.patterns.TokenPattern;
 import com.cake.utils.container.Container;
 
 /**
@@ -26,30 +28,16 @@ public class TokenPatternContainer extends Container< TokenPattern >
     public static final TokenPatternContainer INSTANCE = new TokenPatternContainer();
     
     /**
-     * All the patterns
-     */
-    private List< TokenPattern > patterns = new ArrayList< TokenPattern >();
-    
-    /**
      * The primitive patterns which are a constant
      */
-    private final TokenPattern[] primitivePatterns = {
-            TokenPattern.EMPTY_PATTERN,
-            TokenPattern.OPERATOR_PATTERN,
-            TokenPattern.IDENTIFIER_PATTERN,
-            TokenPattern.STRING_LITERAL_PATTERN,
-            TokenPattern.NUMBER_LITERAL_PATTERN,
-            TokenPattern.REAL_NUMBER_LITERAL_PATTERN,
-            TokenPattern.INTEGER_NUMBER_LITERAL_PATTERN,
-            TokenPattern.BOOLEAN_LITERAL
-    };
-    
+    private final TokenPattern[] primitivePatterns = getPrimitivePattersInTokenPatterns();
+
     /**
      * Making it private in order to implement the singleton pattern
      */
     private TokenPatternContainer () 
     {
-        for(TokenPattern p : primitivePatterns) patterns.add( p );
+        for(TokenPattern p : primitivePatterns) elements.add( p );
     }
     
     /**
@@ -71,7 +59,7 @@ public class TokenPatternContainer extends Container< TokenPattern >
      */
     public TokenPattern getTokenPatternForToken ( final String forToken )
     {
-        for(TokenPattern pattern : patterns)
+        for(TokenPattern pattern : elements)
         {
             if(pattern.forType().getIdentifier().equals( forToken ))
             {
@@ -81,15 +69,40 @@ public class TokenPatternContainer extends Container< TokenPattern >
         return null;
     }
     
-    /* (non-Javadoc)
-     * @see java.lang.Iterable#iterator()
+    /**
+     * @return
      */
-    @Override
-    public Iterator< TokenPattern > iterator ()
+    private TokenPattern [] getPrimitivePattersInTokenPatterns ()
     {
-        return patterns.iterator();
+        return Arrays.stream( TokenPattern.class.getDeclaredFields() )
+                        .filter( x -> x.getType().equals( TokenPattern.class ) )
+                        .filter( x -> Modifier.isStatic( x.getModifiers() ) )
+                        .peek( x -> x.setAccessible( true ) )
+                        .map( x -> getValue(x) )
+                        .collect( Collectors.toList() )
+                        .toArray( new TokenPattern[0] );
     }
-    
+
+    /**
+     * @param x
+     * @return
+     */
+    private TokenPattern getValue ( Field x )
+    {
+        try
+        {
+            return (TokenPattern) x.get( null );
+        } catch ( IllegalArgumentException e )
+        {
+            // they are all static no need
+            return null;
+        } catch ( IllegalAccessException e )
+        {
+            //they are already set to visible
+            return null;
+        }
+    }
+
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
@@ -98,10 +111,10 @@ public class TokenPatternContainer extends Container< TokenPattern >
     {
         StringBuilder sb = new StringBuilder();
         sb.append( "This is a list of all Token patterns." + System.lineSeparator() );
-        sb.append( "It contains: " + patterns.size() + " entries" + System.lineSeparator() );
-        for(int i=0;i<patterns.size();i++)
+        sb.append( "It contains: " + elements.size() + " entries" + System.lineSeparator() );
+        for(int i=0;i<elements.size();i++)
         {
-            sb.append( i + ": " + patterns.get( i ).toString() + System.lineSeparator() );
+            sb.append( i + ": " + elements.get( i ).toString() + System.lineSeparator() );
         }
         return sb.toString();
     }
@@ -113,7 +126,7 @@ public class TokenPatternContainer extends Container< TokenPattern >
     public boolean equals ( Object arg0 )
     {
         return arg0 instanceof TokenPatternContainer
-                && ((TokenPatternContainer) arg0).patterns.equals( this.patterns );
+                && ((TokenPatternContainer) arg0).elements.equals( this.elements );
     }
     
 }

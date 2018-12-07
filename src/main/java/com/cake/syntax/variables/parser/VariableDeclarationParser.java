@@ -8,12 +8,22 @@ package com.cake.syntax.variables.parser;
 
 import java.util.List;
 
+import javax.naming.NameNotFoundException;
+
+import com.cake.compilation.tokens.Token;
+import com.cake.compilation.tokens.types.BaseTypesIdentificators;
+import com.cake.compilation.tokens.types.TokenTypesContainer;
+import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
+import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.AccessModifier;
+import com.cake.syntax.blocks.Block;
 import com.cake.syntax.parsers.Parser;
+import com.cake.syntax.variables.BaseType;
 import com.cake.syntax.variables.Variable;
-import com.cake.tokens.Token;
-import com.cake.tokens.types.BaseTypesIdentificators;
-import com.cake.tokens.types.TokenTypesContainer;
+import com.cake.syntax.variables.values.EmptyIdentity;
+import com.cake.syntax.variables.values.Value;
+
+import javafx.util.Pair;
 
 
 /**
@@ -29,25 +39,23 @@ public class VariableDeclarationParser extends Parser< Variable >
     private final TokenTypesContainer.TokenTypeHolder identifierType = TokenTypesContainer.INSTANCE
             .getTypeForIdentifier( BaseTypesIdentificators.IDENTIFIER.getValue() );
 
-
     private final TokenTypesContainer.TokenTypeHolder operatorType = TokenTypesContainer.INSTANCE
             .getTypeForIdentifier( BaseTypesIdentificators.OPERATOR.getValue() );
-
 
     private final TokenTypesContainer.TokenTypeHolder stringLiteral = TokenTypesContainer.INSTANCE
             .getTypeForIdentifier( BaseTypesIdentificators.STRING_LITERAL.getValue() );
 
-
     private final TokenTypesContainer.TokenTypeHolder numberLiteral = TokenTypesContainer.INSTANCE
             .getTypeForIdentifier( BaseTypesIdentificators.NUMBER_LITERAL.getValue() );
-
 
     private final TokenTypesContainer.TokenTypeHolder integerLiteral = TokenTypesContainer.INSTANCE
             .getTypeForIdentifier( BaseTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() );
 
-
     private final TokenTypesContainer.TokenTypeHolder realNumberLiteral = TokenTypesContainer.INSTANCE
             .getTypeForIdentifier( BaseTypesIdentificators.REAL_NUMBER_LITERAL.getValue() );
+    
+    private final TokenTypesContainer.TokenTypeHolder booleanLiteral = TokenTypesContainer.INSTANCE
+            .getTypeForIdentifier( BaseTypesIdentificators.BOOLEAN_LITERAL.getValue() );
 
     // @formatter:off
     // <access modifier> | [type] | <identifier> |   =  | <identifier_or_value> |
@@ -199,7 +207,8 @@ public class VariableDeclarationParser extends Parser< Variable >
                     || afterEquals.get( 0 ).getTokenType().equals( stringLiteral )
                     || afterEquals.get( 0 ).getTokenType().equals( numberLiteral )
                     || afterEquals.get( 0 ).getTokenType().equals( integerLiteral )
-                    || afterEquals.get( 0 ).getTokenType().equals( realNumberLiteral );
+                    || afterEquals.get( 0 ).getTokenType().equals( realNumberLiteral )
+                    || afterEquals.get( 0 ).getTokenType().equals( booleanLiteral );
         } else
         {
             // TODO add support for expressions
@@ -214,10 +223,116 @@ public class VariableDeclarationParser extends Parser< Variable >
      * @see com.cake.syntax.parsers.Parser#parse(java.util.List)
      */
     @Override
-    public Variable parse ( List< Token > tokens )
+    public Pair< String , Variable > parseAndAddToRuntime ( CakeRuntime runtime , Block superblock ,
+            List< Token > tokens )
+    {
+        Pair< String , Variable > pair = parse( superblock , tokens );
+        runtime.addDecalredElement( pair.getKey() , pair.getValue() );
+        return pair;
+    }
+
+
+    /**
+     * @param tokens
+     * @return
+     * @throws NameNotFoundException
+     */
+    private Value getValueForToken ( CakeRuntime runtime , String name , List< Token > tokens )
+    {
+        Variable variable;
+
+        if ( runtime != null && ( variable = (Variable) runtime.getElement( name ) ) != null )
+        {
+            return variable.getValue();
+        } else
+        {
+            List< Token > afterEquals = tokens.subList( tokens.indexOf( new Token( "=" , operatorType ) ) + 1 ,
+                    tokens.size() );
+
+            switch ( afterEquals.size() )
+                {
+                    case 1 :
+                        Token assignee = afterEquals.get( 0 );
+                        
+                        TokenTypeHolder holder = assignee.getTokenType();
+                        if ( !holder.equals( identifierType ) )
+                        {
+                            return new Value( BaseType.getTypeFor( holder ).toString() , assignee.getToken() );
+                        } else
+                        {
+                            throw new RuntimeException( tokens.get( 0 ).getToken() + " does not exist!" ,
+                                    new NameNotFoundException() );
+                        }
+                    default :
+                        break;
+                }
+
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @param tokens
+     * @return
+     */
+    private Token getIdentificator ( List< Token > tokens )
     {
 
+        if ( tokens.get( 1 ).getTokenType().equals( identifierType )
+                && tokens.get( 2 ).getTokenType().equals( identifierType ) )
+        {
+            // this means we have explicit declaration of the type
+            // the third one is the name
+
+            return tokens.get( 2 );
+
+        } else
+        {
+            // this means we do NOT have explicit declaration of the type
+            // the second one is the name
+            return tokens.get( 1 );
+        }
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cake.syntax.parsers.Parser#parse(com.cake.syntax.blocks.Block,
+     * java.util.List)
+     */
+    @Override
+    public Pair< String , Variable > parse ( Block superblock , List< Token > tokens )
+    {
+        if ( this.canParse( tokens ) )
+        {
+            AccessModifier accessModifier = AccessModifier.valueOf( tokens.get( 0 ).getToken().toUpperCase() );
+
+            String identificator = getIdentificator( tokens ).getToken();
+
+            String name = superblock!=null?superblock.getFullName():Block.ROOT_NAME + "#" + identificator;
+
+            Value value = isAssignation( tokens ) ? getValueForTokenWithoutRuntime( name , tokens )
+                    : new EmptyIdentity();
+
+            Variable variable = new Variable( identificator , value , accessModifier );
+
+            return new Pair< String , Variable >( name , variable );
+        }
         throw new UnsupportedOperationException( "The method is not yet implemented" );
+    }
+
+
+    /**
+     * @param name
+     * @param tokens
+     * @return
+     */
+    private Value getValueForTokenWithoutRuntime ( String name , List< Token > tokens )
+    {
+        return getValueForToken( null , name , tokens );
     }
 
 }

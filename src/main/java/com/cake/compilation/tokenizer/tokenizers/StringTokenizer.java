@@ -3,7 +3,7 @@
  * Tokenizer.java created by Tsvetelin
  */
 
-package com.cake.tokenizer.tokenizers;
+package com.cake.compilation.tokenizer.tokenizers;
 
 
 import java.util.ArrayList;
@@ -11,12 +11,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import com.cake.tokenizer.Tokenizator;
-import com.cake.tokens.Token;
-import com.cake.tokens.patterns.TokenPattern;
-import com.cake.tokens.patterns.container.TokenPatternContainer;
-import com.cake.tokens.types.BaseTypesIdentificators;
-import com.cake.tokens.types.TokenTypesContainer;
+import com.cake.compilation.tokenizer.Tokenizator;
+import com.cake.compilation.tokens.Token;
+import com.cake.compilation.tokens.patterns.TokenPattern;
+import com.cake.compilation.tokens.patterns.container.TokenPatternContainer;
+import com.cake.compilation.tokens.types.BaseTypesIdentificators;
+import com.cake.compilation.tokens.types.TokenTypesContainer;
 
 
 /**

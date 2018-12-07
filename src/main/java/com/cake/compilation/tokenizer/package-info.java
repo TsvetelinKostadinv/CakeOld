@@ -10,4 +10,4 @@
  * @author Tsvetelin
  *
  */
-package com.cake.tokenizer;
+package com.cake.compilation.tokenizer;

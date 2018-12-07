@@ -9,4 +9,4 @@
  * @author Tsvetelin
  *
  */
-package com.cake.tokens.patterns.container;
+package com.cake.compilation.tokens.patterns.container;
