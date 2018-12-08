@@ -8,7 +8,7 @@ package com.cake.compilation.tokens.patterns;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-import com.cake.compilation.tokens.types.BaseTypesIdentificators;
+import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
 import com.cake.compilation.tokens.types.TokenTypesContainer;
 import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
 
@@ -86,7 +86,7 @@ public class TokenPattern
     
     public static final TokenPattern EMPTY_PATTERN = 
     new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTypesIdentificators.EMPTY.getValue() ), 
+            typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.EMPTY.getValue() ), 
             Pattern.compile( "" ) );
 
     public static final TokenPattern OPERATOR_PATTERN = 
@@ -94,37 +94,37 @@ public class TokenPattern
 
     public static final TokenPattern BOOLEAN_LITERAL =
     new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTypesIdentificators.BOOLEAN_LITERAL.getValue() ), 
+            typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.BOOLEAN_LITERAL.getValue() ), 
             Pattern.compile( "^(true|false)" ) );
 
     public static final TokenPattern IDENTIFIER_PATTERN = 
     new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTypesIdentificators.IDENTIFIER.getValue() ), 
+            typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.IDENTIFIER.getValue() ), 
             Pattern.compile( "^([a-zA-z_][a-zA-z_0-9]*)" ) );
 
     public static final TokenPattern NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTypesIdentificators.NUMBER_LITERAL.getValue() ), 
+            typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.NUMBER_LITERAL.getValue() ), 
             Pattern.compile( "((-)?[1-9]?(([0-9])*)(\\.[0-9]*)?){1}" ) );
 
     public static final TokenPattern REAL_NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTypesIdentificators.REAL_NUMBER_LITERAL.getValue() ), 
+            typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.REAL_NUMBER_LITERAL.getValue() ), 
             Pattern.compile( "((-)?[1-9]?(([0-9])*)(\\.[0-9]*)?){1}" ) );
 
     public static final TokenPattern INTEGER_NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ), 
+            typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ), 
             Pattern.compile( "^((-)?[1-9][0-9]*)" ) );
     
     public static final TokenPattern STRING_LITERAL_PATTERN = 
     new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTypesIdentificators.STRING_LITERAL.getValue() ), 
+            typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() ), 
             Pattern.compile( "^(\".*\")" ) );
 
     public static final TokenPattern ACESS_MODIFIER =
             new TokenPattern( 
-                    typesCont.getTypeForIdentifier( BaseTypesIdentificators.ACCESS_MODIFIER.getValue() ), 
+                    typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.ACCESS_MODIFIER.getValue() ), 
                     Pattern.compile( "^(global|public|groupscoped|private)" ) );
 
     /**
@@ -185,7 +185,7 @@ public class TokenPattern
         pattern.append( "){1}" );
         
         return new TokenPattern( 
-                typesCont.getTypeForIdentifier( BaseTypesIdentificators.OPERATOR.getValue() ), 
+                typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.OPERATOR.getValue() ), 
                 Pattern.compile( pattern.toString() ) );
     }
 }

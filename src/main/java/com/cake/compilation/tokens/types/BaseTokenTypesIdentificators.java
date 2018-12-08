@@ -13,7 +13,7 @@ package com.cake.compilation.tokens.types;
  * @author Tsvetelin
  *
  */
-public enum BaseTypesIdentificators
+public enum BaseTokenTypesIdentificators
 {
     //@formatter:off
     EMPTY ( "" ) ,
@@ -34,7 +34,7 @@ public enum BaseTypesIdentificators
     /**
      * Private constructor so no one else builds a type
      */
-    private BaseTypesIdentificators ( String holder )
+    private BaseTokenTypesIdentificators ( String holder )
     {
 
         this.value = holder;

@@ -94,7 +94,7 @@ public class TokenTypesContainer extends Container< TokenTypesContainer.TokenTyp
      */
     private TokenTypesContainer ()
     {
-        Iterator< String > iter = Arrays.asList( BaseTypesIdentificators.values() )
+        Iterator< String > iter = Arrays.asList( BaseTokenTypesIdentificators.values() )
                                         .stream()
                                         .map( x -> x.getValue() )
                                         .iterator();

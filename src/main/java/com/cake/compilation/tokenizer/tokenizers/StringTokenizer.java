@@ -15,7 +15,7 @@ import com.cake.compilation.tokenizer.Tokenizator;
 import com.cake.compilation.tokens.Token;
 import com.cake.compilation.tokens.patterns.TokenPattern;
 import com.cake.compilation.tokens.patterns.container.TokenPatternContainer;
-import com.cake.compilation.tokens.types.BaseTypesIdentificators;
+import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
 import com.cake.compilation.tokens.types.TokenTypesContainer;
 
 
@@ -70,7 +70,7 @@ public class StringTokenizer implements Iterator< Token > , Tokenizator< String 
     {
         source = source.trim();
 
-        if ( source.isEmpty() ) new Token( "" , types.getTypeForIdentifier( BaseTypesIdentificators.EMPTY.getValue() ) );
+        if ( source.isEmpty() ) new Token( "" , types.getTypeForIdentifier( BaseTokenTypesIdentificators.EMPTY.getValue() ) );
 
         for ( TokenPattern pattern : patterns )
         {
@@ -84,11 +84,11 @@ public class StringTokenizer implements Iterator< Token > , Tokenizator< String 
                 source = matcher.replaceFirst( "" );
 
                 if ( pattern.forType() == types
-                        .getTypeForIdentifier( BaseTypesIdentificators.STRING_LITERAL.getValue() ) )
+                        .getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() ) )
                 {
                     return processedStringToken( token );
                 } else if ( pattern.forType() == types
-                        .getTypeForIdentifier( BaseTypesIdentificators.NUMBER_LITERAL.getValue() ) )
+                        .getTypeForIdentifier( BaseTokenTypesIdentificators.NUMBER_LITERAL.getValue() ) )
                 {
                     return exactTypeOfNumberToken( token );
                 }
@@ -108,7 +108,7 @@ public class StringTokenizer implements Iterator< Token > , Tokenizator< String 
     private Token processedStringToken ( String token )
     {
         return new Token( token.substring( 1 , token.length() - 1 ) ,
-                types.getTypeForIdentifier( BaseTypesIdentificators.STRING_LITERAL.getValue() ) );
+                types.getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() ) );
     }
 
 
@@ -122,17 +122,17 @@ public class StringTokenizer implements Iterator< Token > , Tokenizator< String 
     private Token exactTypeOfNumberToken ( String token )
     {
         if ( token.matches( patterns
-                .getTokenPatternForToken( BaseTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() )
+                .getTokenPatternForToken( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() )
                 .getPattern().pattern() ) )
         {
             return new Token( token , types
-                    .getTypeForIdentifier( BaseTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ) );
+                    .getTypeForIdentifier( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ) );
         } else if ( token.matches( patterns
-                .getTokenPatternForToken( BaseTypesIdentificators.REAL_NUMBER_LITERAL.getValue() )
+                .getTokenPatternForToken( BaseTokenTypesIdentificators.REAL_NUMBER_LITERAL.getValue() )
                 .getPattern().pattern() ) )
         {
             return new Token( token , types
-                    .getTypeForIdentifier( BaseTypesIdentificators.REAL_NUMBER_LITERAL.getValue() ) );
+                    .getTypeForIdentifier( BaseTokenTypesIdentificators.REAL_NUMBER_LITERAL.getValue() ) );
         }
         
         return null;

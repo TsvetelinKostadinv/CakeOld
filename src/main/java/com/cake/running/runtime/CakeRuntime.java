@@ -5,29 +5,21 @@
 
 package com.cake.running.runtime;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import com.cake.syntax.SyntaxElement;
-import com.cake.utils.container.Container;
 
 /**
  * @author Tsvetelin
  *
  */
-public class CakeRuntime extends Container< SyntaxElement >
+public class CakeRuntime implements Iterable< SyntaxElement >
 {
     
-    private final Map< String , SyntaxElement > declared = new HashMap<>();
-    
-    /**
-     * 
-     */
-    public CakeRuntime ()
-    {
-        
-    }
+    private final Map< String , SyntaxElement > declared = new LinkedHashMap<>();
     
     public void addDecalredElement ( String name, SyntaxElement element )
     {
@@ -42,6 +34,11 @@ public class CakeRuntime extends Container< SyntaxElement >
     public SyntaxElement getElement( String name )
     {
         return declared.get( name );
+    }
+    
+    public void consumeAll ( BiConsumer< String , SyntaxElement > action )
+    {
+        declared.forEach( action );
     }
     
     /* (non-Javadoc)

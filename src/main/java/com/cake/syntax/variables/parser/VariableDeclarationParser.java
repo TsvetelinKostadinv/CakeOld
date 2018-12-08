@@ -11,7 +11,7 @@ import java.util.List;
 import javax.naming.NameNotFoundException;
 
 import com.cake.compilation.tokens.Token;
-import com.cake.compilation.tokens.types.BaseTypesIdentificators;
+import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
 import com.cake.compilation.tokens.types.TokenTypesContainer;
 import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
 import com.cake.running.runtime.CakeRuntime;
@@ -37,25 +37,25 @@ public class VariableDeclarationParser extends Parser< Variable >
 {
 
     private final TokenTypesContainer.TokenTypeHolder identifierType = TokenTypesContainer.INSTANCE
-            .getTypeForIdentifier( BaseTypesIdentificators.IDENTIFIER.getValue() );
+            .getTypeForIdentifier( BaseTokenTypesIdentificators.IDENTIFIER.getValue() );
 
     private final TokenTypesContainer.TokenTypeHolder operatorType = TokenTypesContainer.INSTANCE
-            .getTypeForIdentifier( BaseTypesIdentificators.OPERATOR.getValue() );
+            .getTypeForIdentifier( BaseTokenTypesIdentificators.OPERATOR.getValue() );
 
     private final TokenTypesContainer.TokenTypeHolder stringLiteral = TokenTypesContainer.INSTANCE
-            .getTypeForIdentifier( BaseTypesIdentificators.STRING_LITERAL.getValue() );
+            .getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() );
 
     private final TokenTypesContainer.TokenTypeHolder numberLiteral = TokenTypesContainer.INSTANCE
-            .getTypeForIdentifier( BaseTypesIdentificators.NUMBER_LITERAL.getValue() );
+            .getTypeForIdentifier( BaseTokenTypesIdentificators.NUMBER_LITERAL.getValue() );
 
     private final TokenTypesContainer.TokenTypeHolder integerLiteral = TokenTypesContainer.INSTANCE
-            .getTypeForIdentifier( BaseTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() );
+            .getTypeForIdentifier( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() );
 
     private final TokenTypesContainer.TokenTypeHolder realNumberLiteral = TokenTypesContainer.INSTANCE
-            .getTypeForIdentifier( BaseTypesIdentificators.REAL_NUMBER_LITERAL.getValue() );
-    
+            .getTypeForIdentifier( BaseTokenTypesIdentificators.REAL_NUMBER_LITERAL.getValue() );
+
     private final TokenTypesContainer.TokenTypeHolder booleanLiteral = TokenTypesContainer.INSTANCE
-            .getTypeForIdentifier( BaseTypesIdentificators.BOOLEAN_LITERAL.getValue() );
+            .getTypeForIdentifier( BaseTokenTypesIdentificators.BOOLEAN_LITERAL.getValue() );
 
     // @formatter:off
     // <access modifier> | [type] | <identifier> |   =  | <identifier_or_value> |
@@ -253,7 +253,7 @@ public class VariableDeclarationParser extends Parser< Variable >
                 {
                     case 1 :
                         Token assignee = afterEquals.get( 0 );
-                        
+
                         TokenTypeHolder holder = assignee.getTokenType();
                         if ( !holder.equals( identifierType ) )
                         {
@@ -311,8 +311,8 @@ public class VariableDeclarationParser extends Parser< Variable >
             AccessModifier accessModifier = AccessModifier.valueOf( tokens.get( 0 ).getToken().toUpperCase() );
 
             String identificator = getIdentificator( tokens ).getToken();
-
-            String name = superblock!=null?superblock.getFullName():Block.ROOT_NAME + "#" + identificator;
+            String name = superblock != null ? superblock.getFullName() + "#" + identificator
+                    : Block.ROOT_NAME + "#" + identificator;
 
             Value value = isAssignation( tokens ) ? getValueForTokenWithoutRuntime( name , tokens )
                     : new EmptyIdentity();
