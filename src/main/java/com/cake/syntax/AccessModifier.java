@@ -12,5 +12,5 @@ package com.cake.syntax;
  */
 public enum AccessModifier
 {
-    GLOBAL, PUBLIC, GROUPSCOPED, PRIVATE
+    GLOBAL , PUBLIC , GROUPSCOPED , LOCAL , PRIVATE
 }
