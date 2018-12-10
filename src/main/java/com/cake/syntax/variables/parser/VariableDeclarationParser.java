@@ -321,7 +321,7 @@ public class VariableDeclarationParser extends Parser< Variable >
 
             return new Pair< String , Variable >( name , variable );
         }
-        throw new UnsupportedOperationException( "The method is not yet implemented" );
+        throw new UnsupportedOperationException( "Cannot parse the sequence" );
     }
 
 

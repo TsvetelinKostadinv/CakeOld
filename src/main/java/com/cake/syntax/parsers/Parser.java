@@ -9,6 +9,7 @@ package com.cake.syntax.parsers;
 import java.util.List;
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
+import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.blocks.Block;
 import javafx.util.Pair;
 
@@ -21,7 +22,7 @@ import javafx.util.Pair;
  * @param <Type>
  *            - the type to which the tokens will be parsed.
  */
-public abstract class Parser < Type >
+public abstract class Parser < Type extends SyntaxElement >
 {
 
     /**
@@ -56,6 +57,8 @@ public abstract class Parser < Type >
      *            - the scope of the sequence of tokens
      * @return - a pair of values, the key being the fully-qualified name of the
      *         variable and a <code>Type</code> representing the parsed tokens
+     * @throws UnsupportedOperationException
+     *             - if the sequence cannot be parsed
      */
     public abstract Pair< String , Type > parse ( Block superblock , List< Token > tokens );
 
@@ -72,6 +75,8 @@ public abstract class Parser < Type >
      *            - the runtime to be added to
      * @return - a pair of values, the key being the fully-qualified name of the
      *         variable and a <code>Type</code> representing the parsed tokens
+     * @throws UnsupportedOperationException
+     *             - if the sequence cannot be parsed
      */
     public abstract Pair< String , Type > parseAndAddToRuntime ( CakeRuntime runtime , Block superblock ,
             List< Token > tokens );

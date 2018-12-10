@@ -3,9 +3,10 @@
  * RunnableSyntaxElement.java created by Tsvetelin
  */
 
-package com.cake.syntax;
+package com.cake.syntax.baseElements;
 
 
+import com.cake.syntax.AccessModifier;
 import com.cake.syntax.variables.values.Value;
 
 
@@ -31,7 +32,7 @@ public abstract class RunnableSyntaxElement extends SyntaxElement
      * 
      * @param values - the array of paramethers to the method
      */
-    public abstract void run ( Value... values );
+    public abstract Result run ( Value... values );
 
 
     /*

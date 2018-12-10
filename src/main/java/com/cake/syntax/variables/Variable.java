@@ -7,7 +7,7 @@ package com.cake.syntax.variables;
 
 
 import com.cake.syntax.AccessModifier;
-import com.cake.syntax.SyntaxElement;
+import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.variables.values.Value;
 
 
@@ -20,7 +20,6 @@ import com.cake.syntax.variables.values.Value;
  */
 public class Variable extends SyntaxElement
 {
-
 
     private Value value;
 

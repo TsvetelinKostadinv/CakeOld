@@ -3,7 +3,9 @@
  * SyntaxElement.java created by Tsvetelin
  */
 
-package com.cake.syntax;
+package com.cake.syntax.baseElements;
+
+import com.cake.syntax.AccessModifier;
 
 /**
  * @author Tsvetelin
@@ -12,8 +14,7 @@ package com.cake.syntax;
 public abstract class SyntaxElement
 {
 
-    protected String name;
-
+    protected final String name;
 
     protected AccessModifier accessModifier;
 
@@ -30,6 +31,7 @@ public abstract class SyntaxElement
         this.accessModifier = accessModifier;
     }
 
+
     /**
      * @return the name
      */
@@ -37,17 +39,6 @@ public abstract class SyntaxElement
     {
 
         return name;
-    }
-
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName ( String name )
-    {
-
-        this.name = name;
     }
 
 

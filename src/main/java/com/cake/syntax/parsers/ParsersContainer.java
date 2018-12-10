@@ -6,8 +6,11 @@
 package com.cake.syntax.parsers;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import com.cake.compilation.tokens.Token;
+import com.cake.syntax.blocks.Block;
+import com.cake.syntax.blocks.parser.BlockParser;
 import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.parser.VariableDeclarationParser;
 import com.cake.utils.container.Container;
@@ -32,6 +35,7 @@ public class ParsersContainer extends Container< Parser< ? > >
     public static ParsersContainer INSTANCE = new ParsersContainer();
 
     public static final Parser< Variable > VARIABLE_PARSER = new VariableDeclarationParser();
+    public static final Parser< Block > BLOCK_PARSER = new BlockParser();
 
 
     private ParsersContainer ()
@@ -70,13 +74,14 @@ public class ParsersContainer extends Container< Parser< ? > >
      * @param code
      * @return the parser for this sequence
      */
-    public Parser< ? > getParserFor ( List< Token > code )
+    public List< Parser< ? > > getParserFor ( List< Token > code )
     {
+        List< Parser< ? > > res = new ArrayList<>();
         for ( Parser< ? > parser : this )
         {
-            if ( parser.canParse( code ) ) return parser;
+            if ( parser.canParse( code ) ) res.add( parser );
         }
-        return null;
+        return res;
     }
 
 }

@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-import com.cake.syntax.SyntaxElement;
+import com.cake.syntax.baseElements.SyntaxElement;
 
 /**
  * @author Tsvetelin

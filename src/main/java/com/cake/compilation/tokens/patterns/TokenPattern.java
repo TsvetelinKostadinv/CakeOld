@@ -122,18 +122,15 @@ public class TokenPattern
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() ), 
             Pattern.compile( "^(\".*\")" ) );
 
-    public static final TokenPattern ACESS_MODIFIER =
-            new TokenPattern( 
-                    typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.ACCESS_MODIFIER.getValue() ), 
-                    Pattern.compile( "^(global|public|groupscoped|private)" ) );
+    public static final TokenPattern ACESS_MODIFIER = generateAccessModifiersPattern();
+    
+    public static final TokenPattern KEYWORDS = generateKeywordsPattern();
 
     /**
      * @return
      */
     private static TokenPattern generateOperatorsPattern ()
     {
-        StringBuilder pattern = new StringBuilder();
-        
         String[] operatorTokens = {
                 "\\+\\+",
                 "\\+\\=",
@@ -172,11 +169,53 @@ public class TokenPattern
                 
         };
         
-        Arrays.sort( operatorTokens , ( a , b ) -> a.length() == b.length() ? 0 : a.length() > b.length() ? -1 : 1);
+        return generatePatternFromArray( operatorTokens, BaseTokenTypesIdentificators.OPERATOR.getValue() );
+    }
+
+    /**
+     * @return
+     */
+    private static TokenPattern generateKeywordsPattern ()
+    {
+        String[] keywords = {
+                "if",
+                "switch",
+                "while",
+                "for",
+                "class",
+                "group",
+                "use"
+        };
+        
+        return generatePatternFromArray( keywords, BaseTokenTypesIdentificators.KEYWORD.getValue() );
+        
+    }
+    
+    /**
+     * @return
+     */
+    private static TokenPattern generateAccessModifiersPattern ()
+    {
+        String[] accessModifiers = {
+                    "global",
+                    "public",
+                    "groupscoped",
+                    "local",
+                    "private"
+        };
+        
+        return generatePatternFromArray( accessModifiers , BaseTokenTypesIdentificators.ACCESS_MODIFIER.getValue() );
+    }
+
+    private static TokenPattern generatePatternFromArray( String[] regexes, String identifierOfType )
+    {
+        StringBuilder pattern = new StringBuilder();
+        
+        Arrays.sort( regexes , ( a , b ) -> a.length() == b.length() ? 0 : a.length() > b.length() ? -1 : 1);
         
         pattern.append( "^(" );
         
-        for(String s : operatorTokens)
+        for(String s : regexes)
         {
             pattern.append( "(" + s + ")|" );
         }
@@ -185,7 +224,7 @@ public class TokenPattern
         pattern.append( "){1}" );
         
         return new TokenPattern( 
-                typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.OPERATOR.getValue() ), 
+                typesCont.getTypeForIdentifier( identifierOfType ), 
                 Pattern.compile( pattern.toString() ) );
     }
 }

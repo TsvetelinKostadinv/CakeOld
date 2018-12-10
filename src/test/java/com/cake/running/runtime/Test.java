@@ -46,7 +46,7 @@ public class Test
 
         Map< List< Token > , Parser< ? > > parsers = new LinkedHashMap<>();
 
-        tokenizedCode.forEach( x -> parsers.put( x , ParsersContainer.INSTANCE.getParserFor( x ) ) );
+        tokenizedCode.forEach( x -> parsers.put( x , ParsersContainer.INSTANCE.getParserFor( x ).get( 0 ) ) );
 
         System.out.println( "----------Start----------" );
 
