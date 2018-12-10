@@ -15,7 +15,7 @@ package com.cake.compilation.tokens.types;
  */
 public enum BaseTokenTypesIdentificators
 {
-    //@formatter:off
+  //@formatter:off
     EMPTY ( "" ) ,
     OPERATOR ( "OPERATOR") ,
     IDENTIFIER ( "IDENTIFIER") ,
@@ -24,11 +24,11 @@ public enum BaseTokenTypesIdentificators
     INTEGER_NUMBER_LITERAL( "INTEGER_LITERAL") ,
     REAL_NUMBER_LITERAL( "REAL_LITERAL"), 
     BOOLEAN_LITERAL( "BOOLEAN_LITERAL" ),
-    ACCESS_MODIFIER( "ACCESS_MODIFIER" ) ;
+    ACCESS_MODIFIER( "ACCESS_MODIFIER" ),
+    KEYWORD( "KEYWORD" );
     //@formatter:on
 
-
-    private String value = null;
+    private final String value;
 
 
     /**
