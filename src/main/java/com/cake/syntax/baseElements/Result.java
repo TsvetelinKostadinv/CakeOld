@@ -6,16 +6,27 @@
 package com.cake.syntax.baseElements;
 
 /**
+ * 
+ * A result object from the execution of a runnable syntax element
+ * 
  * @author Tsvetelin
  *
  */
 public class Result
 {
-
+    /**
+     * This is what the method returned actually
+     */
     private final Object returned;
-
+    
+    /**
+     * If there were any errors they are here
+     */
     private final Object error;
 
+    /**
+     * The caller of the runnable
+     */
     private final RunnableSyntaxElement caller;
 
 

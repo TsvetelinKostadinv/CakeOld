@@ -18,14 +18,17 @@ import com.cake.syntax.AccessModifier;
 import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.blocks.Block;
 import com.cake.syntax.parsers.Parser;
-import com.cake.utils.commmandSegregation.CommandsSegregator;
 import com.cake.utils.commmandSegregation.Segregator;
 import com.cake.utils.commmandSegregation.segregatorExceptions.MisplacedConstruct;
+import com.cake.utils.commmandSegregation.temporary.TemporarySegregator;
 
 import javafx.util.Pair;
 
 
 /**
+ * 
+ * This parser parses named blocks of code
+ * 
  * @author Tsvetelin
  *
  */
@@ -83,13 +86,13 @@ public class BlockParser extends Parser< Block >
 
             AccessModifier accessModifier = AccessModifier.valueOf( tokens.get( 0 ).getToken().toUpperCase() );
 
-            Segregator segregator = new CommandsSegregator();
+            Segregator segregator = new TemporarySegregator();
 
             Block parsedBlock = new Block( name , accessModifier , superblock );
 
             try
             {
-                List< SyntaxElement > subCommands = segregator.segregateCode( tokens ).stream()
+                List< SyntaxElement > subCommands = segregator.segregateCodeWithParsers( tokens ).stream()
                         .map( x -> x.getKey().parse( parsedBlock , x.getValue() ).getValue() )
                         .collect( Collectors.toList() );
 
@@ -121,7 +124,7 @@ public class BlockParser extends Parser< Block >
         runtime.addDecalredElement( parsed.getKey() , parsed.getValue() );
         parsed.getValue().getSubCommandsWithPaths().forEach( ( x , y ) -> runtime.addDecalredElement( x , y ) );
 
-        return null;
+        return parsed;
     }
 
 }

@@ -7,10 +7,32 @@ package com.cake.syntax;
 
 
 /**
+ * 
+ * The standard access modifiers
+ * 
  * @author Tsvetelin
  *
  */
 public enum AccessModifier
 {
-    GLOBAL , PUBLIC , GROUPSCOPED , LOCAL , PRIVATE
+    /**
+     * Visible from the whole project and other projects as well
+     */
+    GLOBAL ,
+    /**
+     * Visible from the whole project
+     */
+    PUBLIC ,
+    /**
+     * Visible only from the current group
+     */
+    GROUPSCOPED ,
+    /**
+     * Visible only from the current scope
+     */
+    LOCAL , 
+    /**
+     * For class fields only not visible from outside the class
+     */
+    PRIVATE
 }

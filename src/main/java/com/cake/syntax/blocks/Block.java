@@ -21,20 +21,38 @@ import com.cake.syntax.variables.values.Value;
 
 
 /**
+ * 
+ * This is a named piece of code. Not necessarily a method, but can be run
+ * 
  * @author Tsvetelin
  *
  */
 public class Block extends RunnableSyntaxElement
 {
 
+    /**
+     * the root name for all the blocks
+     */
     public static final String ROOT_NAME = "root";
 
+    /**
+     * This is the separator for addresses between blocks of code
+     */
     public static final String ADDRESS_SEPARATOR_BETWEEN_BLOCKS = ".";
 
+    /**
+     * This is the separator for addresses between a block of code and a variable
+     */
     public static final String ADDRESS_SEPARATOR_BETWEEN_BLOCK_AND_VARIABLE = "#";
 
+    /**
+     * the parent of the current block
+     */
     private final Block superBlock;
 
+    /**
+     * all the sub commands
+     */
     private final List< SyntaxElement > subCommands = new LinkedList<>();
 
 
@@ -49,24 +67,40 @@ public class Block extends RunnableSyntaxElement
     }
 
 
+    /**
+     * 
+     * @param element
+     *            - the element to be added
+     */
     public void addSubCommand ( SyntaxElement element )
     {
         this.subCommands.add( element );
     }
 
 
+    /**
+     * 
+     * Adds all the sub commands
+     * 
+     * @param elements
+     *            - the elements to be added
+     */
     public void addSubCommands ( SyntaxElement... elements )
     {
         this.subCommands.addAll( Arrays.asList( elements ) );
     }
 
 
+    /**
+     * 
+     * @return a map of all the sub commands
+     */
     public Map< String , SyntaxElement > getSubCommandsWithPaths ()
     {
         Map< String , SyntaxElement > res = new LinkedHashMap<>();
 
         subCommands.forEach( x -> res.put( Block.joinNames( this , x ) , x ) );
-        
+
         return res;
     }
 
@@ -80,6 +114,12 @@ public class Block extends RunnableSyntaxElement
     }
 
 
+    /**
+     * 
+     * Gets the full name of the current block
+     * 
+     * @return
+     */
     public String getFullName ()
     {
         return ( superBlock != null ? superBlock.getFullName() : ROOT_NAME ) + "." + this.name;

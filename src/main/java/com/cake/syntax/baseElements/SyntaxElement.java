@@ -8,14 +8,22 @@ package com.cake.syntax.baseElements;
 import com.cake.syntax.AccessModifier;
 
 /**
+ * 
+ * The basic building block of the language
+ * 
  * @author Tsvetelin
  *
  */
 public abstract class SyntaxElement
 {
-
+    /**
+     * the name of the element
+     */
     protected final String name;
-
+    
+    /**
+     * it's access modifier
+     */
     protected AccessModifier accessModifier;
 
 

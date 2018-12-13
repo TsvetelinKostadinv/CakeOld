@@ -281,6 +281,8 @@ public class VariableDeclarationParser extends Parser< Variable >
     {
 
         if ( tokens.get( 1 ).getTokenType().equals( identifierType )
+                && tokens.size() > 2
+                && tokens.get( 2 ) != null
                 && tokens.get( 2 ).getTokenType().equals( identifierType ) )
         {
             // this means we have explicit declaration of the type

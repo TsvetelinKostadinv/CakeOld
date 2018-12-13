@@ -6,6 +6,9 @@
 package com.cake.utils.commmandSegregation.segregatorExceptions;
 
 /**
+ * 
+ * Exception thrown when something is structurally incorrect
+ * 
  * @author Tsvetelin
  *
  */

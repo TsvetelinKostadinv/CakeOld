@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * 
+ * A container for a certain type of elements
+ * 
  * @author Tsvetelin
  *
  */

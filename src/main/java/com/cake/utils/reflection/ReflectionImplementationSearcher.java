@@ -15,12 +15,21 @@ import java.util.List;
 
 
 /**
+ * 
+ * Basic uses of reflection
+ * 
  * @author Tsvetelin
  *
  */
 public class ReflectionImplementationSearcher
 {
-
+    /**
+     * Searches a class implementing that interface
+     * 
+     * @param interfaceClass - the class of the interface
+     * @param fromPackage - where to search
+     * @return a list of classes that implement that interface
+     */
     public static List< Class< ? > > findClassesImpmenenting ( final Class< ? > interfaceClass ,
             final Package fromPackage )
     {

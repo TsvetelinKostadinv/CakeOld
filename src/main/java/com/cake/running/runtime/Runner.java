@@ -7,6 +7,9 @@ package com.cake.running.runtime;
 
 
 /**
+ * 
+ * A standard runner for future setup before the runtime kicks in
+ * 
  * @author Tsvetelin
  *
  */

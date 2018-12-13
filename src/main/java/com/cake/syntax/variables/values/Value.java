@@ -30,7 +30,7 @@ public class Value
 
         super();
         this.value = value;
-        this.setType( type );
+        this.type = type;
     }
 
 
@@ -85,7 +85,8 @@ public class Value
     public String toString ()
     {
 
-        return "type: " + this.getType() + " with value: " + this.value.toString();
+        return "type: " + this.type + " with value: " + this.value != null ? this.value.toString()
+                : "no-value";
     }
 
 

@@ -20,6 +20,9 @@ import javafx.util.Pair;
 
 
 /**
+ * 
+ * Separates commands
+ * 
  * @author Tsvetelin
  *
  */
@@ -47,7 +50,7 @@ public class CommandsSegregator implements Segregator
      * com.cake.utils.commmandSegregation.Segregator#segregateCode(java.util.List)
      */
     @Override
-    public List< Pair< Parser< ? > , List< Token > > > segregateCode ( List< Token > sequence )
+    public List< Pair< Parser< ? > , List< Token > > > segregateCodeWithParsers ( List< Token > sequence )
             throws MisplacedConstruct
     {
 

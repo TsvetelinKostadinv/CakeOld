@@ -12,18 +12,20 @@ package com.cake.syntax.variables.values;
  */
 public class ConstantValue extends Value
 {
-    
+
     /**
      * @param type
      * @param value
      */
     public ConstantValue ( String type , Object value )
     {
-
         super( type , value );
     }
 
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.cake.syntax.variables.values.Value#setType(java.lang.String)
      */
     @Override
@@ -31,8 +33,11 @@ public class ConstantValue extends Value
     {
         throw new IllegalArgumentException( "Cannot change the type of a constant. " );
     }
-    
-    /* (non-Javadoc)
+
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.cake.syntax.variables.values.Value#setType(java.lang.String)
      */
     @Override

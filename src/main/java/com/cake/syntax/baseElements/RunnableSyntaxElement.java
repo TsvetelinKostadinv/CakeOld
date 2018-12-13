@@ -11,6 +11,9 @@ import com.cake.syntax.variables.values.Value;
 
 
 /**
+ * 
+ * This is a syntax element that can be run
+ * 
  * @author Tsvetelin
  *
  */
