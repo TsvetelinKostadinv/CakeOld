@@ -84,6 +84,10 @@ public class TokenPattern
         return "This is a pattern for " + forToken + " with pattern " + pattern.pattern();
     }
     
+    //====================================================================
+    // TODO implement order for the priority !!!!!!!!!!
+    //====================================================================
+    
     public static final TokenPattern EMPTY_PATTERN = 
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.EMPTY.getValue() ), 
@@ -91,6 +95,8 @@ public class TokenPattern
 
     public static final TokenPattern OPERATOR_PATTERN = 
     generateOperatorsPattern();
+
+    public static final TokenPattern ACESS_MODIFIER = generateAccessModifiersPattern();
 
     public static final TokenPattern BOOLEAN_LITERAL =
     new TokenPattern( 
@@ -122,8 +128,6 @@ public class TokenPattern
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() ), 
             Pattern.compile( "^(\".*\")" ) );
 
-    public static final TokenPattern ACESS_MODIFIER = generateAccessModifiersPattern();
-    
     public static final TokenPattern KEYWORDS = generateKeywordsPattern();
 
     /**

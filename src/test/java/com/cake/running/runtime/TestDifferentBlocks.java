@@ -29,7 +29,7 @@ public class TestDifferentBlocks
         
         CakeRuntime runtime = Runner.getNewProjectRuntime();
         
-        String code = "local testInteger";
+        String code = "local testInteger = 5+3";
         Block block1 = new Block( "MethodBlock1" , AccessModifier.PUBLIC , null );
         Block block2 = new Block( "MethodBlock2" , AccessModifier.PUBLIC , null );
         Block nested = new Block( "nestedBlock" , AccessModifier.GLOBAL , block1 );
@@ -40,9 +40,9 @@ public class TestDifferentBlocks
         
         Parser< ? > pars = ParsersContainer.INSTANCE.getParserFor( tokenizedCode ).get( 0 );
         
-        pars.parseAndAddToRuntime( runtime , block1 , tokenizedCode );
-        pars.parseAndAddToRuntime( runtime , block2 , tokenizedCode );
-        pars.parseAndAddToRuntime( runtime , nested , tokenizedCode );
+        pars.parseWithRuntime( runtime , block1 , tokenizedCode );
+        pars.parseWithRuntime( runtime , block2 , tokenizedCode );
+        pars.parseWithRuntime( runtime , nested , tokenizedCode );
         
         runtime.forEach( (x,y) -> System.out.println( "Address: " + x + " and value: " + y ) );
         

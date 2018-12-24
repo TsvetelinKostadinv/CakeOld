@@ -50,7 +50,7 @@ public class Test
 
         System.out.println( "----------Start----------" );
 
-        parsers.forEach( ( x , y ) -> y.parseAndAddToRuntime( runtime , null , x ) );
+        parsers.forEach( ( x , y ) -> y.parseWithRuntime( runtime , null , x ) );
 
         runtime.forEach( x -> System.out.println( "Delcared element: " + x.toString() ) );
 

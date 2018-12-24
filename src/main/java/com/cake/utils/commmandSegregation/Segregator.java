@@ -6,12 +6,11 @@
 package com.cake.utils.commmandSegregation;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cake.compilation.tokens.Token;
 import com.cake.syntax.parsers.Parser;
 import com.cake.utils.commmandSegregation.segregatorExceptions.MisplacedConstruct;
-
-import javafx.util.Pair;
 
 /**
  * @author Tsvetelin
@@ -27,5 +26,5 @@ public interface Segregator
      * @return - a list of pairs containing the parsers for a piece of code and said piece of code or null if the sequence is null or empty
      * @throws MisplacedConstruct - if the segregator found a misplacedConstruct
      */
-    public List< Pair< Parser< ? > , List< Token > > > segregateCodeWithParsers ( List< Token > sequence ) throws MisplacedConstruct;
+    public Map< Parser< ? > , List< Token > > segregateCodeWithParsers ( List< Token > sequence ) throws MisplacedConstruct;
 }

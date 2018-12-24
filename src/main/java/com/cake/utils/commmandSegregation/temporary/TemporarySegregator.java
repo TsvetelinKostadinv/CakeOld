@@ -7,7 +7,9 @@ package com.cake.utils.commmandSegregation.temporary;
 
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.cake.compilation.tokens.Token;
 import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
@@ -17,8 +19,6 @@ import com.cake.syntax.parsers.Parser;
 import com.cake.syntax.parsers.ParsersContainer;
 import com.cake.utils.commmandSegregation.Segregator;
 import com.cake.utils.commmandSegregation.segregatorExceptions.MisplacedConstruct;
-
-import javafx.util.Pair;
 
 
 /**
@@ -44,10 +44,10 @@ public class TemporarySegregator implements Segregator
      * util.List)
      */
     @Override
-    public List< Pair< Parser< ? > , List< Token > > > segregateCodeWithParsers ( List< Token > sequence )
+    public Map< Parser< ? > , List< Token > > segregateCodeWithParsers ( List< Token > sequence )
             throws MisplacedConstruct
     {
-        List< Pair< Parser< ? > , List< Token > > > result = new ArrayList<>();
+        Map< Parser< ? > , List< Token > > result = new LinkedHashMap<>();
 
         List< Token > temp = new ArrayList<>();
 
@@ -55,7 +55,7 @@ public class TemporarySegregator implements Segregator
         {
             if ( sequence.get( i ).getTokenType().equals( accessType ) )
             {
-                result.add( new Pair< Parser<?> , List<Token> >( parsCont.getParserFor( temp ).get( 0 ) , temp ) );
+                result.put( parsCont.getParserFor( temp ).get( 0 ) , temp );
             }
         }
 

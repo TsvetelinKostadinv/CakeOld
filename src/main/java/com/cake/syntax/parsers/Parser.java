@@ -30,7 +30,6 @@ public abstract class Parser < Type extends SyntaxElement >
      */
     public Parser ()
     {
-
         ParsersContainer.INSTANCE.addParser( this );
     }
 
@@ -78,6 +77,6 @@ public abstract class Parser < Type extends SyntaxElement >
      * @throws UnsupportedOperationException
      *             - if the sequence cannot be parsed
      */
-    public abstract Pair< String , Type > parseAndAddToRuntime ( CakeRuntime runtime , Block superblock ,
+    public abstract Pair< String , Type > parseWithRuntime ( CakeRuntime runtime , Block superblock ,
             List< Token > tokens );
 }

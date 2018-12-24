@@ -67,7 +67,7 @@ public class Variable extends SyntaxElement
     public String toString ()
     {
 
-        return "Variable: " + super.toString() + " => " + this.value;
+        return "Variable: " + super.toString() + " => " + this.value + "(" + this.value.getType() + ")";
     }
 
 

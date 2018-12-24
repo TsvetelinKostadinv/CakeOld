@@ -60,13 +60,9 @@ public class BlockParser extends Parser< Block >
     @Override
     public boolean canParse ( List< Token > sequence )
     {
-        // the first should be the access modifier
-        // the second token should be the name
-        // the third and the last token should be "{" and "}" respectively
+        // the first and the last token should be "{" and "}" respectively
 
-        return sequence.get( 0 ).getTokenType().equals( ACCESS_MODIFIER_TYPE )
-                && sequence.get( 0 ).getTokenType().equals( IDENTIFIER_TYPE )
-                && sequence.get( 1 ).equals( OPENING_BRACE_TOKEN )
+        return sequence.get( 0 ).equals( OPENING_BRACE_TOKEN )
                 && sequence.get( sequence.size() - 1 ).equals( CLOSING_BRACE_TOKEN );
     }
 
@@ -82,17 +78,14 @@ public class BlockParser extends Parser< Block >
     {
         if ( this.canParse( tokens ) )
         {
-            String name = tokens.get( 0 ).getToken();
-
-            AccessModifier accessModifier = AccessModifier.valueOf( tokens.get( 0 ).getToken().toUpperCase() );
 
             Segregator segregator = new TemporarySegregator();
 
-            Block parsedBlock = new Block( name , accessModifier , superblock );
+            Block parsedBlock = new Block( null , null , superblock );
 
             try
             {
-                List< SyntaxElement > subCommands = segregator.segregateCodeWithParsers( tokens ).stream()
+                List< SyntaxElement > subCommands = segregator.segregateCodeWithParsers( tokens ).entrySet().stream()
                         .map( x -> x.getKey().parse( parsedBlock , x.getValue() ).getValue() )
                         .collect( Collectors.toList() );
 
@@ -103,7 +96,7 @@ public class BlockParser extends Parser< Block >
                 throw new UnsupportedOperationException( "Cannot parse the sequence" );
             }
 
-            return new Pair< String , Block >( Block.joinNames( superblock , parsedBlock ) , parsedBlock );
+            return new Pair< String , Block >( null , parsedBlock );
         }
         throw new UnsupportedOperationException( "Cannot parse the sequence" );
     }
@@ -117,14 +110,9 @@ public class BlockParser extends Parser< Block >
      * CakeRuntime, com.cake.syntax.blocks.Block, java.util.List)
      */
     @Override
-    public Pair< String , Block > parseAndAddToRuntime ( CakeRuntime runtime , Block superblock , List< Token > tokens )
+    public Pair< String , Block > parseWithRuntime ( CakeRuntime runtime , Block superblock , List< Token > tokens )
     {
-        Pair< String , Block > parsed = parse( superblock , tokens );
-
-        runtime.addDecalredElement( parsed.getKey() , parsed.getValue() );
-        parsed.getValue().getSubCommandsWithPaths().forEach( ( x , y ) -> runtime.addDecalredElement( x , y ) );
-
-        return parsed;
+        throw new UnsupportedOperationException( "A standalone block cannot be added to the runtime!" );
     }
 
 }

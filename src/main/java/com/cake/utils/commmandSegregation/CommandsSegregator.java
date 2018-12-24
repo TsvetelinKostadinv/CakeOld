@@ -8,6 +8,7 @@ package com.cake.utils.commmandSegregation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.cake.compilation.tokens.Token;
 import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
@@ -50,7 +51,7 @@ public class CommandsSegregator implements Segregator
      * com.cake.utils.commmandSegregation.Segregator#segregateCode(java.util.List)
      */
     @Override
-    public List< Pair< Parser< ? > , List< Token > > > segregateCodeWithParsers ( List< Token > sequence )
+    public Map< Parser< ? > , List< Token > > segregateCodeWithParsers ( List< Token > sequence )
             throws MisplacedConstruct
     {
 
