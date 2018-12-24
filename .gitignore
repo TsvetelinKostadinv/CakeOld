@@ -11,7 +11,9 @@ tmp/
 local.properties
 .loadpath
 .recommenders
-/
+
+#Tsvetelin ignores
+/src/main/resources/sources/
 
 #Gradle
 .gradle/
