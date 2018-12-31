@@ -57,6 +57,24 @@ public class Token
         return tokenType;
     }
     
+    
+    /**
+     * @param token the token to set
+     */
+    public void setToken ( String token )
+    {
+        this.token = token;
+    }
+
+    
+    /**
+     * @param tokenType the tokenType to set
+     */
+    public void setTokenType ( TokenTypeHolder tokenType )
+    {
+        this.tokenType = tokenType;
+    }
+
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */

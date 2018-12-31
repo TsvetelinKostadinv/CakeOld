@@ -14,11 +14,11 @@ import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
  * @author Tsvetelin
  *
  */
-public enum BaseType
+public enum Type
 {
     NUMBER , INTEGER , REAL , BOOLEAN , STRING , OTHER_TYPE;
 
-    public static BaseType getTypeFor ( TokenTypeHolder tokenType )
+    public static Type getTypeFor ( TokenTypeHolder tokenType )
     {
         if ( tokenType.getIdentifier().equals( BaseTokenTypesIdentificators.NUMBER_LITERAL.getValue() ) ) 
             return NUMBER;
@@ -32,7 +32,6 @@ public enum BaseType
             return STRING;
 
         return OTHER_TYPE;
-
     }
 
 }

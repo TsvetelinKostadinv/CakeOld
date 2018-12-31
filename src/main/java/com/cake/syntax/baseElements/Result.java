@@ -5,6 +5,11 @@
 
 package com.cake.syntax.baseElements;
 
+import java.util.List;
+
+import com.cake.syntax.variables.Variable;
+import com.cake.syntax.variables.values.Value;
+
 /**
  * 
  * A result object from the execution of a runnable syntax element
@@ -17,7 +22,7 @@ public class Result
     /**
      * This is what the method returned actually
      */
-    private final Object returned;
+    private final Value returned;
     
     /**
      * If there were any errors they are here
@@ -28,25 +33,27 @@ public class Result
      * The caller of the runnable
      */
     private final RunnableSyntaxElement caller;
-
+    
+    private final List< Variable > exitVariables;
 
     /**
      * @param returned
      * @param error
      */
-    public Result ( RunnableSyntaxElement caller , Object returned , Object error )
+    public Result ( RunnableSyntaxElement caller , Value returned , Object error , List< Variable > exitVariables )
     {
         super();
         this.returned = returned;
         this.error = error;
         this.caller = caller;
+        this.exitVariables = exitVariables;
     }
 
 
     /**
      * @return the returned
      */
-    public Object getReturned ()
+    public Value getReturned ()
     {
         return returned;
     }
@@ -69,6 +76,15 @@ public class Result
         return error;
     }
     
+    /**
+     * @return the exitVariables
+     */
+    public List< Variable > getExitVariables ()
+    {
+        return exitVariables;
+    }
+
+
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */

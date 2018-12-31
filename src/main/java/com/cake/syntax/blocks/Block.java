@@ -12,10 +12,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.AccessModifier;
 import com.cake.syntax.baseElements.Result;
 import com.cake.syntax.baseElements.RunnableSyntaxElement;
 import com.cake.syntax.baseElements.SyntaxElement;
+import com.cake.syntax.blocks.scopes.Scope;
 import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.values.Value;
 
@@ -129,7 +131,7 @@ public class Block extends RunnableSyntaxElement
     /**
      * @return the subBlocks
      */
-    public List< SyntaxElement > getSubBlocks ()
+    public List< SyntaxElement > getSubcommands ()
     {
         return subCommands;
     }
@@ -143,9 +145,13 @@ public class Block extends RunnableSyntaxElement
      * Value[])
      */
     @Override
-    public Result run ( Value... values )
+    public Result run ( CakeRuntime runtime , Value... values )
     {
-        throw new UnsupportedOperationException( "Runnning not implemented yet!" );
+        Scope scope = new Scope( this );
+
+        List< Variable > exitVars = scope.evaluate( runtime , values );
+        
+        return new Result( this , null , null , exitVars );
     }
 
 

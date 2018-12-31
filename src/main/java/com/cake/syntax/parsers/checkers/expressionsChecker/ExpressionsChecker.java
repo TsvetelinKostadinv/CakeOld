@@ -49,17 +49,24 @@ public interface ExpressionsChecker extends Checker
                     || tokens.get( 0 ).getTokenType().equals( BOOLEAN_LITERAL_TYPE );
         } else
         {
-            
             StringBuilder expr = new StringBuilder();
-            
+
             for ( Token token : tokens )
             {
-                expr.append( token.getToken() );
+                if ( token.getTokenType().equals( IDENTIFIER_TYPE ) )
+                {
+                    expr.append( 'a' );
+
+                } else
+                {
+                    expr.append( token.getToken() );
+                }
+
             }
             
             return new Expression( expr.toString() ).checkLexSyntax();
         }
 
     }
-    
+
 }

@@ -59,16 +59,17 @@ public class VariableDeclarationParser extends Parser< Variable >
     @Override
     public boolean canParse ( List< Token > sequence )
     {
-
         if ( sequence == null || sequence.size() < 2 ) return false;
-
+        
         boolean correctDeclaration = DeclarationChecker.isCorrectIdentifierDeclarationForVariable( sequence );
-
+        
+        
         int equalsIndex = assignationTokenIndex( sequence );
 
         if ( equalsIndex != -1 )
         {
             // it IS assigning
+
             return correctDeclaration && ExpressionsChecker.isCorrectExpression( sequence );
         } else
         {

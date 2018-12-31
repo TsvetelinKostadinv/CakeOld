@@ -6,6 +6,7 @@
 package com.cake.syntax.expressions.evaluation;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ import com.cake.compilation.tokens.Token;
 import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
 import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.parsers.checkers.Checker;
-import com.cake.syntax.variables.BaseType;
+import com.cake.syntax.variables.Type;
 import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.values.EmptyIdentity;
 import com.cake.syntax.variables.values.Value;
@@ -28,9 +29,11 @@ import com.cake.syntax.variables.values.Value;
  */
 public interface ExpressionEvaluator extends Checker
 {
+
     /**
      * 
-     * Evaluates the given expression with the given runtime. If it contains an identifier and runtime is null it throws an exception
+     * Evaluates the given expression with the given runtime. If it contains an
+     * identifier and runtime is null it throws an exception
      * 
      * @param runtime
      * @param tokens
@@ -78,39 +81,56 @@ public interface ExpressionEvaluator extends Checker
      */
     private static Value doExpression ( CakeRuntime runtime , List< Token > tokens )
     {
+        StringBuilder sb = new StringBuilder();
+
+        tokens.stream().map( x -> x.getToken() ).forEach( sb::append );
+
+        String expression = sb.toString();
+
         if ( runtime == null )
         {
             if ( !hasIdentifiers( tokens ) )
             {
-                StringBuilder sb = new StringBuilder();
-                
-                tokens.stream().map( x -> x.getToken() ).forEach( sb::append );
-                
-                return new Value( BaseType.REAL.name() , new Expression( sb.toString() ).calculate() );
+
+                return new Value( Type.REAL.name() , new Expression( expression ).calculate() );
             } else
             {
                 throw new RuntimeException( "Cannot get the values without a runtime!" );
             }
         } else
         {
-            
-            
+
             if ( !hasIdentifiers( tokens ) )
             {
-                StringBuilder sb = new StringBuilder();
-                
-                tokens.stream().map( x -> x.getToken() ).forEach( sb::append );
-                
-                return new Value( BaseType.REAL.name() , new Expression( sb.toString() ).calculate() );
+                return new Value( Type.REAL.name() , new Expression( expression ).calculate() );
             } else
             {
-                List< Value > values;
-                
-                values = getValuesForTokens( runtime , tokens );
+                List< Value > values = getValuesForTokens( runtime , tokens );
+                List< Token > identifiers = tokens.stream().filter( x -> x.getTokenType().equals( IDENTIFIER_TYPE ) )
+                        .collect( Collectors.toList() );
 
-                values.forEach( System.out::println );
-                // TODO THIS IS WHAT I NEED TO HANDLE MYSLEF
-                throw new UnsupportedOperationException( "Not supported yet!" );
+                List< Value > valuesOfIdentifiers = new ArrayList<>();
+
+                List< Integer > identifiersIndexes = tokens.stream().distinct()
+                        .filter( x -> x.getTokenType().equals( IDENTIFIER_TYPE ) ).map( x -> tokens.indexOf( x ) )
+                        .collect( Collectors.toList() );
+                
+                int counter = 0;
+                
+                for ( int i = 0 ; i < identifiersIndexes.size() ; i++ )
+                {
+                    valuesOfIdentifiers.add( values.get( counter ) );
+                    counter++;
+                }
+
+                if ( values.size() < identifiers.size() ) throw new RuntimeException( "Not enouth data!" );
+
+                // TODO this should be converted when I add the operator overloading!!
+               
+                
+                expression = formulateExpression( expression , identifiers , valuesOfIdentifiers );
+
+                return new Value( Type.REAL.name() , new Expression( expression ).calculate() );
             }
         }
     }
@@ -152,14 +172,23 @@ public interface ExpressionEvaluator extends Checker
         if ( runtime != null )
         {
             return tokens.stream().filter( x -> !x.getTokenType().equals( OPERATOR_TYPE ) )
+                    .sorted( ( x , y ) -> -String.CASE_INSENSITIVE_ORDER.compare( x.getToken() , y.getToken() ) )
                     .map( x -> x.getTokenType().equals( IDENTIFIER_TYPE )
                             ? ( (Variable) runtime.getElement( x.getToken() ) ).getValue()
                             : parseValue( x ) )
                     .collect( Collectors.toList() );
         } else
         {
-            return tokens.stream().filter( x -> !x.getTokenType().equals( OPERATOR_TYPE ) ).map( x -> parseValue( x ) )
-                    .collect( Collectors.toList() );
+            if ( !hasIdentifiers( tokens ) )
+            {
+                return tokens.stream().filter( x -> !x.getTokenType().equals( OPERATOR_TYPE ) )
+                        .sorted( ( x , y ) -> -String.CASE_INSENSITIVE_ORDER.compare( x.getToken() , y.getToken() ) )
+                        .map( x -> parseValue( x ) ).collect( Collectors.toList() );
+            } else
+            {
+                throw new RuntimeException( "Cannot get the values without a runtime!" );
+            }
+
         }
 
     }
@@ -169,7 +198,7 @@ public interface ExpressionEvaluator extends Checker
      * @param token
      * @return
      */
-    public static Value parseValue ( Token token )
+    private static Value parseValue ( Token token )
     {
         TokenTypeHolder type = token.getTokenType();
 
@@ -184,11 +213,36 @@ public interface ExpressionEvaluator extends Checker
         } else if ( type.equals( NUMBER_LITERAL_TYPE ) || type.equals( REAL_NUMBER_LITERAL_TYPE ) )
         {
             parser = x -> Double.parseDouble( x );
-        }else if ( type.equals( STRING_LITERAL_TYPE )) {
+        } else if ( type.equals( STRING_LITERAL_TYPE ) )
+        {
             parser = x -> x;
         }
 
         return new Value( token.getTokenType().getIdentifier().toUpperCase() , parser.apply( token.getToken() ) );
+    }
+
+
+    /**
+     * @param identifiers
+     * @param valuesOfIdentifiers
+     * @return
+     */
+    private static String formulateExpression ( String expression , List< Token > identifiers ,
+            List< Value > valuesOfIdentifiers )
+    {
+
+        List< String > names = identifiers.stream().map( x -> x.getToken() ).distinct()
+                .sorted( ( x , y ) -> -Integer.compare( x.length() , y.length() ) ).collect( Collectors.toList() );
+
+        int counter = 0;
+
+        for ( String name : names )
+        {
+            expression = expression.replaceAll( name , valuesOfIdentifiers.get( counter ).getValue().toString() );
+            counter++;
+        }
+
+        return expression;
     }
 
 }
