@@ -14,13 +14,13 @@ import com.cake.compilation.tokens.types.TokenTypesContainer;
 import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.AccessModifier;
 import com.cake.syntax.blocks.Block;
-import com.cake.syntax.expressions.evaluation.ExpressionEvaluator;
 import com.cake.syntax.parsers.Parser;
 import com.cake.syntax.parsers.checkers.expressionsChecker.ExpressionsChecker;
 import com.cake.syntax.parsers.checkers.identifierChecker.DeclarationChecker;
 import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.values.EmptyIdentity;
 import com.cake.syntax.variables.values.Value;
+import com.cake.utils.expressions.evaluation.ExpressionEvaluator;
 
 import javafx.util.Pair;
 
