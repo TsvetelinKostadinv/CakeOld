@@ -49,15 +49,16 @@ public interface DeclarationChecker extends Checker
                 && tokens.get( expectedPositionOfIdentifier ).getTokenType().equals( IDENTIFIER_TYPE );
     }
 
-    
+
     /**
      * 
-     * A special case of the <code>isCorrectIdentifierDeclaration(List<Token>, int)</code> for variables
+     * A special case of the
+     * <code>isCorrectIdentifierDeclaration(List<Token>, int)</code> for variables
      * 
      * @param tokens
      * @return
      */
-    public static boolean isCorrectIdentifierDeclarationForVariable ( List< Token > tokens )
+    public static boolean isCorrectIdentifierDeclaration ( List< Token > tokens )
     {
         //@formatter:off
         if( tokens == null
@@ -97,6 +98,16 @@ public interface DeclarationChecker extends Checker
         return declaration.get( 0 ).getTokenType().equals( ACCESS_TYPE )
                 && declaration.get( 1 ).getTokenType().equals( IDENTIFIER_TYPE )
                 && declaration.get( 2 ).getTokenType().equals( IDENTIFIER_TYPE );
+    }
+
+
+    /**
+     * @param sequence
+     * @return
+     */
+    public static boolean isCorrectIdentifierDeclarationWithType ( final List< Token > declaration )
+    {
+        return checkWithType( declaration );
     }
 
 }

@@ -25,7 +25,7 @@ public class MethodPromise extends SyntaxElement
 {
 
     private final Parameter [] parameters;
-    
+
     private String returnType;
 
     private final boolean areAllDifferentTypes;
@@ -35,7 +35,7 @@ public class MethodPromise extends SyntaxElement
      * @param name
      * @param accessModifier
      */
-    public MethodPromise (AccessModifier accessModifier , String returnType , String name , Parameter [] parameters )
+    public MethodPromise ( AccessModifier accessModifier , String returnType , String name , Parameter [] parameters )
     {
         super( name , accessModifier );
         this.parameters = parameters;
@@ -53,19 +53,18 @@ public class MethodPromise extends SyntaxElement
         {
             List< String > requiredTypes = Arrays.stream( parameters ).map( x -> x.getType() )
                     .collect( Collectors.toList() );
-            List< String > valueTypes = Arrays.stream( values ).map( x -> x.getType() )
-                    .collect( Collectors.toList() );
-            
-            for( int i=0;i<requiredTypes.size();i++)
+            List< String > valueTypes = Arrays.stream( values ).map( x -> x.getType() ).collect( Collectors.toList() );
+
+            for ( int i = 0 ; i < requiredTypes.size() ; i++ )
             {
-                if( valueTypes.contains( requiredTypes.get( i ) ) )
+                if ( valueTypes.contains( requiredTypes.get( i ) ) )
                 {
                     valueTypes.remove( requiredTypes.get( i ) );
                 }
             }
-            if( valueTypes.size() != 0 ) return false;
+            if ( valueTypes.size() != 0 ) return false;
             else return true;
-            
+
         } else
         {
             for ( int i = 0 ; i < values.length ; i++ )
@@ -126,10 +125,24 @@ public class MethodPromise extends SyntaxElement
 
 
     /**
-     * @param returnType the returnType to set
+     * @param returnType
+     *            the returnType to set
      */
     public void setReturnType ( String returnType )
     {
         this.returnType = returnType;
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cake.syntax.baseElements.SyntaxElement#toString()
+     */
+    @Override
+    public String toString ()
+    {
+        return String.format( "%s %s %s = " , this.getAccessModifier() , this.getReturnType() , this.getName() )
+                + Arrays.toString( parameters );
     }
 }

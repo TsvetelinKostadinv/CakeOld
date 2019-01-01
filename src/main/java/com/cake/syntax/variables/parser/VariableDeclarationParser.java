@@ -61,7 +61,7 @@ public class VariableDeclarationParser extends Parser< Variable >
     {
         if ( sequence == null || sequence.size() < 2 ) return false;
         
-        boolean correctDeclaration = DeclarationChecker.isCorrectIdentifierDeclarationForVariable( sequence );
+        boolean correctDeclaration = DeclarationChecker.isCorrectIdentifierDeclaration( sequence );
         
         
         int equalsIndex = assignationTokenIndex( sequence );

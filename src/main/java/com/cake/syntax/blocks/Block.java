@@ -167,15 +167,20 @@ public class Block extends RunnableSyntaxElement
      */
     public static String joinNames ( Block parent , SyntaxElement child )
     {
+        String parentFullName;
+        
+        if( parent != null ) parentFullName = parent.getFullName();
+        else  parentFullName = "root";
+        
         if ( child instanceof Variable )
         {
-            return parent.getFullName() + Block.ADDRESS_SEPARATOR_BETWEEN_BLOCK_AND_VARIABLE + child.getName();
+            return parentFullName + Block.ADDRESS_SEPARATOR_BETWEEN_BLOCK_AND_VARIABLE + child.getName();
         } else if ( child instanceof Block )
         {
-            return parent.getFullName() + Block.ADDRESS_SEPARATOR_BETWEEN_BLOCKS + ( (Block) child ).getFullName();
+            return parentFullName + Block.ADDRESS_SEPARATOR_BETWEEN_BLOCKS + ( (Block) child ).getFullName();
         } else
         {
-            return parent.getFullName() + Block.ADDRESS_SEPARATOR_BETWEEN_BLOCKS + child.getName();
+            return parentFullName + Block.ADDRESS_SEPARATOR_BETWEEN_BLOCKS + child.getName();
         }
 
     }

@@ -156,13 +156,15 @@ public class TokenPattern
                 "\\(",
                 "\\)",
                 
+                "\\-\\>", // this is used for methods
+                
                 "as",
                 "\\|\\!\\|", // the |!| symbol to annotate attributes ( or frosting of the Cake I should say )
                 "\\:",
                 "////",
                 
-                "\\.",
-                "\\,",
+                "\\.",  //should find a way to disable these
+                "\\,",  //should find a way to disable these
                 
                 "\\>",
                 "\\<",

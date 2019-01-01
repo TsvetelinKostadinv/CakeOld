@@ -43,7 +43,7 @@ public abstract class Parser < Type extends SyntaxElement >
      * @return true of the parser can parse the supplied sequence and false
      *         otherwise
      */
-    public abstract boolean canParse ( List< Token > sequence );
+    public abstract boolean canParse ( final List< Token > sequence );
 
 
     /**
@@ -59,7 +59,7 @@ public abstract class Parser < Type extends SyntaxElement >
      * @throws UnsupportedOperationException
      *             - if the sequence cannot be parsed
      */
-    public abstract Pair< String , Type > parse ( Block superblock , List< Token > tokens );
+    public abstract Pair< String , Type > parse ( final Block superblock , final List< Token > tokens );
 
 
     /**
@@ -77,6 +77,6 @@ public abstract class Parser < Type extends SyntaxElement >
      * @throws UnsupportedOperationException
      *             - if the sequence cannot be parsed
      */
-    public abstract Pair< String , Type > parseWithRuntime ( CakeRuntime runtime , Block superblock ,
-            List< Token > tokens );
+    public abstract Pair< String , Type > parseWithRuntime ( final CakeRuntime runtime , final Block superblock ,
+            final List< Token > tokens );
 }
