@@ -190,7 +190,9 @@ public class TokenPattern
                 "for",
                 "class",
                 "group",
-                "use"
+                "use",
+                "return",
+                "void"
         };
         
         return generatePatternFromArray( keywords, BaseTokenTypesIdentificators.KEYWORD.getValue() );

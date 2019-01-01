@@ -32,8 +32,9 @@ public abstract class Operator extends SyntaxElement
         opCounter++;
     }
     
-    public abstract Variable calculate();
 
+    public abstract Variable calculate ();
+    
     /**
      * @return the operand
      */

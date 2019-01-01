@@ -3,7 +3,7 @@
  * ReassignmentOperator.java created by Tsvetelin
  */
 
-package com.cake.syntax.operations.reassignment;
+package com.cake.syntax.operations.reassignmentOp;
 
 import com.cake.syntax.AccessModifier;
 import com.cake.syntax.operations.Operator;

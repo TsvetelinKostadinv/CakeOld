@@ -6,4 +6,4 @@
  * @author Tsvetelin
  *
  */
-package com.cake.syntax.operations.reassignment;
+package com.cake.syntax.operations.reassignmentOp;

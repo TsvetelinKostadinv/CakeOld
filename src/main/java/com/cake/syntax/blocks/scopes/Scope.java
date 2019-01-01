@@ -24,6 +24,8 @@ import com.cake.syntax.variables.values.Value;
 public class Scope
 {
     
+    
+
     private final Block block;
 
     public Scope( Block block )
@@ -34,7 +36,7 @@ public class Scope
     /**
      * @param values
      * @param runtime
-     * @return
+     * @return the exit variables
      */
     public List< Variable > evaluate ( CakeRuntime runtime , Value [] values )
     {
@@ -55,6 +57,15 @@ public class Scope
             }
         }
         return exitVariables;
+    }
+
+    
+    /**
+     * @return the block
+     */
+    public Block getBlock ()
+    {
+        return block;
     }
 
 }
