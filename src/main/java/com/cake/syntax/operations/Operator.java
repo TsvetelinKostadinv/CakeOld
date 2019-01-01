@@ -25,11 +25,12 @@ public abstract class Operator extends SyntaxElement
      * @param name
      * @param accessModifier
      */
-    public Operator ()
+    public Operator ( Variable operand )
     {
         super( "operator" + opCounter , null );
         
         opCounter++;
+        this.operand = operand;
     }
     
 

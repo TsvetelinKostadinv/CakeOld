@@ -88,11 +88,6 @@ public class TokenPattern
     // TODO implement order for the priority !!!!!!!!!!
     //====================================================================
     
-    public static final TokenPattern EMPTY_PATTERN = 
-    new TokenPattern( 
-            typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.EMPTY.getValue() ), 
-            Pattern.compile( "" ) );
-
     public static final TokenPattern OPERATOR_PATTERN = 
     generateOperatorsPattern();
 
@@ -103,6 +98,12 @@ public class TokenPattern
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.BOOLEAN_LITERAL.getValue() ), 
             Pattern.compile( "^(true|false)" ) );
 
+    public static final TokenPattern KEYWORDS = generateKeywordsPattern();
+
+    //====================================================================
+    // TODO implement order for the priority !!!!!!!!!!
+    //====================================================================
+    
     public static final TokenPattern IDENTIFIER_PATTERN = 
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.IDENTIFIER.getValue() ), 
@@ -123,12 +124,21 @@ public class TokenPattern
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ), 
             Pattern.compile( "^((-)?[1-9][0-9]*)" ) );
     
+    
+
+    //====================================================================
+    // TODO implement order for the priority !!!!!!!!!!
+    //====================================================================
+    
     public static final TokenPattern STRING_LITERAL_PATTERN = 
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() ), 
             Pattern.compile( "^(\".*\")" ) );
 
-    public static final TokenPattern KEYWORDS = generateKeywordsPattern();
+    public static final TokenPattern EMPTY_PATTERN = 
+    new TokenPattern( 
+            typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.EMPTY.getValue() ), 
+            Pattern.compile( "" ) );
 
     /**
      * @return

@@ -17,6 +17,14 @@ import com.cake.syntax.variables.Variable;
 public class ReturnOperator extends Operator
 {
 
+    /**
+     * @param operand
+     */
+    public ReturnOperator ( Variable operand )
+    {
+        super( operand );
+    }
+
     /*
      * (non-Javadoc)
      * 

@@ -24,8 +24,7 @@ public class ReassignmentOperator extends Operator
      */
     public ReassignmentOperator ( Variable assignee , Value newValue )
     {
-        super();
-        this.setOperand( assignee );
+        super(assignee);
         this.newValue = newValue;
     }
     

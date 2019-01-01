@@ -6,6 +6,7 @@
 package com.cake.syntax.blocks;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -57,6 +58,8 @@ public class Block extends RunnableSyntaxElement
      */
     private final List< SyntaxElement > subCommands = new LinkedList<>();
 
+    private List< Variable > variables = new ArrayList<>();
+
 
     /**
      * @param name
@@ -66,6 +69,7 @@ public class Block extends RunnableSyntaxElement
     {
         super( name , accessModifier );
         this.superBlock = superBlock;
+        this.assignVariables();
     }
 
 
@@ -137,6 +141,43 @@ public class Block extends RunnableSyntaxElement
     }
 
 
+    /**
+     * @return the variables
+     */
+    public List< Variable > getVariables ()
+    {
+        return variables;
+    }
+
+
+    /**
+     * @param variables
+     *            the variables to set
+     */
+    public void setVariables ( List< Variable > variables )
+    {
+        this.variables = variables;
+    }
+
+
+    /**
+     * 
+     */
+    private void assignVariables ()
+    {
+        for ( SyntaxElement syntaxElement : subCommands )
+        {
+            if ( syntaxElement instanceof Variable )
+            {
+                this.variables.add( (Variable) syntaxElement );
+            }
+        }
+
+        if ( superBlock != null ) this.variables.addAll( superBlock.variables );
+
+    }
+
+
     /*
      * (non-Javadoc)
      * 
@@ -150,7 +191,7 @@ public class Block extends RunnableSyntaxElement
         Scope scope = new Scope( this );
 
         List< Variable > exitVars = scope.evaluate( runtime , values );
-        
+
         return new Result( this , null , null , exitVars );
     }
 
@@ -168,10 +209,10 @@ public class Block extends RunnableSyntaxElement
     public static String joinNames ( Block parent , SyntaxElement child )
     {
         String parentFullName;
-        
-        if( parent != null ) parentFullName = parent.getFullName();
-        else  parentFullName = "root";
-        
+
+        if ( parent != null ) parentFullName = parent.getFullName();
+        else parentFullName = "root";
+
         if ( child instanceof Variable )
         {
             return parentFullName + Block.ADDRESS_SEPARATOR_BETWEEN_BLOCK_AND_VARIABLE + child.getName();
