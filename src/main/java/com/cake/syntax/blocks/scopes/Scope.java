@@ -13,7 +13,6 @@ import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.blocks.Block;
 import com.cake.syntax.operations.Operator;
-import com.cake.syntax.operations.returnOp.ReturnOperator;
 import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.values.Value;
 
@@ -53,18 +52,22 @@ public class Scope
         {
             if ( element instanceof Variable )
             {
-                System.out.println( "Added variable" );
                 exitVariables.add( (Variable) element );
             } else if ( element instanceof Block )
             {
                 exitVariables.addAll( ( (Block) element ).run( runtime , values ).getExitVariables() );
-            } else if ( element instanceof Operator && ! ( element instanceof ReturnOperator ) )
+            } else if ( element instanceof Operator )
             {
                 Operator operator = (Operator) element;
-                System.out.println( "The op: " + operator.getClass().getSimpleName() );
-                String address = operator.getOperand().getName();
-                Variable val = operator.calculate( runtime );
-                runtime.addDecalredElement( address , val );
+                if( operator.getOperand() != null )
+                {
+                    String address = operator.getOperand().getName();
+                    Variable val = operator.calculate( runtime );
+                    runtime.addDecalredElement( address , val );
+                }else {
+                    operator.calculate( runtime );
+                }
+                
             }
         }
         return exitVariables;

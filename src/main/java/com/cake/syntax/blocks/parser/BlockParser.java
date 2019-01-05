@@ -61,7 +61,7 @@ public class BlockParser extends Parser< Block >
     public boolean canParse ( List< Token > sequence )
     {
         // the first and the last token should be "{" and "}" respectively
-        
+
         return sequence.get( 0 ).equals( OPENING_BRACE_TOKEN )
                 && sequence.get( sequence.size() - 1 ).equals( CLOSING_BRACE_TOKEN );
     }
@@ -79,25 +79,13 @@ public class BlockParser extends Parser< Block >
         if ( this.canParse( tokens ) )
         {
 
-            Segregator segregator = new TemporarySegregator();
+            TemporarySegregator segregator = new TemporarySegregator();
 
             Block parsedBlock = new Block( null , AccessModifier.LOCAL , superblock );
 
-//            // remove the first and last token { }
-//            tokens.remove( 0 );
-//            tokens.remove( tokens.size() - 1 );
-            try
-            {
-                List< SyntaxElement > subCommands = segregator.segregateCodeWithParsers( tokens ).entrySet().stream()
-                        .map( x -> x.getKey().parse( parsedBlock , x.getValue() ).getValue() )
-                        .collect( Collectors.toList() );
+            List< SyntaxElement > subCommands = segregator.getElements( superblock , tokens );
 
-                parsedBlock.addSubCommands( subCommands.toArray( new SyntaxElement[0] ) );
-
-            } catch ( MisplacedConstruct e )
-            {
-                throw new UnsupportedOperationException( "Cannot parse the sequence" );
-            }
+            parsedBlock.addSubCommands( subCommands.toArray( new SyntaxElement[0] ) );
 
             return new Pair< String , Block >( Block.joinNames( superblock , parsedBlock ) , parsedBlock );
         }

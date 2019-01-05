@@ -40,8 +40,8 @@ public class MethodPromiseParser extends Parser< MethodPromise > implements Chec
     @Override
     public boolean canParse ( List< Token > sequence )
     {
-        boolean identifierDeclarationCorrect = DeclarationChecker.isCorrectIdentifierDeclarationWithType( sequence );
-
+        boolean identifierDeclarationCorrect = DeclarationChecker.checkMethodPromisedeclaration( sequence );
+        
         int equalsIndex = sequence.indexOf( EQUALS_TOKEN );
 
         boolean equalsExists = equalsIndex != -1;

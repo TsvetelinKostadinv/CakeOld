@@ -53,7 +53,7 @@ public class ReassignmentOperator extends Operator
     @Override
     public String getName ()
     {
-        throw new UnsupportedOperationException( "Cannot get name of a operator" );
+        return super.getName();
     }
 
 
@@ -68,5 +68,14 @@ public class ReassignmentOperator extends Operator
         Variable newVar = this.getOperand();
         newVar.setValue( formula.calculate( runtime ).getValue() );
         return newVar;
+    }
+    
+    /* (non-Javadoc)
+     * @see com.cake.syntax.baseElements.SyntaxElement#toString()
+     */
+    @Override
+    public String toString ()
+    {
+        return "Reasssignment of: " + getOperand().getName() + " with " + formula.toString();
     }
 }

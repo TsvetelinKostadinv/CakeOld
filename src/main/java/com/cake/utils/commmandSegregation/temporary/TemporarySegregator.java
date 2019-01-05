@@ -8,15 +8,19 @@ package com.cake.utils.commmandSegregation.temporary;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
 import com.cake.compilation.tokens.Token;
-import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
-import com.cake.compilation.tokens.types.TokenTypesContainer;
-import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
+import com.cake.syntax.baseElements.SyntaxElement;
+import com.cake.syntax.blocks.Block;
 import com.cake.syntax.parsers.Parser;
 import com.cake.syntax.parsers.ParsersContainer;
+import com.cake.syntax.parsers.checkers.Checker;
+import com.cake.syntax.variables.parser.VariableDeclarationParser;
 import com.cake.utils.commmandSegregation.Segregator;
 import com.cake.utils.commmandSegregation.segregatorExceptions.MisplacedConstruct;
 
@@ -29,12 +33,10 @@ import com.cake.utils.commmandSegregation.segregatorExceptions.MisplacedConstruc
 public class TemporarySegregator implements Segregator
 {
 
-    private final TokenTypesContainer typesCont = TokenTypesContainer.INSTANCE;
+    public static final Token TEMPORARY_SEGREGATOR = new Token( ":" , Checker.OPERATOR_TYPE );
 
-    private final TokenTypeHolder accessType = typesCont
-            .getTypeForIdentifier( BaseTokenTypesIdentificators.ACCESS_MODIFIER.getValue() );
-    
-    private final ParsersContainer parsCont = ParsersContainer.INSTANCE;
+    private static final ParsersContainer parsCont = ParsersContainer.INSTANCE;
+
 
     /*
      * (non-Javadoc)
@@ -44,31 +46,62 @@ public class TemporarySegregator implements Segregator
      * util.List)
      */
     @Override
-    public Map< Parser< ? > , List< Token > > segregateCodeWithParsers ( List< Token > sequence )
+    public List< SyntaxElement > segregateCodeIntoSyntaxElements ( Block superBlockOfSequence , List< Token > sequence )
             throws MisplacedConstruct
     {
-        
-        if( sequence == null
-                || sequence.size() == 0  ) return new LinkedHashMap< Parser< ? > , List< Token > >();
-            
-        
+        sequence = sequence.subList( 1 , sequence.size() );
+        System.out.println( "In Segregator || Sequence: " + sequence );
         Map< Parser< ? > , List< Token > > result = new LinkedHashMap<>();
 
-        List< Token > temp = new ArrayList<>();
+        if ( sequence == null || sequence.size() == 0 ) return new LinkedList<>();
+
+        List< Token > temp = new LinkedList<>();
 
         for ( int i = 0 ; i < sequence.size() ; i++ )
         {
-            if ( sequence.get( i ).getTokenType().equals( accessType ) )
+            if ( sequence.get( i ).equals( TEMPORARY_SEGREGATOR ) )
             {
-                result.put( parsCont.getParserFor( temp ).get( 0 ) , temp );
-                temp.clear();
-            }else {
+                System.out.println( "In Segregator || Found a segregator" );
+                System.out.println( "In Segregator || Temporary command: " + temp );
+                if ( temp.size() > 0 )
+                {
+                    System.out.println( "In Segregator || Adding sequence: " + temp );
+                    
+                    Parser< ? > p = parsCont.getParserFor( temp ).get( 0 );
+                    
+                    System.out.println( "In Segregator || ParserName: " + p.getClass().getSimpleName() );
+                    
+                    result.put( p , temp );
+                    temp = new LinkedList<>();
+                }
+
+            } else
+            {
                 temp.add( sequence.get( i ) );
             }
         }
-        
-        //if( !temp.isEmpty() ) result.put( parsCont.getParserFor( temp ).get( 0 ) , temp );
 
+        return result.entrySet().stream()
+                .map( x -> x.getKey().parse( superBlockOfSequence , x.getValue() ).getValue())
+                .collect( Collectors.toList() );
+    }
+    
+    public List< SyntaxElement > getElements( Block superblock,  List< Token > sequence )
+    {
+        sequence = sequence.subList( 1 , sequence.size()-1 );
+        
+        StringTokenizer t = new StringTokenizer();
+        
+        String[] commands = sequence.stream().map( x -> x.getToken() ).reduce( "" , (x,y) -> x+" "+y ).split( "\\:" );
+        
+        List< SyntaxElement > result = new LinkedList<>();
+        
+        for( int i=1;i<commands.length;i++ )
+        {
+            List< Token > tokens = t.tokenize( commands[i] );
+            Parser< ? > p = parsCont.getParserFor( tokens ).get( 0 );
+            result.add( p.parse( superblock , tokens ).getValue() );
+        }
         return result;
     }
 

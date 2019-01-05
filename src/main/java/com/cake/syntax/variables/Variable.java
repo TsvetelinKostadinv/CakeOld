@@ -66,8 +66,9 @@ public class Variable extends SyntaxElement
     @Override
     public String toString ()
     {
-
-        return "Variable: " + super.toString() + " => " + this.value + "(" + this.value.getType() + ")";
+        String superString = super.toString();
+        String type = this.value == null ? "NOTHING" : this.value.getType();
+        return "Variable: " + superString + " => " + this.value + "(" + type + ")";
     }
 
 

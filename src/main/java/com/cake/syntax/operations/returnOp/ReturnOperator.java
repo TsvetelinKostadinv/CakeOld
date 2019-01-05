@@ -41,5 +41,14 @@ public class ReturnOperator extends Operator
     {
         return formula.calculate( runtime );
     }
+    
+    /* (non-Javadoc)
+     * @see com.cake.syntax.baseElements.SyntaxElement#toString()
+     */
+    @Override
+    public String toString ()
+    {
+        return "Return with formula: " + formula.toString();
+    }
 
 }

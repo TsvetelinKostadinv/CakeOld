@@ -96,7 +96,7 @@ public class TokenPattern
     public static final TokenPattern BOOLEAN_LITERAL =
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.BOOLEAN_LITERAL.getValue() ), 
-            Pattern.compile( "^(true|false)" ) );
+            Pattern.compile( "^(true|false){1}" ) );
 
     public static final TokenPattern KEYWORDS = generateKeywordsPattern();
 
@@ -107,7 +107,7 @@ public class TokenPattern
     public static final TokenPattern IDENTIFIER_PATTERN = 
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.IDENTIFIER.getValue() ), 
-            Pattern.compile( "^([a-zA-z_][a-zA-z_0-9]*)" ) );
+            Pattern.compile( "^([a-zA-z_][a-zA-z_0-9]*){1}" ) );
 
     public static final TokenPattern NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
@@ -122,7 +122,7 @@ public class TokenPattern
     public static final TokenPattern INTEGER_NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ), 
-            Pattern.compile( "^((-)?[1-9][0-9]*)" ) );
+            Pattern.compile( "^((-)?[1-9][0-9]*){1}" ) );
     
     
 
@@ -173,7 +173,7 @@ public class TokenPattern
                 "\\:",
                 "////",
                 
-                "\\.",  //should find a way to disable these
+                //"\\.",  //should find a way to disable these
                 "\\,",  //should find a way to disable these
                 
                 "\\>",

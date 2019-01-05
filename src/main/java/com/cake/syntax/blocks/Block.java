@@ -220,5 +220,21 @@ public class Block extends RunnableSyntaxElement
         }
 
     }
+    
+    /* (non-Javadoc)
+     * @see com.cake.syntax.baseElements.RunnableSyntaxElement#toString()
+     */
+    @Override
+    public String toString ()
+    {
+        StringBuilder sb = new StringBuilder();
+        
+        for ( SyntaxElement syntaxElement : subCommands )
+        {
+            sb.append( syntaxElement.toString() );
+            sb.append( System.lineSeparator() );
+        }
+        return sb.toString();
+    }
 
 }

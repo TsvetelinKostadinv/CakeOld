@@ -11,7 +11,6 @@ import java.util.List;
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.AccessModifier;
-import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.operations.Operator;
 import com.cake.syntax.variables.Variable;
 import com.cake.utils.expressions.evaluation.ExpressionEvaluator;
@@ -60,6 +59,15 @@ public class Expression extends Operator
     public Variable calculate ( CakeRuntime runtime )
     {
         return new Variable( RESULT_VAR_NAME , ExpressionEvaluator.evaluate( runtime , tokenExpression ) , AccessModifier.GLOBAL );
+    }
+    
+    /* (non-Javadoc)
+     * @see com.cake.syntax.baseElements.SyntaxElement#toString()
+     */
+    @Override
+    public String toString ()
+    {
+       return tokenExpression.stream().map( x -> x.getToken() ).reduce( "" , (x,y) -> x+y );
     }
 
 }

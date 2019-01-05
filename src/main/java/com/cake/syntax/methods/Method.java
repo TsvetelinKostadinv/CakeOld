@@ -60,8 +60,6 @@ public class Method extends Block
             List< Variable > input = promise.constructInputVariablesList( values );
             Scope scope = new Scope( body );
             
-            System.out.println( "Sub commands: " + body.getSubcommands() );
-            
             List< Variable > exitVars = scope.evaluate( runtime , values , input );
             
             Variable retVar = null;

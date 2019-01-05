@@ -40,15 +40,16 @@ public class MethodParser extends Parser< Method > implements Checker
     @Override
     public boolean canParse ( List< Token > sequence )
     {
-
+        
         int pointerIndex = sequence.indexOf( POINTER_OPERATOR );
 
         if ( pointerIndex == -1 ) return false;
 
         List< Token > declaration = sequence.subList( 0 , pointerIndex );
-
+        
         boolean correctDeclaration = new MethodPromiseParser().canParse( declaration );
-
+        
+        
         List< Token > body = sequence.subList( pointerIndex + 1 , sequence.size() );
         
         boolean correctBody = new BlockParser().canParse( body );
@@ -71,10 +72,13 @@ public class MethodParser extends Parser< Method > implements Checker
 
             List< Token > promiseDeclr = tokens.subList( 0 , tokens.indexOf( POINTER_OPERATOR ) );
             List< Token > bodyDeclr = tokens.subList( tokens.indexOf( POINTER_OPERATOR ) + 1 , tokens.size() );
-
+            
+            
             MethodPromise promise = new MethodPromiseParser().parse( superblock , promiseDeclr ).getValue();
+            
+            
             Block body = new BlockParser().parse( superblock , bodyDeclr ).getValue();
-
+            
             String address = Block.joinNames( superblock , promise );
             Method method = new Method( promise , body , superblock );
 

@@ -91,7 +91,7 @@ public class Result
     @Override
     public String toString ()
     {
-        return caller.getName() + " called and returned: " + this.returned + " with errors: " + this.error;
+        return caller.getName() + " called and returned: " + this.returned + " with errors: " + this.error + " and variables: " + exitVariables;
     }
 
 }

@@ -8,6 +8,7 @@ package com.cake.syntax.operations.reassignmentOp.parser;
 
 import java.util.List;
 
+import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.AccessModifier;
@@ -40,6 +41,8 @@ public class ReassignmentOperationParser extends Parser< ReassignmentOperator > 
     @Override
     public boolean canParse ( List< Token > sequence )
     {
+        if( sequence.size() < 3 ) return false;
+        
         boolean assigneeCorrect = sequence.get( 0 ).getTokenType().equals( IDENTIFIER_TYPE );
 
         boolean equalsInPlace = sequence.get( 1 ).equals( EQUALS );
@@ -106,5 +109,15 @@ public class ReassignmentOperationParser extends Parser< ReassignmentOperator > 
         }
         throw new UnsupportedOperationException( "Cannot parse the sequence" );
     }
-
+    
+    public static void main ( String [] args )
+    {
+        String code = "i = 3*5*2";
+        
+        ReassignmentOperationParser p = new ReassignmentOperationParser();
+        
+        System.out.println( p.canParse( new StringTokenizer().tokenize( code ) ) );
+        
+    }
+    
 }

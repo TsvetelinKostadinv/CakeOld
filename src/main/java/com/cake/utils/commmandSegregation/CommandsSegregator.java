@@ -14,6 +14,8 @@ import com.cake.compilation.tokens.Token;
 import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
 import com.cake.compilation.tokens.types.TokenTypesContainer;
 import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
+import com.cake.syntax.baseElements.SyntaxElement;
+import com.cake.syntax.blocks.Block;
 import com.cake.syntax.parsers.Parser;
 import com.cake.utils.commmandSegregation.segregatorExceptions.MisplacedConstruct;
 
@@ -43,53 +45,17 @@ public class CommandsSegregator implements Segregator
     private final TokenTypeHolder identifierType = typesCont
             .getTypeForIdentifier( BaseTokenTypesIdentificators.IDENTIFIER.getValue() );
 
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.cake.utils.commmandSegregation.Segregator#segregateCode(java.util.List)
+    /* (non-Javadoc)
+     * @see com.cake.utils.commmandSegregation.Segregator#segregateCodeIntoSyntaxElements(com.cake.syntax.blocks.Block, java.util.List)
      */
     @Override
-    public Map< Parser< ? > , List< Token > > segregateCodeWithParsers ( List< Token > sequence )
+    public List< SyntaxElement > segregateCodeIntoSyntaxElements ( Block superBlockOfSequence , List< Token > sequence )
             throws MisplacedConstruct
     {
-
-        if ( sequence == null || sequence.size() == 0 ) return null;
-
-        List< Pair< Parser< ? > , List< Token > > > result = new ArrayList<>();
-
-        while ( sequence.size() > 0 )
-        {
-            List< Token > currentCommand = new ArrayList<>();
-            
-            Token current = sequence.get( 0 );
-            
-            currentCommand.add( current );
-            
-            if ( current.getTokenType().equals( keywordType ) )
-            {
-                if ( current.getToken().equals( useKeyword ) )
-                {
-                    // TODO implement external usage
-                    throw new UnsupportedOperationException( "External usage is not yet supported" );
-                } else
-                {
-                    throw new MisplacedConstruct( current.getToken() + " cannot be used in this context" );
-                }
-            } else if ( current.getTokenType().equals( accessType ) )
-            {
-                Token second = sequence.get( 1 );
-                if ( second.getTokenType().equals( identifierType ) )
-                {
-                    // the second is an identifier
-                    //TODO implement command segregation
-                    
-                }
-            }
-        }
-
-        throw new UnsupportedOperationException( "Not implemented yet" );
+        // TODO implement commands segregation
+        return null;
     }
+
+    
 
 }

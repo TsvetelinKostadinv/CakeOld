@@ -110,4 +110,15 @@ public interface DeclarationChecker extends Checker
         return checkWithType( declaration );
     }
 
+
+    public static boolean checkMethodPromisedeclaration ( final List< Token > declaration )
+    {
+        return declaration.get( 0 ).getTokenType().equals( ACCESS_TYPE )
+                && ( 
+                        declaration.get( 1 ).getTokenType().equals( IDENTIFIER_TYPE )
+                        || 
+                        declaration.get( 1 ).getTokenType().equals( KEYWORD_TYPE ) 
+                   )
+                && declaration.get( 2 ).getTokenType().equals( IDENTIFIER_TYPE );
+    }
 }

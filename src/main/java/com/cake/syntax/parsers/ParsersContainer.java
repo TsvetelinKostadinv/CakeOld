@@ -16,6 +16,8 @@ import com.cake.syntax.methods.Method;
 import com.cake.syntax.methods.parser.MethodParser;
 import com.cake.syntax.methods.promise.MethodPromise;
 import com.cake.syntax.methods.promise.parser.MethodPromiseParser;
+import com.cake.syntax.operations.methodInvocation.MethodInvocationOperator;
+import com.cake.syntax.operations.methodInvocation.parser.MethodInvokationOperatorParser;
 import com.cake.syntax.operations.reassignmentOp.ReassignmentOperator;
 import com.cake.syntax.operations.reassignmentOp.parser.ReassignmentOperationParser;
 import com.cake.syntax.operations.returnOp.ReturnOperator;
@@ -43,13 +45,13 @@ public class ParsersContainer extends Container< Parser< ? > >
 
     public static ParsersContainer INSTANCE = new ParsersContainer();
 
-    public static final Parser< Variable > VARIABLE_PARSER = new VariableDeclarationParser();
     public static final Parser< Block > BLOCK_PARSER = new BlockParser();
     public static final Parser< MethodPromise > METHOD_PROMISE_PARSER = new MethodPromiseParser();
     public static final Parser< Method > METHOD_PARSER = new MethodParser();
+    public static final Parser< MethodInvocationOperator > METHOD_INVOCATION_PARSER = new MethodInvokationOperatorParser();
     public static final Parser< ReassignmentOperator > REASSIGNMENT_OPERATOR_PARSER = new ReassignmentOperationParser();
     public static final Parser< ReturnOperator > RETURN_OPERATOR_PARSER = new ReturnOperatorParser();
-
+    public static final Parser< Variable > VARIABLE_PARSER = new VariableDeclarationParser();
 
     private ParsersContainer ()
     {
