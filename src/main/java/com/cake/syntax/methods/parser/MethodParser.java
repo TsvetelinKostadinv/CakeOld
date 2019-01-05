@@ -10,13 +10,11 @@ import java.util.List;
 
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
-import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.blocks.Block;
 import com.cake.syntax.blocks.parser.BlockParser;
 import com.cake.syntax.methods.Method;
 import com.cake.syntax.methods.promise.MethodPromise;
 import com.cake.syntax.methods.promise.parser.MethodPromiseParser;
-import com.cake.syntax.operations.returnOp.ReturnOperator;
 import com.cake.syntax.parsers.Parser;
 import com.cake.syntax.parsers.checkers.Checker;
 import com.cake.syntax.parsers.checkers.lambdaChecker.LambdaChecker;
@@ -51,10 +49,10 @@ public class MethodParser extends Parser< Method > implements Checker
 
         boolean correctDeclaration = new MethodPromiseParser().canParse( declaration );
 
-        List< Token > body = sequence.subList( pointerIndex , sequence.size() );
-
+        List< Token > body = sequence.subList( pointerIndex + 1 , sequence.size() );
+        
         boolean correctBody = new BlockParser().canParse( body );
-
+        
         return correctDeclaration && correctBody;
     }
 
@@ -70,29 +68,16 @@ public class MethodParser extends Parser< Method > implements Checker
     {
         if ( this.canParse( tokens ) )
         {
-            
+
             List< Token > promiseDeclr = tokens.subList( 0 , tokens.indexOf( POINTER_OPERATOR ) );
-            List< Token > bodyDeclr = tokens.subList( tokens.indexOf( POINTER_OPERATOR ) , tokens.size() ); 
-            
+            List< Token > bodyDeclr = tokens.subList( tokens.indexOf( POINTER_OPERATOR ) + 1 , tokens.size() );
+
             MethodPromise promise = new MethodPromiseParser().parse( superblock , promiseDeclr ).getValue();
             Block body = new BlockParser().parse( superblock , bodyDeclr ).getValue();
-            
-            String returnVariableIdentifier = null;
-            
-            if( !promise.getReturnType().toLowerCase().equals( "void" ) )
-            {
-                for ( SyntaxElement el : body.getSubcommands() )
-                {
-                    if( el instanceof ReturnOperator )
-                    {
-                        returnVariableIdentifier = ( (ReturnOperator) el ).getOperand().getName();
-                    }
-                }
-            }
-            
+
             String address = Block.joinNames( superblock , promise );
-            Method method = new Method( promise , returnVariableIdentifier , body );
-            
+            Method method = new Method( promise , body , superblock );
+
             return new Pair< String , Method >( address , method );
         }
 
@@ -111,9 +96,9 @@ public class MethodParser extends Parser< Method > implements Checker
     public Pair< String , Method > parseWithRuntime ( CakeRuntime runtime , Block superblock , List< Token > tokens )
     {
         Pair< String , Method > pair = this.parse( superblock , tokens );
-        
+
         runtime.addDecalredElement( pair.getKey() , pair.getValue() );
-        
+
         return pair;
     }
 

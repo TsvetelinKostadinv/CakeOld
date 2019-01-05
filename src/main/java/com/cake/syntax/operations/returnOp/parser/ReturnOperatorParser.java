@@ -8,19 +8,14 @@ package com.cake.syntax.operations.returnOp.parser;
 
 import java.util.List;
 
-import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
-import com.cake.syntax.AccessModifier;
 import com.cake.syntax.blocks.Block;
+import com.cake.syntax.expressions.Expression;
 import com.cake.syntax.operations.returnOp.ReturnOperator;
 import com.cake.syntax.parsers.Parser;
 import com.cake.syntax.parsers.checkers.Checker;
 import com.cake.syntax.parsers.checkers.expressionsChecker.ExpressionsChecker;
-import com.cake.syntax.variables.Variable;
-import com.cake.syntax.variables.values.Value;
-import com.cake.utils.expressions.evaluation.ExpressionEvaluator;
-
 import javafx.util.Pair;
 
 
@@ -44,8 +39,6 @@ public class ReturnOperatorParser extends Parser< ReturnOperator > implements Ch
     {
         if ( sequence == null || sequence.size() < 2 ) return false;
         
-        System.out.println( sequence );
-        
         boolean returnInPlace = sequence.get( 0 ).equals( RETURN_OPERATOR );
         boolean exprCorrect = ExpressionsChecker.isCorrectExpression( sequence.subList( 1 , sequence.size() ) );
 
@@ -64,11 +57,9 @@ public class ReturnOperatorParser extends Parser< ReturnOperator > implements Ch
     {
         if ( this.canParse( tokens ) )
         {
-            Value returnVal = ExpressionEvaluator.evaluate( null , tokens.subList( 1 , tokens.size() ) );
-
-            Variable returnVar = new Variable( null , returnVal , AccessModifier.PRIVATE );
+            Expression formula = new Expression( tokens.subList( 1 , tokens.size() ) );
             
-            ReturnOperator op = new ReturnOperator( returnVar );
+            ReturnOperator op = new ReturnOperator( formula );
             
             String address = Block.joinNames( superblock , op );
             
@@ -92,11 +83,9 @@ public class ReturnOperatorParser extends Parser< ReturnOperator > implements Ch
     {
         if ( this.canParse( tokens ) )
         {
-            Value returnVal = ExpressionEvaluator.evaluate( runtime , tokens.subList( 1 , tokens.size() ) );
-
-            Variable returnVar = new Variable( null , returnVal , AccessModifier.PRIVATE );
+            Expression formula = new Expression( tokens.subList( 1 , tokens.size() ) );
             
-            ReturnOperator op = new ReturnOperator( returnVar );
+            ReturnOperator op = new ReturnOperator( formula );
             
             String address = Block.joinNames( superblock , op );
             

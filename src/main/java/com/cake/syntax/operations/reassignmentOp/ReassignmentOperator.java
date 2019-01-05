@@ -5,10 +5,13 @@
 
 package com.cake.syntax.operations.reassignmentOp;
 
+
+import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.AccessModifier;
+import com.cake.syntax.expressions.Expression;
 import com.cake.syntax.operations.Operator;
 import com.cake.syntax.variables.Variable;
-import com.cake.syntax.variables.values.Value;
+
 
 /**
  * @author Tsvetelin
@@ -16,34 +19,23 @@ import com.cake.syntax.variables.values.Value;
  */
 public class ReassignmentOperator extends Operator
 {
-    private final Value newValue;
     
+    private Expression formula;
+
     /**
      * @param assignee
      * @param newValue
      */
-    public ReassignmentOperator ( Variable assignee , Value newValue )
+    public ReassignmentOperator ( Variable assignee , Expression formula )
     {
-        super(assignee);
-        this.newValue = newValue;
+        super( assignee );
+        this.formula = formula;
     }
-    
-    /**
-     * @return the newValue
-     */
-    public Value getNewValue ()
-    {
-        return newValue;
-    }
-    
-    public Variable calculateReassignment()
-    {
-        Variable newVar = this.getOperand();
-        newVar.setValue( newValue );
-        return newVar;
-    }
-    
-    /* (non-Javadoc)
+
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.cake.syntax.baseElements.SyntaxElement#getAccessModifier()
      */
     @Override
@@ -51,8 +43,11 @@ public class ReassignmentOperator extends Operator
     {
         throw new UnsupportedOperationException( "Cannot get access modifier of a operator" );
     }
-    
-    /* (non-Javadoc)
+
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.cake.syntax.baseElements.SyntaxElement#getName()
      */
     @Override
@@ -61,12 +56,17 @@ public class ReassignmentOperator extends Operator
         throw new UnsupportedOperationException( "Cannot get name of a operator" );
     }
 
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.cake.syntax.operations.Operator#calculate()
      */
     @Override
-    public Variable calculate ()
+    public Variable calculate ( CakeRuntime runtime )
     {
-        return this.calculateReassignment();
+        Variable newVar = this.getOperand();
+        newVar.setValue( formula.calculate( runtime ).getValue() );
+        return newVar;
     }
 }

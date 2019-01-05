@@ -5,6 +5,7 @@
 
 package com.cake.syntax.operations;
 
+import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.variables.Variable;
 
@@ -34,7 +35,7 @@ public abstract class Operator extends SyntaxElement
     }
     
 
-    public abstract Variable calculate ();
+    public abstract Variable calculate ( CakeRuntime runtime );
     
     /**
      * @return the operand

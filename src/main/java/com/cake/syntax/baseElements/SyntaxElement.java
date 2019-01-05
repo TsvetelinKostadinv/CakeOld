@@ -79,7 +79,7 @@ public abstract class SyntaxElement
     @Override
     public String toString ()
     {
-        return this.accessModifier.toString() + " " + this.name;
+        return this.accessModifier==null? "NO-ACCESS" :this.accessModifier.toString() + " " + this.name;
     }
 
 

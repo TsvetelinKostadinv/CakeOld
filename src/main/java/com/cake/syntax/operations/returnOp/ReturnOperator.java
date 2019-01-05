@@ -6,6 +6,9 @@
 package com.cake.syntax.operations.returnOp;
 
 
+import com.cake.syntax.expressions.Expression;
+
+import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.operations.Operator;
 import com.cake.syntax.variables.Variable;
 
@@ -16,13 +19,16 @@ import com.cake.syntax.variables.Variable;
  */
 public class ReturnOperator extends Operator
 {
-
+    
+    private Expression formula;
+    
     /**
-     * @param operand
+     * @param expr
      */
-    public ReturnOperator ( Variable operand )
+    public ReturnOperator ( Expression expr )
     {
-        super( operand );
+        super( null );
+        this.formula = expr;
     }
 
     /*
@@ -31,9 +37,9 @@ public class ReturnOperator extends Operator
      * @see com.cake.syntax.operations.Operator#calculate()
      */
     @Override
-    public Variable calculate ()
+    public Variable calculate ( CakeRuntime runtime )
     {
-        return this.getOperand();
+        return formula.calculate( runtime );
     }
 
 }

@@ -8,9 +8,18 @@ package com.cake.syntax.parsers;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.cake.compilation.tokens.Token;
 import com.cake.syntax.blocks.Block;
 import com.cake.syntax.blocks.parser.BlockParser;
+import com.cake.syntax.methods.Method;
+import com.cake.syntax.methods.parser.MethodParser;
+import com.cake.syntax.methods.promise.MethodPromise;
+import com.cake.syntax.methods.promise.parser.MethodPromiseParser;
+import com.cake.syntax.operations.reassignmentOp.ReassignmentOperator;
+import com.cake.syntax.operations.reassignmentOp.parser.ReassignmentOperationParser;
+import com.cake.syntax.operations.returnOp.ReturnOperator;
+import com.cake.syntax.operations.returnOp.parser.ReturnOperatorParser;
 import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.parser.VariableDeclarationParser;
 import com.cake.utils.container.Container;
@@ -36,6 +45,10 @@ public class ParsersContainer extends Container< Parser< ? > >
 
     public static final Parser< Variable > VARIABLE_PARSER = new VariableDeclarationParser();
     public static final Parser< Block > BLOCK_PARSER = new BlockParser();
+    public static final Parser< MethodPromise > METHOD_PROMISE_PARSER = new MethodPromiseParser();
+    public static final Parser< Method > METHOD_PARSER = new MethodParser();
+    public static final Parser< ReassignmentOperator > REASSIGNMENT_OPERATOR_PARSER = new ReassignmentOperationParser();
+    public static final Parser< ReturnOperator > RETURN_OPERATOR_PARSER = new ReturnOperatorParser();
 
 
     private ParsersContainer ()

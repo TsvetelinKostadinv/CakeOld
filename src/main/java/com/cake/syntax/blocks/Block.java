@@ -18,7 +18,6 @@ import com.cake.syntax.AccessModifier;
 import com.cake.syntax.baseElements.Result;
 import com.cake.syntax.baseElements.RunnableSyntaxElement;
 import com.cake.syntax.baseElements.SyntaxElement;
-import com.cake.syntax.blocks.scopes.Scope;
 import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.values.Value;
 
@@ -188,11 +187,7 @@ public class Block extends RunnableSyntaxElement
     @Override
     public Result run ( CakeRuntime runtime , Value... values )
     {
-        Scope scope = new Scope( this );
-
-        List< Variable > exitVars = scope.evaluate( runtime , values );
-
-        return new Result( this , null , null , exitVars );
+        throw new UnsupportedOperationException( "Cannot run a standalone block" );
     }
 
 

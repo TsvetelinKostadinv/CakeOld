@@ -10,14 +10,14 @@ import java.util.List;
 
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
+import com.cake.syntax.AccessModifier;
 import com.cake.syntax.blocks.Block;
+import com.cake.syntax.expressions.Expression;
 import com.cake.syntax.operations.reassignmentOp.ReassignmentOperator;
 import com.cake.syntax.parsers.Parser;
 import com.cake.syntax.parsers.checkers.Checker;
 import com.cake.syntax.parsers.checkers.expressionsChecker.ExpressionsChecker;
 import com.cake.syntax.variables.Variable;
-import com.cake.syntax.variables.values.Value;
-import com.cake.utils.expressions.evaluation.ExpressionEvaluator;
 
 import javafx.util.Pair;
 
@@ -63,18 +63,18 @@ public class ReassignmentOperationParser extends Parser< ReassignmentOperator > 
     {
         if ( this.canParse( tokens ) )
         {
-            
-            String searchedName = tokens.get( 1 ).getToken();
-            Variable assignee = superblock.getVariables().stream().filter( x -> x.getName().equals( searchedName  ) ).findFirst().get();
-            
-            Value newValue = ExpressionEvaluator.evaluate( null , tokens );
-            
-            ReassignmentOperator op = new ReassignmentOperator( assignee , newValue );
-            
+
+            String varName = tokens.get( 0 ).getToken();
+
+            Expression expr = new Expression( tokens.subList( 2 , tokens.size() ) );
+
+            ReassignmentOperator op = new ReassignmentOperator( new Variable( varName , null , AccessModifier.LOCAL ) ,
+                    expr );
+
             String address = Block.joinNames( superblock , op );
-            
+
             return new Pair< String , ReassignmentOperator >( address , op );
-            
+
         }
         throw new UnsupportedOperationException( "Cannot parse the sequence" );
     }
@@ -93,18 +93,16 @@ public class ReassignmentOperationParser extends Parser< ReassignmentOperator > 
     {
         if ( this.canParse( tokens ) )
         {
-            
-            String searchedName = tokens.get( 1 ).getToken();
-            Variable assignee = superblock.getVariables().stream().filter( x -> x.getName().equals( searchedName  ) ).findFirst().get();
-            
-            Value newValue = ExpressionEvaluator.evaluate( runtime , tokens );
-            
-            ReassignmentOperator op = new ReassignmentOperator( assignee , newValue );
-            
+            String varName = tokens.get( 0 ).getToken();
+
+            Expression expr = new Expression( tokens.subList( 2 , tokens.size() ) );
+
+            ReassignmentOperator op = new ReassignmentOperator( (Variable) runtime.getElement( varName ) , expr );
+
             String address = Block.joinNames( superblock , op );
-            
+
             return new Pair< String , ReassignmentOperator >( address , op );
-            
+
         }
         throw new UnsupportedOperationException( "Cannot parse the sequence" );
     }

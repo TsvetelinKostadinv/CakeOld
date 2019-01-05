@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import com.cake.syntax.AccessModifier;
 import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.methods.Parameter;
+import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.values.Value;
 
 
@@ -49,6 +50,7 @@ public class MethodPromise extends SyntaxElement
 
         if ( values.length != parameters.length ) return false;
 
+
         if ( areAllDifferentTypes )
         {
             List< String > requiredTypes = Arrays.stream( parameters ).map( x -> x.getType() )
@@ -72,6 +74,37 @@ public class MethodPromise extends SyntaxElement
                 if ( !values[i].getType().equals( parameters[i].getType() ) ) return false;
             }
             return true;
+        }
+    }
+
+
+    public List< Variable > constructInputVariablesList ( Value... values )
+    {
+        if ( this.canRunWithValues( values ) )
+        {
+            List< Variable > inputVars = new ArrayList<>();
+            if ( areAllDifferentTypes )
+            {
+                for ( Parameter param : parameters )
+                {
+                    for ( Value val : values )
+                    {
+                        if ( val.getType().equals( param.getType() ) )
+                            inputVars.add( new Variable( param.getName() , val , AccessModifier.LOCAL ) );
+                    }
+                }
+            } else
+            {
+                for ( int i = 0 ; i < parameters.length ; i++ )
+                {
+                    inputVars.add( new Variable( parameters[i].getName() , values[i] , AccessModifier.LOCAL ) );
+                }
+            }
+            return inputVars;
+        } else
+        {
+            throw new IllegalArgumentException(
+                    "Expected " + Arrays.toString( parameters ) + " but got " + Arrays.toString( values ) );
         }
     }
 

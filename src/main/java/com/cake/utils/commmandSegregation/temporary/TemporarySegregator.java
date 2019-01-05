@@ -47,6 +47,11 @@ public class TemporarySegregator implements Segregator
     public Map< Parser< ? > , List< Token > > segregateCodeWithParsers ( List< Token > sequence )
             throws MisplacedConstruct
     {
+        
+        if( sequence == null
+                || sequence.size() == 0  ) return new LinkedHashMap< Parser< ? > , List< Token > >();
+            
+        
         Map< Parser< ? > , List< Token > > result = new LinkedHashMap<>();
 
         List< Token > temp = new ArrayList<>();
@@ -56,8 +61,13 @@ public class TemporarySegregator implements Segregator
             if ( sequence.get( i ).getTokenType().equals( accessType ) )
             {
                 result.put( parsCont.getParserFor( temp ).get( 0 ) , temp );
+                temp.clear();
+            }else {
+                temp.add( sequence.get( i ) );
             }
         }
+        
+        //if( !temp.isEmpty() ) result.put( parsCont.getParserFor( temp ).get( 0 ) , temp );
 
         return result;
     }
