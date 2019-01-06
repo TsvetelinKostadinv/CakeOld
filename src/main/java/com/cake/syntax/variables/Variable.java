@@ -81,6 +81,6 @@ public class Variable extends SyntaxElement
     public boolean equals ( Object obj )
     {
 
-        return super.equals( obj ) && obj instanceof Variable && ( (Variable) obj ).value.equals( this.value );
+        return super.equals( obj ) && obj instanceof Variable ;
     }
 }

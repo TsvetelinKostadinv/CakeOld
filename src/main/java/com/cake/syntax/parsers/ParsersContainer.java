@@ -12,6 +12,8 @@ import java.util.List;
 import com.cake.compilation.tokens.Token;
 import com.cake.syntax.blocks.Block;
 import com.cake.syntax.blocks.parser.BlockParser;
+import com.cake.syntax.controlFlowStatements.conditionals.IfStatement;
+import com.cake.syntax.controlFlowStatements.conditionals.parser.IfStatementParser;
 import com.cake.syntax.methods.Method;
 import com.cake.syntax.methods.parser.MethodParser;
 import com.cake.syntax.methods.promise.MethodPromise;
@@ -52,6 +54,7 @@ public class ParsersContainer extends Container< Parser< ? > >
     public static final Parser< ReassignmentOperator > REASSIGNMENT_OPERATOR_PARSER = new ReassignmentOperationParser();
     public static final Parser< ReturnOperator > RETURN_OPERATOR_PARSER = new ReturnOperatorParser();
     public static final Parser< Variable > VARIABLE_PARSER = new VariableDeclarationParser();
+    public static final Parser< IfStatement > IF_STATEMENT_PARSER = new IfStatementParser();
 
     private ParsersContainer ()
     {

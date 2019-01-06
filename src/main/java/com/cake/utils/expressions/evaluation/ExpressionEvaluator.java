@@ -174,7 +174,7 @@ public interface ExpressionEvaluator extends Checker
             return tokens.stream().filter( x -> !x.getTokenType().equals( OPERATOR_TYPE ) )
                     .sorted( ( x , y ) -> -String.CASE_INSENSITIVE_ORDER.compare( x.getToken() , y.getToken() ) )
                     .map( x -> x.getTokenType().equals( IDENTIFIER_TYPE )
-                            ? ( (Variable) runtime.getElement( x.getToken() ) ).getValue()
+                            ? getVariableFromRuntime( runtime , x )
                             : parseValue( x ) )
                     .collect( Collectors.toList() );
         } else
@@ -191,6 +191,17 @@ public interface ExpressionEvaluator extends Checker
 
         }
 
+    }
+
+
+    /**
+     * @param runtime
+     * @param x
+     * @return
+     */
+    private static Value getVariableFromRuntime ( CakeRuntime runtime , Token x )
+    {
+        return ( (Variable) runtime.getElement( x.getToken() ) ).getValue();
     }
 
 

@@ -69,5 +69,4 @@ public class Expression extends Operator
     {
        return tokenExpression.stream().map( x -> x.getToken() ).reduce( "" , (x,y) -> x+y );
     }
-
 }

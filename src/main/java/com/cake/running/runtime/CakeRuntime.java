@@ -27,9 +27,9 @@ public class CakeRuntime implements Iterable< SyntaxElement >
     /**
      * A map of all declared elements and the paths to them
      */
-    private final Map< String , SyntaxElement > declared = new LinkedHashMap<>();
+    private Map< String , SyntaxElement > declared = new LinkedHashMap<>();
 
-    
+
     /**
      *
      * 
@@ -69,15 +69,23 @@ public class CakeRuntime implements Iterable< SyntaxElement >
         return declared.containsKey( name ) ? declared.get( name ) : null;
     }
 
+
     /**
      * 
-     * A normal for each function taking a biconsumer. The first is the address and the second is the element
+     * A normal for each function taking a biconsumer. The first is the address and
+     * the second is the element
      * 
      * @param action
      */
     public void forEach ( BiConsumer< String , SyntaxElement > action )
     {
         declared.forEach( action );
+    }
+
+
+    public void printAllContents ()
+    {
+        this.forEach( ( x , y ) -> System.out.println( "Address: " + x + " and value: " + y ) );
     }
 
 

@@ -8,6 +8,7 @@ package com.cake.syntax.blocks.scopes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.baseElements.SyntaxElement;
@@ -42,16 +43,18 @@ public class Scope
     {
         List< Variable > exitVariables = new ArrayList<>();
 
-        exitVariables.addAll( input );
-
-        input.forEach( x -> runtime.addDecalredElement( Block.joinNames( block , x ) , x ) );
-
+        if ( input != null )
+        {
+            exitVariables.addAll( input );
+            input.forEach( x -> runtime.addDecalredElement( Block.joinNames( block , x ) , x ) );
+        }
         // System.out.println( "Block sub commands: " + block.getSubcommands() );
 
         for ( SyntaxElement element : block.getSubcommands() )
         {
             if ( element instanceof Variable )
             {
+                runtime.addDecalredElement( Block.joinNames( block , element ) , element );
                 exitVariables.add( (Variable) element );
             } else if ( element instanceof Block )
             {
@@ -59,17 +62,22 @@ public class Scope
             } else if ( element instanceof Operator )
             {
                 Operator operator = (Operator) element;
-                if( operator.getOperand() != null )
+                if ( operator.getOperand() != null )
                 {
                     String address = operator.getOperand().getName();
                     Variable val = operator.calculate( runtime );
                     runtime.addDecalredElement( address , val );
-                }else {
+                    exitVariables.add( val );
+                } else
+                {
                     operator.calculate( runtime );
                 }
-                
+
             }
         }
+        
+        exitVariables = exitVariables.stream().distinct().collect( Collectors.toList() );
+        
         return exitVariables;
     }
 

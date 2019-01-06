@@ -50,7 +50,7 @@ public abstract class Parser < Type extends SyntaxElement >
      * 
      * Parses the tokens to the <code>Type</code>
      * 
-     * @param tokens
+     * @param sequence
      *            - the tokens to be parsed
      * @param superblock
      *            - the scope of the sequence of tokens
@@ -59,14 +59,14 @@ public abstract class Parser < Type extends SyntaxElement >
      * @throws UnsupportedOperationException
      *             - if the sequence cannot be parsed
      */
-    public abstract Pair< String , Type > parse ( final Block superblock , final List< Token > tokens );
+    public abstract Pair< String , Type > parse ( final Block superblock , final List< Token > sequence );
 
 
     /**
      * 
      * Parses the tokens to the <code>Type</code>
      * 
-     * @param tokens
+     * @param sequence
      *            - the tokens to be parsed
      * @param superblock
      *            - the scope of the sequence of tokens
@@ -78,5 +78,5 @@ public abstract class Parser < Type extends SyntaxElement >
      *             - if the sequence cannot be parsed
      */
     public abstract Pair< String , Type > parseWithRuntime ( final CakeRuntime runtime , final Block superblock ,
-            final List< Token > tokens );
+            final List< Token > sequence );
 }
