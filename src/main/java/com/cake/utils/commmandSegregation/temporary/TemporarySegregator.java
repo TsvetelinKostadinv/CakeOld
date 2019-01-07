@@ -6,7 +6,6 @@
 package com.cake.utils.commmandSegregation.temporary;
 
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +19,6 @@ import com.cake.syntax.blocks.Block;
 import com.cake.syntax.parsers.Parser;
 import com.cake.syntax.parsers.ParsersContainer;
 import com.cake.syntax.parsers.checkers.Checker;
-import com.cake.syntax.variables.parser.VariableDeclarationParser;
 import com.cake.utils.commmandSegregation.Segregator;
 import com.cake.utils.commmandSegregation.segregatorExceptions.MisplacedConstruct;
 

@@ -92,12 +92,12 @@ public class ParsersContainer extends Container< Parser< ? > >
      * @param code
      * @return the parser for this sequence
      */
-    public List< Parser< ? > > getParserFor ( List< Token > code )
+    public synchronized List< Parser< ? > > getParserFor ( List< Token > code )
     {
         List< Parser< ? > > res = new ArrayList<>();
-        for ( Parser< ? > parser : this )
+        for ( int i = 0; i< elements.size() ; i++)
         {
-            if ( parser.canParse( code ) ) res.add( parser );
+            if ( elements.get( i ).canParse( code ) ) res.add( elements.get( i ) );
         }
         return res;
     }

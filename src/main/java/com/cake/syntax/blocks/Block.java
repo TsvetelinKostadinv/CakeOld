@@ -18,6 +18,8 @@ import com.cake.syntax.AccessModifier;
 import com.cake.syntax.baseElements.Result;
 import com.cake.syntax.baseElements.RunnableSyntaxElement;
 import com.cake.syntax.baseElements.SyntaxElement;
+import com.cake.syntax.blocks.scopes.Scope;
+import com.cake.syntax.operations.returnOp.ReturnOperator;
 import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.values.Value;
 
@@ -187,7 +189,27 @@ public class Block extends RunnableSyntaxElement
     @Override
     public Result run ( CakeRuntime runtime , Value... values )
     {
-        throw new UnsupportedOperationException( "Cannot run a standalone block" );
+        Scope scope = new Scope( this );
+
+        List< Variable > exitVars = scope.evaluate( runtime , values , null );
+
+        Variable retVar = null;
+
+        for ( SyntaxElement syntaxElement : this.getSubcommands() )
+        {
+            if ( syntaxElement instanceof ReturnOperator )
+            {
+                retVar = ( (ReturnOperator) syntaxElement ).calculate( runtime );
+            }
+        }
+        if ( retVar != null )
+        {
+            return new Result( this , retVar.getValue() , null , exitVars );
+        } else
+        {
+            return new Result( this , null , null , exitVars );
+        }
+
     }
 
 
@@ -220,15 +242,18 @@ public class Block extends RunnableSyntaxElement
         }
 
     }
-    
-    /* (non-Javadoc)
+
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.cake.syntax.baseElements.RunnableSyntaxElement#toString()
      */
     @Override
     public String toString ()
     {
         StringBuilder sb = new StringBuilder();
-        
+
         for ( SyntaxElement syntaxElement : subCommands )
         {
             sb.append( syntaxElement.toString() );
