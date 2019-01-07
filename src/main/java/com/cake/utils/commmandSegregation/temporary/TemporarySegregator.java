@@ -33,6 +33,10 @@ public class TemporarySegregator implements Segregator
 
     public static final Token TEMPORARY_SEGREGATOR = new Token( ":" , Checker.OPERATOR_TYPE );
 
+    public static final Token OPENING_CURLY_BRACE = new Token( "{" , Checker.OPERATOR_TYPE );
+
+    public static final Token CLOSING_CURLY_BRACE = new Token( "}" , Checker.OPERATOR_TYPE );
+
     private static final ParsersContainer parsCont = ParsersContainer.INSTANCE;
 
 
@@ -57,46 +61,77 @@ public class TemporarySegregator implements Segregator
 
         for ( int i = 0 ; i < sequence.size() ; i++ )
         {
-            if ( sequence.get( i ).equals( TEMPORARY_SEGREGATOR ) )
+            Token current = sequence.get( i );
+            System.out.println( "In Segregator || Is Curly: " + current.equals( OPENING_CURLY_BRACE ) );
+            if ( current.equals( OPENING_CURLY_BRACE ) )
+            {
+                System.out.println( "In segregator || IS OPENING CURLY" );
+                while ( !current.equals( CLOSING_CURLY_BRACE ) )
+                {
+                    temp.add( current );
+                    i++;
+                    current = sequence.get( i );
+                }
+            } else if ( current.equals( TEMPORARY_SEGREGATOR ) )
             {
                 System.out.println( "In Segregator || Found a segregator" );
                 System.out.println( "In Segregator || Temporary command: " + temp );
                 if ( temp.size() > 0 )
                 {
                     System.out.println( "In Segregator || Adding sequence: " + temp );
-                    
+
                     Parser< ? > p = parsCont.getParserFor( temp ).get( 0 );
-                    
+
                     System.out.println( "In Segregator || ParserName: " + p.getClass().getSimpleName() );
-                    
+
                     result.put( p , temp );
                     temp = new LinkedList<>();
                 }
 
             } else
             {
-                temp.add( sequence.get( i ) );
+                temp.add( current );
             }
         }
 
-        return result.entrySet().stream()
-                .map( x -> x.getKey().parse( superBlockOfSequence , x.getValue() ).getValue())
+        return result.entrySet().stream().map( x -> x.getKey().parse( superBlockOfSequence , x.getValue() ).getValue() )
                 .collect( Collectors.toList() );
     }
-    
-    public List< SyntaxElement > getElements( Block superblock,  List< Token > sequence )
+
+
+    public List< SyntaxElement > getElements ( Block superblock , List< Token > sequence )
     {
-        sequence = sequence.subList( 1 , sequence.size()-1 );
-        
+        sequence = sequence.subList( 1 , sequence.size() - 1 );
+
         StringTokenizer t = new StringTokenizer();
-        
-        String[] commands = sequence.stream().map( x -> x.getToken() ).reduce( "" , (x,y) -> x+" "+y ).split( "\\:" );
-        
+
+        String [] commands = sequence.stream().map( x -> x.getToken() ).reduce( "" , ( x , y ) -> x + " " + y )
+                .split( "\\:" );
+
         List< SyntaxElement > result = new LinkedList<>();
-        
-        for( int i=1;i<commands.length;i++ )
+
+        int indentedBlocks = 0;
+
+        for ( int i = 1 ; i < commands.length ; i++ )
         {
             List< Token > tokens = t.tokenize( commands[i] );
+            if ( tokens.get( tokens.size() - 1 ).equals( OPENING_CURLY_BRACE ) )
+            {
+                System.out.println( "In segregator || Encountered opening curly" );
+                indentedBlocks++;
+                while ( indentedBlocks > 0 )
+                {
+                    i++;
+                    List< Token > newTokens = t.tokenize( commands[i] );
+                    tokens.addAll( newTokens );
+                    int inBlocks = (int) tokens.stream().filter( x -> x.equals( OPENING_CURLY_BRACE ) ).count();
+                    int outBlocks = (int) tokens.stream().filter( x -> x.equals( CLOSING_CURLY_BRACE ) ).count();
+                    
+                    indentedBlocks = inBlocks - outBlocks;
+                    
+                }
+            }
+            System.out.println( "In segregator || Getting parser for: " + tokens );
             Parser< ? > p = parsCont.getParserFor( tokens ).get( 0 );
             result.add( p.parse( superblock , tokens ).getValue() );
         }

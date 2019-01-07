@@ -8,6 +8,7 @@ package com.cake.syntax.operations.reassignmentOp;
 
 import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.AccessModifier;
+import com.cake.syntax.blocks.Block;
 import com.cake.syntax.expressions.Expression;
 import com.cake.syntax.operations.Operator;
 import com.cake.syntax.variables.Variable;
@@ -21,7 +22,9 @@ public class ReassignmentOperator extends Operator
 {
     
     private Expression formula;
-
+    
+    private Block assigningBlock;
+    
     /**
      * @param assignee
      * @param newValue
@@ -30,6 +33,18 @@ public class ReassignmentOperator extends Operator
     {
         super( assignee );
         this.formula = formula;
+        this.assigningBlock = null;
+    }
+    
+    /**
+     * @param assignee
+     * @param newValue
+     */
+    public ReassignmentOperator ( Variable assignee , Block assigningBlock )
+    {
+        super( assignee );
+        this.formula = null;
+        this.assigningBlock = assigningBlock;
     }
 
 
@@ -66,7 +81,12 @@ public class ReassignmentOperator extends Operator
     public Variable calculate ( CakeRuntime runtime )
     {
         Variable newVar = this.getOperand();
-        newVar.setValue( formula.calculate( runtime ).getValue() );
+        if( formula != null )
+        {
+            newVar.setValue( formula.calculate( runtime ).getValue() );
+        }else {
+            newVar.setValue( assigningBlock.run( runtime ).getReturned() );
+        }
         return newVar;
     }
     

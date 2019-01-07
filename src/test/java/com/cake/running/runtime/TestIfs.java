@@ -10,6 +10,7 @@ import java.util.List;
 import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
 import com.cake.compilation.tokens.Token;
 import com.cake.syntax.baseElements.Result;
+import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.controlFlowStatements.conditionals.IfStatement;
 import com.cake.syntax.parsers.ParsersContainer;
 
@@ -29,11 +30,13 @@ public class TestIfs
     {
         CakeRuntime runtime = new CakeRuntime();
         String code = "if ( 5 > 3 && 8 > -1 ) {" //+ endl
-                + " :local int i = 5 " //+ endl
-                + " :local int a = 3 " //+ endl
-                + " :root.IF-STATEMENT0#i = root.IF-STATEMENT0#i * 5 * 2 " //+ endl
-                + " :return root.IF-STATEMENT0#i / root.IF-STATEMENT0#a " //+ endl
-                + "}";
+                    + " : local int i = 5 " //+ endl
+                    + " : local int a = 3 "
+                    + " : if ( root.IF-STATEMENT1#i == 5 ) {"
+                    + " :      root.IF-STATEMENT1#i = root.IF-STATEMENT1#i * 5 * 3 " //+ endl
+                    + " : }" //+ endl
+                    + " : return root.IF-STATEMENT1#i / root.IF-STATEMENT1#a " //+ endl
+                    + "}";
         
         System.out.println( "---------------------STARTING INTERPRETATION---------------------" );
         
@@ -42,13 +45,13 @@ public class TestIfs
         
         System.out.println( "----------------------STARTING PARSING----------------------" );
         
-        System.out.println( "In test || Can prase: " + ParsersContainer.IF_STATEMENT_PARSER.canParse( tokens ) );
+        System.out.println( "In test || Can prase(explicit): " + ParsersContainer.IF_STATEMENT_PARSER.canParse( tokens ) );
         
-        Pair< String , IfStatement > pair =  ParsersContainer.IF_STATEMENT_PARSER.parse( null , tokens );
+        Pair< String , ? > pair =  ParsersContainer.INSTANCE.getParserFor( tokens ).get( 0 ).parse( null , tokens );
         
-        runtime.addDecalredElement( pair.getKey() , pair.getValue() );
+        runtime.addDecalredElement( pair.getKey() , (SyntaxElement) pair.getValue() );
         
-        IfStatement ifst = pair.getValue();
+        IfStatement ifst = (IfStatement) pair.getValue();
         
         System.out.println( "In test || Parsed: " + ifst );
         

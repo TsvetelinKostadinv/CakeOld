@@ -201,7 +201,7 @@ public interface ExpressionEvaluator extends Checker
      */
     private static Value getVariableFromRuntime ( CakeRuntime runtime , Token x )
     {
-        //System.out.println( "In Expression ||  : " + x.getToken() );
+        //System.out.println( "In Expression || Getting the value of : " + x.getToken() );
         return ( (Variable) runtime.getElement( x.getToken() ) ).getValue();
     }
 

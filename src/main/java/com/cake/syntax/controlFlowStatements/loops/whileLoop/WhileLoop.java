@@ -1,9 +1,9 @@
 /*
- * 06/01/2019 12:10:55
- * IfStatement.java created by Tsvetelin
+ * 06/01/2019 17:44:53
+ * WhileLoop.java created by Tsvetelin
  */
 
-package com.cake.syntax.controlFlowStatements.conditionals;
+package com.cake.syntax.controlFlowStatements.loops.whileLoop;
 
 
 import java.util.List;
@@ -24,24 +24,24 @@ import com.cake.syntax.variables.values.Value;
  * @author Tsvetelin
  *
  */
-public class IfStatement extends Block
+public class WhileLoop extends Block
 {
 
-    public static final String NAME = "IF-STATEMENT";
+    public static final String NAME = "WHILE-LOOP";
 
     private static int counter = 0;
 
     private Expression condition;
 
+
     /**
      * @param name
      * @param accessModifier
-     * @param condition
-     * @param body
+     * @param superBlock
      */
-    public IfStatement ( Expression condition , Block body , Block superblock )
+    public WhileLoop ( Expression condition , Block body , Block superBlock )
     {
-        super( NAME + counter , AccessModifier.LOCAL, superblock );
+        super( NAME + counter , AccessModifier.LOCAL , superBlock );
         counter++;
         this.condition = condition;
         this.addSubCommands( body.getSubcommands().toArray( new SyntaxElement[0] ) );
@@ -51,13 +51,13 @@ public class IfStatement extends Block
     /*
      * (non-Javadoc)
      * 
-     * @see com.cake.syntax.baseElements.RunnableSyntaxElement#run(com.cake.running.
-     * runtime.CakeRuntime, com.cake.syntax.variables.values.Value[])
+     * @see com.cake.syntax.blocks.Block#run(com.cake.running.runtime.CakeRuntime,
+     * com.cake.syntax.variables.values.Value[])
      */
     @Override
     public Result run ( CakeRuntime runtime , Value... values )
     {
-        if ( (double) condition.calculate( runtime ).getValue().getValue() == 1.0 )
+        while ( (double) condition.calculate( runtime ).getValue().getValue() == 1.0 )
         { 
             Scope scope = new Scope( this );
             
@@ -81,17 +81,4 @@ public class IfStatement extends Block
         }
         return null;
     }
-
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.cake.syntax.baseElements.RunnableSyntaxElement#toString()
-     */
-    @Override
-    public String toString ()
-    {
-        return String.format( "If statement with condition: %s and body: %n%s" , condition.toString() , getSubcommands().toString() );
-    }
-
 }
