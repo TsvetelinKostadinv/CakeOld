@@ -107,7 +107,7 @@ public class TokenPattern
     public static final TokenPattern IDENTIFIER_PATTERN = 
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.IDENTIFIER.getValue() ), 
-            Pattern.compile( "^([a-zA-z_][a-zA-z_0-9]*){1}" ) );
+            Pattern.compile( "^([a-zA-z_][a-zA-z_0-9\\.\\#\\-]*){1}" ) );
 
     public static final TokenPattern NUMBER_LITERAL_PATTERN =
     new TokenPattern( 

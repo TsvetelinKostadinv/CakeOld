@@ -31,8 +31,8 @@ public class TestIfs
         String code = "if ( 5 > 3 && 8 > -1 ) {" //+ endl
                 + " :local int i = 5 " //+ endl
                 + " :local int a = 3 " //+ endl
-                + " :i = 3*5*2 " //+ endl
-                + " :return i / 2 " //+ endl
+                + " :root.IF-STATEMENT0#i = root.IF-STATEMENT0#i * 5 * 2 " //+ endl
+                + " :return root.IF-STATEMENT0#i / root.IF-STATEMENT0#a " //+ endl
                 + "}";
         
         System.out.println( "---------------------STARTING INTERPRETATION---------------------" );
