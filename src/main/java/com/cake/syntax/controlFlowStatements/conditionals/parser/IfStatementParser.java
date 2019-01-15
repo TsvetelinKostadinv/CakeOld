@@ -7,7 +7,6 @@ package com.cake.syntax.controlFlowStatements.conditionals.parser;
 
 
 import java.util.List;
-import java.util.Objects;
 
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
@@ -29,6 +28,11 @@ import javafx.util.Pair;
 public class IfStatementParser extends Parser< IfStatement > implements Checker
 {
 
+    /**
+     * 
+     */
+    public static final Token OPENING_CURLY_BRACE = new Token( "{" , OPERATOR_TYPE );
+
     public static final Token IF_KEYWORD_TOKEN = new Token( "if" , KEYWORD_TYPE );
 
     public static final Token OPENING_ROUND_BRACE_TOKEN = new Token( "(" , OPERATOR_TYPE );
@@ -44,19 +48,21 @@ public class IfStatementParser extends Parser< IfStatement > implements Checker
     @Override
     public boolean canParse ( List< Token > sequence )
     {
-        Objects.requireNonNull( sequence );
+        if ( !checkList( sequence , 6 ) ) return false;
 
         boolean ifKeyword = sequence.get( 0 ).equals( IF_KEYWORD_TOKEN );
         boolean openingRoundBrace = sequence.get( 1 ).equals( OPENING_ROUND_BRACE_TOKEN );
 
-        int closingBraceIndex = sequence.indexOf( CLOSING_ROUND_BRACE_TOKEN );
+        if ( ! ( ifKeyword && openingRoundBrace ) ) return false;
 
-        if ( closingBraceIndex == -1 ) return false;
+        int closingRoundBraceIndex = sequence.indexOf( CLOSING_ROUND_BRACE_TOKEN );
+
+        if ( closingRoundBraceIndex == -1 ) return false;
 
         boolean expressionCorrect = ExpressionsChecker.isCorrectExpression(
-                sequence.subList( sequence.indexOf( OPENING_ROUND_BRACE_TOKEN ) + 1 , closingBraceIndex ) );
+                sequence.subList( sequence.indexOf( OPENING_ROUND_BRACE_TOKEN ) + 1 , closingRoundBraceIndex ) );
 
-        List< Token > body = sequence.subList( closingBraceIndex + 1 , sequence.size() );
+        List< Token > body = sequence.subList( sequence.indexOf( OPENING_CURLY_BRACE ) , sequence.size() );
 
         boolean bodyCorrect = new BlockParser().canParse( body );
 
@@ -79,14 +85,13 @@ public class IfStatementParser extends Parser< IfStatement > implements Checker
                     sequence.subList( 2 , sequence.indexOf( CLOSING_ROUND_BRACE_TOKEN ) ) );
 
             Block body = new BlockParser()
-                    .parse( superblock ,
-                            sequence.subList( sequence.indexOf( CLOSING_ROUND_BRACE_TOKEN ) + 1 , sequence.size() ) )
+                    .parse( superblock , sequence.subList( sequence.indexOf( OPENING_CURLY_BRACE ) , sequence.size() ) )
                     .getValue();
-            
+
             IfStatement op = new IfStatement( condition , body , superblock );
-            
+
             String address = Block.joinNames( superblock , op );
-            
+
             return new Pair< String , IfStatement >( address , op );
         }
         throw new UnsupportedOperationException( "Cannot parse the sequence" );

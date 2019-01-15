@@ -5,6 +5,10 @@
 
 package com.cake.running.runtime;
 
+import java.util.List;
+
+import com.cake.STDLib.STDLibMethodContainer;
+import com.cake.STDLib.methods.STDLibMethod;
 
 /**
  * 
@@ -20,7 +24,27 @@ public class Runner
      */
     public static CakeRuntime getNewProjectRuntime ()
     {
-        return new CakeRuntime();
+        CakeRuntime runtime = new CakeRuntime();
+        
+        runtime = addSTDLib(runtime);
+        
+        return runtime;
+    }
+
+    /**
+     * @param runtime
+     * @return
+     */
+    private static CakeRuntime addSTDLib ( CakeRuntime runtime )
+    {
+        List< STDLibMethod > stdMethods = STDLibMethodContainer.INSTANCE.getAllSTDMethods();
+        
+        for( STDLibMethod m : stdMethods )
+        {
+            runtime.addDecalredElement( m.getFullName() , m );
+        }
+        
+        return runtime;
     }
 
 }

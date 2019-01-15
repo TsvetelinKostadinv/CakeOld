@@ -7,12 +7,15 @@ package com.cake.syntax.operations.methodInvocation.parser;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.stream.Collectors;
+
+import com.cake.compilation.tokenizer.tokenizers.stringTokenizer.StringTokenizer;
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
+import com.cake.running.runtime.Runner;
 import com.cake.syntax.blocks.Block;
 import com.cake.syntax.methods.Method;
 import com.cake.syntax.operations.methodInvocation.MethodInvocationOperator;
@@ -46,24 +49,21 @@ public class MethodInvokationOperatorParser extends Parser< MethodInvocationOper
     @Override
     public boolean canParse ( List< Token > sequence )
     {
+        if ( !checkList( sequence , 3 ) ) return false;
 
-        Objects.requireNonNull( sequence );
-
-        if ( sequence.size() < 3 ) return false;
-        
         boolean first = sequence.get( 0 ).getTokenType().equals( IDENTIFIER_TYPE );
 
         boolean openingBrace = sequence.get( 1 ).equals( OPENING_BRACE );
         boolean closingBrace = sequence.get( sequence.size() - 1 ).equals( CLOSING_BRACE );
-        
-        if( !( first&&openingBrace&&closingBrace ) ) return false;
+
+        if ( ! ( first && openingBrace && closingBrace ) ) return false;
         
         boolean paramListCorrect = true;
 
         List< Token > paramList = sequence.subList( 2 , sequence.size() - 1 );
-        
-        if ( paramList.size() == 0 ) paramListCorrect = false;
-        else if ( paramList.size() % 2 == 0 ) paramListCorrect = true;
+
+        if ( paramList.size() == 0 || paramList.size() == 1 ) return true;
+        else if ( paramList.size() % 2 == 0 ) return true;
         else for ( int i = 0 ; i < paramList.size() ; i += 2 )
         {
             if ( ! ( paramList.get( i ).getTokenType().equals( IDENTIFIER_TYPE )
@@ -73,12 +73,11 @@ public class MethodInvokationOperatorParser extends Parser< MethodInvocationOper
             {
                 if ( ! ( paramList.get( i + 1 ).equals( COMMA ) ) )
                 {
-                    paramListCorrect = false;
+                    return false;
                 }
             }
         }
-
-        return first && openingBrace && closingBrace & paramListCorrect;
+        return true;
     }
 
 
@@ -102,6 +101,9 @@ public class MethodInvokationOperatorParser extends Parser< MethodInvocationOper
             } catch ( NoSuchElementException e )
             {
                 throw new NoSuchElementException( "No such method exists in the superblock of the invokation" );
+            } catch ( NullPointerException e )
+            {
+                // There is no superblock
             }
 
             List< Token > paramList = tokens.subList( 3 , tokens.size() );
@@ -143,20 +145,25 @@ public class MethodInvokationOperatorParser extends Parser< MethodInvocationOper
     {
         if ( this.canParse( tokens ) )
         {
+//            System.out.println( "ParsingTokens: " + tokens );
             String methodName = tokens.get( 0 ).getToken();
             Method exec = (Method) runtime.getElement( methodName );
-
-            List< Token > paramList = tokens.subList( 3 , tokens.size() );
-
+            
+//            System.out.println( "method is: " + exec );
+            
+            List< Token > paramList = tokens.subList( 2 , tokens.size() - 1 );
+            
             Value [] values = paramList.stream().filter( x -> !x.getTokenType().equals( OPERATOR_TYPE ) ).map( x -> {
                 List< Token > list = new ArrayList<>();
                 list.add( x );
                 return list;
             } ).map( x -> ExpressionEvaluator.evaluate( runtime , x ) ).collect( Collectors.toList() )
                     .toArray( new Value[0] );
-
+            
             MethodInvocationOperator op = new MethodInvocationOperator( exec , values );
-
+            
+//            System.out.println( "-------" );
+            
             String address = Block.joinNames( superblock , op );
 
             return new Pair< String , MethodInvocationOperator >( address , op );
@@ -164,5 +171,28 @@ public class MethodInvokationOperatorParser extends Parser< MethodInvocationOper
         }
         throw new UnsupportedOperationException( "Cannot parse the sequence" );
     }
+
+
+//    public static void main ( String [] args )
+//    {
+//        CakeRuntime runtime = Runner.getNewProjectRuntime();
+//
+//        String code = "root.std.print( \"Hello World\" )";
+//        System.out.println( "Code: " + code );
+//        List< Token > tokens = new StringTokenizer().tokenize( code );
+//        
+//        System.out.println( "Tokens: " + tokens );
+//        
+//        MethodInvokationOperatorParser p = new MethodInvokationOperatorParser();
+//
+//        System.out.println( "can parse: " + p.canParse( tokens ) );
+//
+//        MethodInvocationOperator op = p.parseWithRuntime( runtime , null , tokens ).getValue();
+//
+//        System.out.println( "Call values: " + Arrays.toString( op.getValues() ) );
+//
+//        op.calculate( runtime );
+//
+//    }
 
 }

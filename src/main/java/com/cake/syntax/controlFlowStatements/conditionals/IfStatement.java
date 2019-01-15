@@ -57,8 +57,9 @@ public class IfStatement extends Block
     @Override
     public Result run ( CakeRuntime runtime , Value... values )
     {
-        if ( (double) condition.calculate( runtime ).getValue().getValue() == 1.0 )
+        if ( (Double) condition.calculate( runtime ).getValue().getValue() == 1.0 )
         { 
+//            System.out.println( "Running if with cond: " + condition.toString() );
             Scope scope = new Scope( this );
             
             List< Variable > exitVars = scope.evaluate( runtime , values , null );
@@ -69,7 +70,9 @@ public class IfStatement extends Block
             {
                 if ( syntaxElement instanceof ReturnOperator )
                 {
+//                    System.out.println( "Got a return" );
                     retVar = ( (ReturnOperator) syntaxElement ).calculate( runtime );
+//                    System.out.println( "Ret var: " + retVar );
                 }
             }
             if( retVar != null)

@@ -7,7 +7,7 @@ package com.cake.running.runtime;
 
 import java.util.List;
 
-import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
+import com.cake.compilation.tokenizer.tokenizers.stringTokenizer.StringTokenizer;
 import com.cake.compilation.tokens.Token;
 import com.cake.syntax.baseElements.Result;
 import com.cake.syntax.methods.Method;
@@ -43,7 +43,7 @@ public class TestOfSegregation
         
         System.out.println( "Promise of method: " + m.getPromise() );
         System.out.println( "Body of method: " );
-        System.out.println( m.getBody() );
+        System.out.println( m );
         
         System.out.println( "-----------------RESULTS-----------------" );
         System.out.println( "Running method" );

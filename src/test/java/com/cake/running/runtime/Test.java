@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.cake.compilation.tokenizer.Tokenizator;
-import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
+import com.cake.compilation.tokenizer.tokenizers.stringTokenizer.StringTokenizer;
 import com.cake.compilation.tokens.Token;
 import com.cake.syntax.parsers.Parser;
 import com.cake.syntax.parsers.ParsersContainer;

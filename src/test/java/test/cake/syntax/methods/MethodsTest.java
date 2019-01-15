@@ -8,7 +8,7 @@ package test.cake.syntax.methods;
 
 import java.util.List;
 
-import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
+import com.cake.compilation.tokenizer.tokenizers.stringTokenizer.StringTokenizer;
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.baseElements.Result;

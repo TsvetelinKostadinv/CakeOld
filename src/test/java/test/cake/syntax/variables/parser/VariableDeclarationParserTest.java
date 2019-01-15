@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.cake.compilation.tokenizer.Tokenizator;
-import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
+import com.cake.compilation.tokenizer.tokenizers.stringTokenizer.StringTokenizer;
 import com.cake.syntax.parsers.Parser;
 import com.cake.syntax.variables.Variable;
 import com.cake.syntax.variables.parser.VariableDeclarationParser;

@@ -112,12 +112,12 @@ public class TokenPattern
     public static final TokenPattern NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.NUMBER_LITERAL.getValue() ), 
-            Pattern.compile( "((-)?[1-9]?(([0-9])*)(\\.[0-9]*)?){1}" ) );
+            Pattern.compile( "((-)?[1-9]?(([0-9])+)(\\.[0-9]*)?){1}" ) );
 
     public static final TokenPattern REAL_NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.REAL_NUMBER_LITERAL.getValue() ), 
-            Pattern.compile( "((-)?[1-9]?(([0-9])*)(\\.[0-9]*)?){1}" ) );
+            Pattern.compile( "^((-)?[1-9]?(([0-9])+)(\\.[0-9]*)?){1}" ) );
 
     public static final TokenPattern INTEGER_NUMBER_LITERAL_PATTERN =
     new TokenPattern( 
@@ -133,7 +133,7 @@ public class TokenPattern
     public static final TokenPattern STRING_LITERAL_PATTERN = 
     new TokenPattern( 
             typesCont.getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() ), 
-            Pattern.compile( "^(\".*\")" ) );
+            Pattern.compile( "\".*\"" ) );
 
     public static final TokenPattern EMPTY_PATTERN = 
     new TokenPattern( 

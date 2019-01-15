@@ -82,7 +82,7 @@ public interface DeclarationChecker extends Checker
      * @param declaration
      * @return
      */
-    private static boolean checkWithoutType ( final List< Token > declaration )
+    static boolean checkWithoutType ( final List< Token > declaration )
     {
         return declaration.get( 0 ).getTokenType().equals( ACCESS_TYPE )
                 && declaration.get( 1 ).getTokenType().equals( IDENTIFIER_TYPE );
@@ -93,7 +93,7 @@ public interface DeclarationChecker extends Checker
      * @param declaration
      * @return
      */
-    private static boolean checkWithType ( final List< Token > declaration )
+    static boolean checkWithType ( final List< Token > declaration )
     {
         return declaration.get( 0 ).getTokenType().equals( ACCESS_TYPE )
                 && declaration.get( 1 ).getTokenType().equals( IDENTIFIER_TYPE )

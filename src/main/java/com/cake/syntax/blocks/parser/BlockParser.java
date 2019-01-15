@@ -6,9 +6,8 @@
 package com.cake.syntax.blocks.parser;
 
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import com.cake.compilation.tokens.Token;
 import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
 import com.cake.compilation.tokens.types.TokenTypesContainer;
@@ -18,8 +17,6 @@ import com.cake.syntax.AccessModifier;
 import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.blocks.Block;
 import com.cake.syntax.parsers.Parser;
-import com.cake.utils.commmandSegregation.Segregator;
-import com.cake.utils.commmandSegregation.segregatorExceptions.MisplacedConstruct;
 import com.cake.utils.commmandSegregation.temporary.TemporarySegregator;
 
 import javafx.util.Pair;
@@ -62,7 +59,8 @@ public class BlockParser extends Parser< Block >
     {
         // the first and the last token should be "{" and "}" respectively
 
-        return sequence.get( 0 ).equals( OPENING_BRACE_TOKEN )
+        return checkList( sequence , 2 )
+                && sequence.get( 0 ).equals( OPENING_BRACE_TOKEN )
                 && sequence.get( sequence.size() - 1 ).equals( CLOSING_BRACE_TOKEN );
     }
 
@@ -103,7 +101,22 @@ public class BlockParser extends Parser< Block >
     @Override
     public Pair< String , Block > parseWithRuntime ( CakeRuntime runtime , Block superblock , List< Token > tokens )
     {
-        throw new UnsupportedOperationException( "A standalone block cannot be added to the runtime!" );
+        if ( this.canParse( tokens ) )
+        {
+
+            TemporarySegregator segregator = new TemporarySegregator();
+
+            Block parsedBlock = new Block( null , AccessModifier.LOCAL , superblock );
+
+            List< SyntaxElement > subCommands = tokens.size() == 2 ? Arrays.asList( new SyntaxElement[0] ) :segregator.getElements( runtime , superblock , tokens );
+            
+            
+            parsedBlock.addSubCommands( subCommands.toArray( new SyntaxElement[0] ) );
+            
+            
+            return new Pair< String , Block >( Block.joinNames( superblock , parsedBlock ) , parsedBlock );
+        }
+        throw new UnsupportedOperationException( "Cannot parse the sequence" );
     }
 
 }

@@ -6,20 +6,14 @@
 package com.cake.utils.commmandSegregation;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import com.cake.compilation.tokens.Token;
 import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
 import com.cake.compilation.tokens.types.TokenTypesContainer;
 import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
 import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.blocks.Block;
-import com.cake.syntax.parsers.Parser;
 import com.cake.utils.commmandSegregation.segregatorExceptions.MisplacedConstruct;
-
-import javafx.util.Pair;
 
 
 /**
@@ -29,11 +23,13 @@ import javafx.util.Pair;
  * @author Tsvetelin
  *
  */
+@SuppressWarnings ( "all" )
 public class CommandsSegregator implements Segregator
 {
 
     private final TokenTypesContainer typesCont = TokenTypesContainer.INSTANCE;
 
+    
     private final TokenTypeHolder accessType = typesCont
             .getTypeForIdentifier( BaseTokenTypesIdentificators.ACCESS_MODIFIER.getValue() );
 

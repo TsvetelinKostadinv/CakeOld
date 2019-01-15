@@ -3,11 +3,12 @@
  * Tokenizer.java created by Tsvetelin
  */
 
-package com.cake.compilation.tokenizer.tokenizers;
+package com.cake.compilation.tokenizer.tokenizers.stringTokenizer;
 
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -29,16 +30,6 @@ import com.cake.compilation.tokens.types.TokenTypesContainer;
 public class StringTokenizer implements Iterator< Token > , Tokenizator< String >
 {
 
-    /**
-     * Holder of the patterns
-     */
-    private final TokenPatternContainer patterns = TokenPatternContainer.INSTANCE;
-
-
-    /**
-     * Holder of the token types
-     */
-    private final TokenTypesContainer types = TokenTypesContainer.INSTANCE;
 
 
     /**
@@ -71,33 +62,39 @@ public class StringTokenizer implements Iterator< Token > , Tokenizator< String 
         source = source.trim();
 
         if ( source.isEmpty() ) new Token( "" , types.getTypeForIdentifier( BaseTokenTypesIdentificators.EMPTY.getValue() ) );
-
+        
+//        System.out.println( "Searching for:" + source );
+        
         for ( TokenPattern pattern : patterns )
         {
             Matcher matcher = pattern.getPattern().matcher( source );
-
+            
+//            System.out.println( "Trying with pattern: " + pattern.forType() );
+            
             if ( pattern.equals( TokenPattern.EMPTY_PATTERN ) ) continue;
 
             if ( matcher.find() )
             {
                 String token = matcher.group().trim();
                 source = matcher.replaceFirst( "" );
-
+//                System.out.println( "Source: " + source );
+//                System.out.println( "The token is:" + token );
                 if ( pattern.forType() == types
                         .getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() ) )
                 {
                     return processedStringToken( token );
-                } else if ( pattern.forType() == types
-                        .getTypeForIdentifier( BaseTokenTypesIdentificators.NUMBER_LITERAL.getValue() ) )
-                {
-                    return exactTypeOfNumberToken( token );
-                }
+                } else 
+//                    if ( pattern.forType() == types
+//                        .getTypeForIdentifier( BaseTokenTypesIdentificators.NUMBER_LITERAL.getValue() ) )
+//                {
+//                    return exactTypeOfNumberToken( token );
+//                }
                 {
                     return new Token( token , pattern.forType() );
                 }
             }
         }
-        return null;
+        throw new IllegalArgumentException( "Illegal token: " + source );
     }
 
 
@@ -112,31 +109,31 @@ public class StringTokenizer implements Iterator< Token > , Tokenizator< String 
     }
 
 
-    /**
-     * 
-     * Determines the exact type of number that this token represents()integer or real number
-     * 
-     * @param token - the token to be processed
-     * @return a token with the exact representation of the number or null if something went wrong
-     */
-    private Token exactTypeOfNumberToken ( String token )
-    {
-        if ( token.matches( patterns
-                .getTokenPatternForToken( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() )
-                .getPattern().pattern() ) )
-        {
-            return new Token( token , types
-                    .getTypeForIdentifier( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ) );
-        } else if ( token.matches( patterns
-                .getTokenPatternForToken( BaseTokenTypesIdentificators.REAL_NUMBER_LITERAL.getValue() )
-                .getPattern().pattern() ) )
-        {
-            return new Token( token , types
-                    .getTypeForIdentifier( BaseTokenTypesIdentificators.REAL_NUMBER_LITERAL.getValue() ) );
-        }
-        
-        return null;
-    }
+//    /**
+//     * 
+//     * Determines the exact type of number that this token represents()integer or real number
+//     * 
+//     * @param token - the token to be processed
+//     * @return a token with the exact representation of the number or null if something went wrong
+//     */
+//    private Token exactTypeOfNumberToken ( String token )
+//    {
+//        if ( token.matches( patterns
+//                .getTokenPatternForToken( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() )
+//                .getPattern().pattern() ) )
+//        {
+//            return new Token( token , types
+//                    .getTypeForIdentifier( BaseTokenTypesIdentificators.INTEGER_NUMBER_LITERAL.getValue() ) );
+//        } else if ( token.matches( patterns
+//                .getTokenPatternForToken( BaseTokenTypesIdentificators.REAL_NUMBER_LITERAL.getValue() )
+//                .getPattern().pattern() ) )
+//        {
+//            return new Token( token , types
+//                    .getTypeForIdentifier( BaseTokenTypesIdentificators.REAL_NUMBER_LITERAL.getValue() ) );
+//        }
+//        
+//        return null;
+//    }
 
 
     /*
@@ -148,14 +145,24 @@ public class StringTokenizer implements Iterator< Token > , Tokenizator< String 
     public List< Token > tokenize ( String source )
     {
 
-        List< Token > tokensOfSource = new ArrayList< Token >();
+        List< Token > tokensOfSource = new LinkedList< Token >();
 
         this.source = source;
 
         while ( this.hasNext() )
         {
+//            try
+//            {
+//                Thread.sleep( 1000 );
+//            } catch ( InterruptedException e )
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            System.out.println( "After interation: " + tokensOfSource );
             tokensOfSource.add( this.next() );
         }
+        //System.out.println( "Tokens of source: " + tokensOfSource );
         return tokensOfSource;
     }
 

@@ -8,6 +8,8 @@ package com.cake.compilation.tokenizer;
 import java.util.List;
 
 import com.cake.compilation.tokens.Token;
+import com.cake.compilation.tokens.patterns.container.TokenPatternContainer;
+import com.cake.compilation.tokens.types.TokenTypesContainer;
 
 /**
  * 
@@ -17,6 +19,19 @@ import com.cake.compilation.tokens.Token;
  */
 public interface Tokenizator < Type >
 {
+    
+
+    /**
+     * Holder of the patterns
+     */
+    public final TokenPatternContainer patterns = TokenPatternContainer.INSTANCE;
+
+
+    /**
+     * Holder of the token types
+     */
+    public final TokenTypesContainer types = TokenTypesContainer.INSTANCE;
+    
     /**
      * 
      * Turns the supplied source code into tokens

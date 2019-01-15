@@ -12,8 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
+import com.cake.compilation.tokenizer.Tokenizator;
+import com.cake.compilation.tokenizer.tokenizers.stringTokenizer.StringTokenizer;
+import com.cake.compilation.tokenizer.tokenizers.temporary.TempTokenizer;
 import com.cake.compilation.tokens.Token;
+import com.cake.compilation.tokens.types.BaseTokenTypesIdentificators;
+import com.cake.compilation.tokens.types.TokenTypesContainer;
+import com.cake.compilation.tokens.types.TokenTypesContainer.TokenTypeHolder;
+import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.baseElements.SyntaxElement;
 import com.cake.syntax.blocks.Block;
 import com.cake.syntax.parsers.Parser;
@@ -52,7 +58,7 @@ public class TemporarySegregator implements Segregator
             throws MisplacedConstruct
     {
         sequence = sequence.subList( 1 , sequence.size() );
-        System.out.println( "In Segregator || Sequence: " + sequence );
+
         Map< Parser< ? > , List< Token > > result = new LinkedHashMap<>();
 
         if ( sequence == null || sequence.size() == 0 ) return new LinkedList<>();
@@ -62,10 +68,8 @@ public class TemporarySegregator implements Segregator
         for ( int i = 0 ; i < sequence.size() ; i++ )
         {
             Token current = sequence.get( i );
-            System.out.println( "In Segregator || Is Curly: " + current.equals( OPENING_CURLY_BRACE ) );
             if ( current.equals( OPENING_CURLY_BRACE ) )
             {
-                System.out.println( "In segregator || IS OPENING CURLY" );
                 while ( !current.equals( CLOSING_CURLY_BRACE ) )
                 {
                     temp.add( current );
@@ -103,7 +107,9 @@ public class TemporarySegregator implements Segregator
     {
         sequence = sequence.subList( 1 , sequence.size() - 1 );
 
-        StringTokenizer t = new StringTokenizer();
+        // System.out.println( "In Segregator || Segregating sequence: " + sequence );
+
+        TempTokenizer t = new TempTokenizer();
 
         String [] commands = sequence.stream().map( x -> x.getToken() ).reduce( "" , ( x , y ) -> x + " " + y )
                 .split( "\\:" );
@@ -112,12 +118,12 @@ public class TemporarySegregator implements Segregator
 
         int indentedBlocks = 0;
 
-        for ( int i = 1 ; i < commands.length ; i++ )
+        for ( int i = commands.length == 1 ? 0 : 1 ; i < commands.length ; i++ )
         {
             List< Token > tokens = t.tokenize( commands[i] );
+            // System.out.println( "In segregator || currentTokens : " + tokens );
             if ( tokens.get( tokens.size() - 1 ).equals( OPENING_CURLY_BRACE ) )
             {
-                System.out.println( "In segregator || Encountered opening curly" );
                 indentedBlocks++;
                 while ( indentedBlocks > 0 )
                 {
@@ -126,14 +132,88 @@ public class TemporarySegregator implements Segregator
                     tokens.addAll( newTokens );
                     int inBlocks = (int) tokens.stream().filter( x -> x.equals( OPENING_CURLY_BRACE ) ).count();
                     int outBlocks = (int) tokens.stream().filter( x -> x.equals( CLOSING_CURLY_BRACE ) ).count();
-                    
+
                     indentedBlocks = inBlocks - outBlocks;
-                    
                 }
             }
-            System.out.println( "In segregator || Getting parser for: " + tokens );
+            // System.out.println( "In segreagator || Getting parser for: " + tokens );
             Parser< ? > p = parsCont.getParserFor( tokens ).get( 0 );
+            // System.out.println( "In segreagator || Parser name: " +
+            // p.getClass().getSimpleName() );
+            // System.out.println( "In segreagator || Result Of Parsing: " + p.parse(
+            // superblock , tokens ).getValue() ); DO NOT TURN ON THIS LINE
             result.add( p.parse( superblock , tokens ).getValue() );
+        }
+        return result;
+    }
+
+
+    public List< SyntaxElement > getElements ( CakeRuntime runtime , Block superblock , List< Token > sequence )
+    {
+        sequence = sequence.subList( 1 , sequence.size() - 1 );
+
+        // System.out.println( "In Segregator || Segregating sequence: " + sequence );
+
+        Tokenizator< String > t = new TempTokenizer(); // new StringTokenizer();
+
+        List< String > commandsList = new LinkedList<>();
+
+        String temp = "";
+
+        for ( Token tok : sequence )
+        {
+            if ( tok.equals( TEMPORARY_SEGREGATOR ) )
+            {
+                commandsList.add( temp );
+                temp = "";
+            } else if ( tok.getTokenType().equals( TokenTypesContainer.INSTANCE
+                    .getTypeForIdentifier( BaseTokenTypesIdentificators.STRING_LITERAL.getValue() ) ) )
+            {
+                temp += ( "\"" + tok.getToken() + "\" " );
+            } else
+            {
+                temp += tok.getToken() + " ";
+            }
+        }
+        
+        if( !temp.isEmpty() ) commandsList.add( temp );
+        
+        String [] commands = commandsList.toArray( new String[0] );
+
+        List< SyntaxElement > result = new LinkedList<>();
+
+        int indentedBlocks = 0;
+
+        for ( int i = commands.length == 1 ? 0 : 1 ; i < commands.length ; i++ )
+        {
+            List< Token > tokens = t.tokenize( commands[i] );
+            // System.out.println( "In segregator || currentTokens : " + tokens );
+            if ( tokens.size() > 0 && tokens.get( tokens.size() - 1 ).equals( OPENING_CURLY_BRACE ) )
+            {
+                indentedBlocks++;
+                while ( indentedBlocks > 0 )
+                {
+                    i++;
+                    List< Token > newTokens = t.tokenize( commands[i] );
+                    tokens.addAll( newTokens );
+                    int inBlocks = (int) tokens.stream().filter( x -> x.equals( OPENING_CURLY_BRACE ) ).count();
+                    int outBlocks = (int) tokens.stream().filter( x -> x.equals( CLOSING_CURLY_BRACE ) ).count();
+
+                    indentedBlocks = inBlocks - outBlocks;
+                }
+            }
+            if ( !tokens.isEmpty() )
+            {
+//                System.out.println( "In segreagator || Getting parser for: " + tokens );
+                Parser< ? > p = parsCont.getParserFor( tokens ).get( 0 );
+                // System.out.println( "In segreagator || Parser name: " +
+                // p.getClass().getSimpleName() );
+                // System.out.println( "In segreagator || Result Of Parsing: " + p.parse(
+                // superblock , tokens ).getValue() ); DO NOT TURN ON THIS LINE
+                result.add( p.parseWithRuntime( runtime , superblock , tokens ).getValue() );
+                // System.out.println( "Moving on in segregator" );
+            }
+
         }
         return result;
     }

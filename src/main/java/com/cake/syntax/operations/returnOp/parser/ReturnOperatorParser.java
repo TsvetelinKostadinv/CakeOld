@@ -37,7 +37,7 @@ public class ReturnOperatorParser extends Parser< ReturnOperator > implements Ch
     @Override
     public boolean canParse ( List< Token > sequence )
     {
-        if ( sequence == null || sequence.size() < 2 ) return false;
+        if ( !checkList( sequence , 2 ) ) return false;
         
         boolean returnInPlace = sequence.get( 0 ).equals( RETURN_OPERATOR );
         boolean exprCorrect = ExpressionsChecker.isCorrectExpression( sequence.subList( 1 , sequence.size() ) );
@@ -60,7 +60,8 @@ public class ReturnOperatorParser extends Parser< ReturnOperator > implements Ch
             Expression formula = new Expression( tokens.subList( 1 , tokens.size() ) );
             
             ReturnOperator op = new ReturnOperator( formula );
-            
+             
+//            System.out.println( "In return op parser || Got op: " + op.toString() );
             String address = Block.joinNames( superblock , op );
             
             return new Pair< String , ReturnOperator >( address , op );

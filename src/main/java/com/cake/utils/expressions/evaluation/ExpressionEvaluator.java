@@ -53,10 +53,12 @@ public interface ExpressionEvaluator extends Checker
      * @param runtime
      * @param tokens
      */
-    private static Value evaluateExpression ( CakeRuntime runtime , List< Token > tokens )
+    static Value evaluateExpression ( CakeRuntime runtime , List< Token > tokens )
     {
+//        System.out.println( "Evaluating:" + tokens );
         if ( tokens.size() == 1 )
         {
+//            System.out.println( "Its a single token!" );
             if ( tokens.get( 0 ).getTokenType().equals( IDENTIFIER_TYPE ) )
             {
                 return getValueFromRuntime( runtime , tokens.get( 0 ).getToken() );
@@ -79,7 +81,7 @@ public interface ExpressionEvaluator extends Checker
      * @param tokens
      * @return
      */
-    private static Value doExpression ( CakeRuntime runtime , List< Token > tokens )
+    static Value doExpression ( CakeRuntime runtime , List< Token > tokens )
     {
         StringBuilder sb = new StringBuilder();
 
@@ -144,7 +146,7 @@ public interface ExpressionEvaluator extends Checker
      *            - the full name of the variable
      * @return - a value if it was found and an empty identity otherwise
      */
-    private static Value getValueFromRuntime ( CakeRuntime runtime , String name )
+    static Value getValueFromRuntime ( CakeRuntime runtime , String name )
     {
         if ( runtime == null ) return new EmptyIdentity();
         else return ( (Variable) runtime.getElement( name ) ).getValue();
@@ -156,7 +158,7 @@ public interface ExpressionEvaluator extends Checker
      * @param tokens
      * @return
      */
-    private static boolean hasIdentifiers ( List< Token > tokens )
+    static boolean hasIdentifiers ( List< Token > tokens )
     {
         return tokens.stream().filter( x -> x.getTokenType().equals( IDENTIFIER_TYPE ) ).count() != 0;
     }
@@ -167,7 +169,7 @@ public interface ExpressionEvaluator extends Checker
      * @param tokens
      * @return
      */
-    private static List< Value > getValuesForTokens ( CakeRuntime runtime , List< Token > tokens )
+    static List< Value > getValuesForTokens ( CakeRuntime runtime , List< Token > tokens )
     {
         if ( runtime != null )
         {
@@ -199,9 +201,9 @@ public interface ExpressionEvaluator extends Checker
      * @param x
      * @return
      */
-    private static Value getVariableFromRuntime ( CakeRuntime runtime , Token x )
+    static Value getVariableFromRuntime ( CakeRuntime runtime , Token x )
     {
-        //System.out.println( "In Expression || Getting the value of : " + x.getToken() );
+//        System.out.println( "In Expression || Getting the value of : " + x.getToken() );
         return ( (Variable) runtime.getElement( x.getToken() ) ).getValue();
     }
 
@@ -210,7 +212,7 @@ public interface ExpressionEvaluator extends Checker
      * @param token
      * @return
      */
-    private static Value parseValue ( Token token )
+    static Value parseValue ( Token token )
     {
         TokenTypeHolder type = token.getTokenType();
 
@@ -239,7 +241,7 @@ public interface ExpressionEvaluator extends Checker
      * @param valuesOfIdentifiers
      * @return
      */
-    private static String formulateExpression ( String expression , List< Token > identifiers ,
+    static String formulateExpression ( String expression , List< Token > identifiers ,
             List< Value > valuesOfIdentifiers )
     {
 

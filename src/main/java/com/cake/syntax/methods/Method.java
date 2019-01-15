@@ -28,9 +28,6 @@ public class Method extends Block
 
     private final MethodPromise promise;
 
-    private final Block body;
-
-
     /**
      * @param promise
      *            - the promise for the method
@@ -41,8 +38,7 @@ public class Method extends Block
     {
         super( promise.getName() , promise.getAccessModifier() , superBlock );
         this.promise = promise;
-        this.body = body;
-        this.addSubCommands( body.getSubcommands().toArray( new SyntaxElement[0] ) );
+        this.addSubCommands( body != null ?body.getSubcommands().toArray( new SyntaxElement[0] ) : null );
     }
 
 
@@ -59,16 +55,17 @@ public class Method extends Block
         if( promise.canRunWithValues( values ) )
         {
             List< Variable > input = promise.constructInputVariablesList( values );
-            Scope scope = new Scope( body );
+            Scope scope = new Scope( this );
             
             List< Variable > exitVars = scope.evaluate( runtime , values , input );
             
             Variable retVar = null;
 
-            for ( SyntaxElement syntaxElement : body.getSubcommands() )
+            for ( SyntaxElement syntaxElement : this.getSubcommands() )
             {
                 if ( syntaxElement instanceof ReturnOperator )
                 {
+//                    System.out.println( "Calculating return" );
                     retVar = ( (ReturnOperator) syntaxElement ).calculate( runtime );
                 }
             }
@@ -93,13 +90,13 @@ public class Method extends Block
     {
         return promise;
     }
-
-
-    /**
-     * @return the body
+    
+    /* (non-Javadoc)
+     * @see com.cake.syntax.blocks.Block#toString()
      */
-    public Block getBody ()
+    @Override
+    public String toString ()
     {
-        return body;
+        return promise.toString() + " with body " + this.getSubcommands();
     }
 }

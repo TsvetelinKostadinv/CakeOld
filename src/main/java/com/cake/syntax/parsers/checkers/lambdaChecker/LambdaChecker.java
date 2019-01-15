@@ -68,7 +68,7 @@ public interface LambdaChecker extends Checker
     }
 
 
-    private static boolean checkPointerOperator ( final List< Token > lambda )
+    static boolean checkPointerOperator ( final List< Token > lambda )
     {
         if ( !correctParameterDeclaration( lambda ) ) { return false; }
 

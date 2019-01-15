@@ -57,14 +57,13 @@ public class WhileLoop extends Block
     @Override
     public Result run ( CakeRuntime runtime , Value... values )
     {
+        Variable retVar = null;
+        Scope scope = new Scope( this );
+        List< Variable > exitVars = null;
         while ( (double) condition.calculate( runtime ).getValue().getValue() == 1.0 )
-        { 
-            Scope scope = new Scope( this );
+        {
+            exitVars = scope.evaluate( runtime , values , null );
             
-            List< Variable > exitVars = scope.evaluate( runtime , values , null );
-            
-            Variable retVar = null;
-
             for ( SyntaxElement syntaxElement : this.getSubcommands() )
             {
                 if ( syntaxElement instanceof ReturnOperator )
@@ -72,13 +71,13 @@ public class WhileLoop extends Block
                     retVar = ( (ReturnOperator) syntaxElement ).calculate( runtime );
                 }
             }
-            if( retVar != null)
-            {
-                return new Result( this , retVar.getValue() , null , exitVars );
-            }else {
-                return new Result( this , null , null , exitVars );
-            } 
         }
-        return null;
+        if ( retVar != null )
+        {
+            return new Result( this , retVar.getValue() , null , exitVars );
+        } else
+        {
+            return new Result( this , null , null , exitVars );
+        }
     }
 }

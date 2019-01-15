@@ -9,7 +9,7 @@ package com.cake.running.runtime;
 import java.util.List;
 
 import com.cake.compilation.tokenizer.Tokenizator;
-import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
+import com.cake.compilation.tokenizer.tokenizers.stringTokenizer.StringTokenizer;
 import com.cake.compilation.tokens.Token;
 import com.cake.syntax.AccessModifier;
 import com.cake.syntax.blocks.Block;

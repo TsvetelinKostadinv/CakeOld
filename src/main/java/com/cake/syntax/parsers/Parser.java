@@ -7,6 +7,8 @@ package com.cake.syntax.parsers;
 
 
 import java.util.List;
+import java.util.Objects;
+
 import com.cake.compilation.tokens.Token;
 import com.cake.running.runtime.CakeRuntime;
 import com.cake.syntax.baseElements.SyntaxElement;
@@ -79,4 +81,18 @@ public abstract class Parser < Type extends SyntaxElement >
      */
     public abstract Pair< String , Type > parseWithRuntime ( final CakeRuntime runtime , final Block superblock ,
             final List< Token > sequence );
+    
+    /**
+     * 
+     * Checks the list of its null and if its size is less than OR EQUAL to the minSize variable
+     * 
+     * @param sequence
+     * @param minSize
+     * @return
+     */
+    protected final boolean checkList(final List< Token > sequence , final int minSize)
+    {
+        return sequence != null && sequence.size() >= minSize;
+    }
+    
 }

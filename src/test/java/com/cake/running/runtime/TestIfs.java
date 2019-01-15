@@ -7,7 +7,7 @@ package com.cake.running.runtime;
 
 import java.util.List;
 
-import com.cake.compilation.tokenizer.tokenizers.StringTokenizer;
+import com.cake.compilation.tokenizer.tokenizers.stringTokenizer.StringTokenizer;
 import com.cake.compilation.tokens.Token;
 import com.cake.syntax.baseElements.Result;
 import com.cake.syntax.baseElements.SyntaxElement;
@@ -30,12 +30,15 @@ public class TestIfs
     {
         CakeRuntime runtime = new CakeRuntime();
         String code = "if ( 5 > 3 && 8 > -1 ) {" //+ endl
-                    + " : local int i = 5 " //+ endl
-                    + " : local int a = 3 "
-                    + " : if ( root.IF-STATEMENT1#i == 5 ) {"
-                    + " :      root.IF-STATEMENT1#i = root.IF-STATEMENT1#i * 5 * 3 " //+ endl
-                    + " : }" //+ endl
-                    + " : return root.IF-STATEMENT1#i / root.IF-STATEMENT1#a " //+ endl
+                    + " : local i = 5 " //+ endl
+                    + " : local a = 3.0 "
+                    + " : if ( root.IF-STATEMENT2#i == 5 ) {"
+                    + "        : root.IF-STATEMENT2#i = root.IF-STATEMENT2#i * 5 * 3 "
+                    + " : }"
+                    + " : if ( root.IF-STATEMENT2#i > 0 ) {"
+                    + "        : root.IF-STATEMENT2#i = root.IF-STATEMENT2#i * 2"
+                    + " : }"
+                    + " : return root.IF-STATEMENT2#i / root.IF-STATEMENT2#a " //+ endl
                     + "}";
         
         System.out.println( "---------------------STARTING INTERPRETATION---------------------" );
@@ -56,6 +59,8 @@ public class TestIfs
         System.out.println( "In test || Parsed: " + ifst );
         
         System.out.println( "---------------------STARTING EXECUTION---------------------" );
+        
+        //runtime.printAllContents();
         
         Result res = ifst.run( runtime );
         
