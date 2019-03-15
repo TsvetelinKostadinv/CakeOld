@@ -7,6 +7,7 @@ package com.cake.interpreter.syntax.controlFlowStatements.loops.whileLoop;
 
 
 import java.util.List;
+import java.util.Objects;
 
 import com.cake.interpreter.running.runtime.CakeRuntime;
 import com.cake.interpreter.syntax.AccessModifier;
@@ -45,8 +46,8 @@ public class WhileLoop extends Block
         super( NAME + counter , AccessModifier.LOCAL , superBlock );
         counter++;
         this.condition = condition;
-        
-        System.out.println( "WHILE || Body: " + body );
+       
+        Objects.requireNonNull( superBlock );
         
         this.inheritVariables( superBlock );
         this.addSubCommands( body.getSubcommands().toArray( new SyntaxElement[0] ) );
@@ -67,12 +68,13 @@ public class WhileLoop extends Block
         
         Value retVal = null;
         Scope scope = new Scope();
-        List< Variable > exitVars = null;
+        List< Variable > exitVars = this.getVariables();
 //        System.out.println( "In while || parent : " + this.getSuperBlock().getFullName() );
 //        System.out.println( "In while || parent vars : " + getSuperBlock().getVariables() );
         
         Double conditionResult = (Double) ((Value) condition
-                .calculate( runtime , getSuperBlock().getVariables() )
+                .calculate( runtime , 
+                        getSuperBlock().getVariables() )
                 .getReturned()
                 .getValue()).getValue();
         
@@ -89,7 +91,6 @@ public class WhileLoop extends Block
 //                Thread.sleep( 1000 );
 //            } catch ( InterruptedException e )
 //            {
-//                // TODO Auto-generated catch block
 //                e.printStackTrace();
 //            }
             

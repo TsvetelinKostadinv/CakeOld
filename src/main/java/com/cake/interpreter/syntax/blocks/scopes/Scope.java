@@ -35,20 +35,24 @@ public class Scope
         List< Variable > internalVariables = new ArrayList<>( inputVars );
 
         Value retValue = null;
-
+        
+//        System.out.println( this.getClass() + " || Caller body: " + caller.getSubcommands() );
+        
         for ( SyntaxElement el : caller.getSubcommands() )
         {
             if ( el instanceof Block )
             {
                 Result res = ( (Block) el ).run( runtime );
+//                System.out.println( this.getClass() + " || Running: " + el.getName() );
+//                System.out.println( this.getClass() + " || Exiting with: " + res );
                 for ( Variable exitVar : res.getExitVariables() )
                 {
                     boolean isLocal = internalVariables.stream().map( x -> x.getName() )
                             .filter( x -> x.equals( exitVar.getName() ) ).findFirst().isPresent();
                     if ( isLocal )
                     {
-                        // System.out.println( "Scope || Found a local variable with name: " +
-                        // exitVar.getName() );
+//                         System.out.println( this.getClass() + " || Found a local variable with name: " +
+//                         exitVar.getName() );
                         int index = internalVariables.stream().map( x -> x.getName() ).collect( Collectors.toList() )
                                 .indexOf( exitVar.getName() );
 
@@ -64,21 +68,21 @@ public class Scope
                     Variable variable = ( (VariableDeclaration) el ).calculate( runtime , internalVariables )
                             .getExitVariables().get( 0 );
                     
-                    System.out.println( this.getClass().getName() + " || Declared variable: " + variable.getName() );
+//                    System.out.println( this.getClass().getName() + " || Declared variable: " + variable.getName() );
                     
                     internalVariables.add( variable );
                     caller.addVariable( variable );
                 } else if ( el instanceof MethodInvocationOperator )
                 {
                     
-                    System.out.println( this.getClass().getName() + " || CAlled method: "
-                            + ( (MethodInvocationOperator) el ).getToBeInvokedAddress() );
+//                    System.out.println( this.getClass().getName() + " || CAlled method: "
+//                            + ( (MethodInvocationOperator) el ).getToBeInvokedAddress() );
                     
-                    ( (Operator) el ).calculate( runtime , internalVariables );
+                    ( (MethodInvocationOperator) el ).calculate( runtime , internalVariables );
                 } else if ( el instanceof ReassignmentOperator )
                 {
                     
-                    System.out.println( this.getClass().getName() + " || Reassigned var: " + ( (ReassignmentOperator) el ).getAssignee() );
+//                    System.out.println( this.getClass().getName() + " || Reassigned var: " + ( (ReassignmentOperator) el ).getAssignee() );
                     
                     Variable newVar = ( (Operator) el ).calculate( runtime , internalVariables ).getExitVariables()
                             .get( 0 );
@@ -100,8 +104,8 @@ public class Scope
 
                 } else if ( el instanceof ReturnOperator )
                 {
-                    System.out.println( this.getClass().getName() + " || Returning: " + ( (ReassignmentOperator) el ).getAssigner() );
-                    retValue = ( (Operator) el ).calculate( runtime , internalVariables ).getReturned();
+//                    System.out.println( this.getClass().getName() + " || Returning: " + ( (ReturnOperator) el ).getAssigner() );
+                    retValue = ( (ReturnOperator) el ).calculate( runtime , internalVariables ).getReturned();
                 }
             }
         }

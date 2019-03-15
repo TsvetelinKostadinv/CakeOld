@@ -30,11 +30,16 @@ import javafx.util.Pair;
 public class Test
 {
 
+    /**
+     * 
+     */
+    public static final Value VALUE_FOR_FACTORIAL = new Value(Type.INTEGER.name() , 5 );
+    
     //@formatter:off
-    public static final String source = "global int factorial = (INTEGER n) -> {" + 
+    public static final String source = 
+            "global int main = (INTEGER n) -> {" + 
             "  local int res = 1" + 
-            "  local int newN = n" +
-//            + ": root.std.print(res)" + 
+            "  local int newN = n" + 
             "  while ( newN > 0 )" + 
             "  {" + 
             "    res = res * newN" + 
@@ -75,9 +80,9 @@ public class Test
         
         System.out.println( "-------------------Running------------------" );
         
-        Result res = ( (Method) runtime.getElement( address ) ).run( runtime , new Value(Type.INTEGER.name() , 5 ));
+        Result res = ( (Method) runtime.getElement( address ) ).run( runtime , VALUE_FOR_FACTORIAL );
         
-        System.out.println( "Result of method: " + res.getExitVariables() );
+        System.out.println( "Result of method: " + res );
         
     }
 

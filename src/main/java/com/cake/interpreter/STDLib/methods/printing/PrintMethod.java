@@ -46,6 +46,7 @@ public class PrintMethod extends STDLibMethod
     @Override
     public Result run ( CakeRuntime runtime , Value... values )
     {
+//        System.out.println( this.getClass() + " || Invoking with: " + Arrays.toString( values ) );
         System.out.print( values[0].getValue() );
         return null;
     }

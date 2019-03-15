@@ -53,11 +53,19 @@ public class IfStatement extends Block
     @Override
     public Result run ( CakeRuntime runtime , Value... values )
     {
-        if ( (Double) condition.calculate( runtime , getSuperBlock().getVariables() ).getReturned().getValue() == 1.0 )
+        this.inheritVariables( this.getSuperBlock() );
+        
+        Double conditionResult = (Double) ((Value) condition
+                .calculate( runtime , 
+                        getSuperBlock().getVariables() )
+                .getReturned()
+                .getValue()).getValue();
+        
+        if ( conditionResult == 1.0 )
         { 
             Scope scope = new Scope();
             
-            Result res = scope.evaluate( runtime , this , null );
+            Result res = scope.evaluate( runtime , this , this.getVariables() );
             
             return res;
         }

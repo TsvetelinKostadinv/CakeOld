@@ -22,6 +22,8 @@ import com.cake.interpreter.syntax.methods.promise.MethodPromise;
 import com.cake.interpreter.syntax.methods.promise.parser.MethodPromiseParser;
 import com.cake.interpreter.syntax.operators.declaration.VariableDeclaration;
 import com.cake.interpreter.syntax.operators.declaration.parser.VariableDeclarationParser;
+import com.cake.interpreter.syntax.operators.expressions.Expression;
+import com.cake.interpreter.syntax.operators.expressions.parser.ExpressionParser;
 import com.cake.interpreter.syntax.operators.methodInvocation.MethodInvocationOperator;
 import com.cake.interpreter.syntax.operators.methodInvocation.parser.MethodInvokationOperatorParser;
 import com.cake.interpreter.syntax.operators.reassignmentOp.ReassignmentOperator;
@@ -51,13 +53,14 @@ public class ParsersContainer extends Container< Parser< ? > >
     public static final ParsersContainer INSTANCE = new ParsersContainer();
 
     public static final Parser< Block > BLOCK_PARSER = new BlockParser();
+    public static final Parser< Expression > EXPRESSION_PARSER = new ExpressionParser();
+    public static final Parser< IfStatement > IF_STATEMENT_PARSER = new IfStatementParser();
+    public static final Parser< MethodInvocationOperator > METHOD_INVOCATION_OPERATOR_PARSER = new MethodInvokationOperatorParser();
     public static final Parser< Method > METHOD_PARSER = new MethodParser();
     public static final Parser< MethodPromise > METHOD_PROMISE_PARSER = new MethodPromiseParser();
-    public static final Parser< MethodInvocationOperator > METHOD_INVOCATION_PARSER = new MethodInvokationOperatorParser();
     public static final Parser< ReassignmentOperator > REASSIGNMENT_OPERATOR_PARSER = new ReassignmentOperationParser();
     public static final Parser< ReturnOperator > RETURN_OPERATOR_PARSER = new ReturnOperatorParser();
-    public static final Parser< VariableDeclaration > VARIABLE_PARSER = new VariableDeclarationParser();
-    public static final Parser< IfStatement > IF_STATEMENT_PARSER = new IfStatementParser();
+    public static final Parser< VariableDeclaration > VARIABLE_DECLARATION_PARSER = new VariableDeclarationParser();
     public static final Parser< WhileLoop > WHILE_LOOP_PARSER = new WhileLoopParser();
     
 

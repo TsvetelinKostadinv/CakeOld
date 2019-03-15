@@ -44,28 +44,28 @@ public class WhileLoopParser extends Parser< WhileLoop > implements Checker
     @Override
     public boolean canParse ( List< Token > sequence )
     {
-        if ( !checkList( sequence , 6 ) ) return false;
-
+        if ( !checkList( sequence , 5 ) ) return false;
+        
+//        System.out.println( this.getClass() + " | Enough length" );
+        
         boolean keyword = sequence.get( 0 ).equals( WHILE_KEYWORD_TOKEN );
         boolean openingRoundBrace = sequence.get( 1 ).equals( OPENING_ROUND_BRACE );
-
-        // System.out.println( "In while parser || is the keyword there: " + keyword );
-        // System.out.println( "In while parser || is the opening round brace there: " +
-        // openingRoundBrace );
+        
+//         System.out.println( this.getClass() + " || is the keyword there: " + keyword );
+//         System.out.println( this.getClass() + " || is the opening round brace there: " + openingRoundBrace );
 
         int closingRoundBraceIndex = sequence.indexOf( CLOSING_ROUND_BRACE );
 
         if ( closingRoundBraceIndex == -1 ) return false;
+//        System.out.println( this.getClass() + " || Passed the closing round brace " );
 
         // System.out.println( "In while parser || the closing is also there");
 
         boolean conditionCorrect = ExpressionsChecker
                 .isCorrectExpression( sequence.subList( 2 , closingRoundBraceIndex ) );
 
-        // System.out.println( "In while parser || Condition is: " + sequence.subList( 2
-        // , closingRoundBraceIndex ) );
-        // System.out.println( "In while parser || Condition correct: " +
-        // conditionCorrect );
+//         System.out.println( this.getClass() + "|| Condition is: " + sequence.subList( 2 , closingRoundBraceIndex ) );
+//         System.out.println( this.getClass() + "|| Condition correct: " + conditionCorrect );
 
         boolean bodyCorrect = new BlockParser()
                 .canParse( sequence.subList( closingRoundBraceIndex + 1 , sequence.size() ) );

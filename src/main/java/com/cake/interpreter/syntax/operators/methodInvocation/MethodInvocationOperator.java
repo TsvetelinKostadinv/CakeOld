@@ -54,8 +54,12 @@ public class MethodInvocationOperator extends Operator
     @Override
     public Result calculate ( CakeRuntime runtime , List< Variable > inputVariables )
     {
-        Value [] values = Arrays.stream( expressions ).map( x -> x.calculate( runtime , inputVariables ) )
-                .collect( Collectors.toList() ).toArray( new Value[0] );
+//        System.out.println( this.getClass() + " || Expressions: " + Arrays.toString( expressions ) );
+        Value [] values = Arrays.stream( expressions )
+                .map( x -> x.calculate( runtime , inputVariables ) )
+                .map( x -> x.getReturned() )
+                .collect( Collectors.toList() )
+                .toArray( new Value[0] );
         Result res = ( (Method) runtime.getElement( toBeInvokedAddress ) ).run( runtime , values );
         return res != null ? res : new Result( null , new EmptyIdentity() , null , null );
     }
@@ -70,7 +74,6 @@ public class MethodInvocationOperator extends Operator
     }
 
 
-    
     /**
      * @return the toBeInvokedAddress
      */

@@ -266,7 +266,7 @@ public class Starter
             System.err.println( "Stack overflow!!" );
         }
 
-        System.out.println( "------------------Resuluts------------------" );
+        System.out.println( "------------------Results------------------" );
 
         System.out.println( "Result:" + res == null ? "No results!" : res );
         System.out.println();

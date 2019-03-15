@@ -60,7 +60,9 @@ public class IfStatementParser extends Parser< IfStatement > implements Checker
 
         boolean expressionCorrect = ExpressionsChecker.isCorrectExpression(
                 sequence.subList( sequence.indexOf( OPENING_ROUND_BRACE_TOKEN ) + 1 , closingRoundBraceIndex ) );
-
+        
+        if( sequence.indexOf( OPENING_CURLY_BRACE ) == -1 ) return false;
+        
         List< Token > body = sequence.subList( sequence.indexOf( OPENING_CURLY_BRACE ) , sequence.size() );
 
         boolean bodyCorrect = new BlockParser().canParse( body );

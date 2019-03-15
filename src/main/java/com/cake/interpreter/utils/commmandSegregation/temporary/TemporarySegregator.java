@@ -21,12 +21,10 @@ import com.cake.interpreter.syntax.parsers.checkers.Checker;
 import com.cake.interpreter.utils.commmandSegregation.Segregator;
 import com.cake.interpreter.utils.commmandSegregation.segregatorExceptions.MisplacedConstruct;
 import com.cake.tokenization.tokenizer.Tokenizator;
-import com.cake.tokenization.tokenizer.tokenizers.stringTokenizer.StringTokenizer;
 import com.cake.tokenization.tokenizer.tokenizers.temporary.TempTokenizer;
 import com.cake.tokenization.tokens.Token;
 import com.cake.tokenization.tokens.types.BaseTokenTypesIdentificators;
 import com.cake.tokenization.tokens.types.TokenTypesContainer;
-import com.cake.tokenization.tokens.types.TokenTypesContainer.TokenTypeHolder;
 
 
 /**

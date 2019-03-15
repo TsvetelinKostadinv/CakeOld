@@ -62,7 +62,7 @@ public class BlockParser extends Parser< Block > implements Checker
     @Override
     public Pair< String , Block > parse ( Block superblock , List< Token > sequence )
     {
-        sequence = sequence.subList( 2 , sequence.size() );
+        sequence = sequence.subList( 1 , sequence.size()-1 );
 
         List< SyntaxElement > subCommands = null;
         try

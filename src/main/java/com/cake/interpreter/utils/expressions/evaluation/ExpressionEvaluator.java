@@ -7,7 +7,6 @@ package com.cake.interpreter.utils.expressions.evaluation;
 
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;

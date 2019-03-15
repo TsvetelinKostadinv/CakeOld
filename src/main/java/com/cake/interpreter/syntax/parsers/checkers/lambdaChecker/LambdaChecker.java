@@ -51,6 +51,7 @@ public interface LambdaChecker extends Checker
      */
     public static boolean correctParameterDeclaration ( final List< Token > lambda )
     {
+        if( lambda.size() < 2 ) return false;
         boolean startOfParameters = lambda.get( 0 ).equals( OPENING_BRACE );
 
         int closingBraceIndex = lambda.indexOf( CLOSING_BRACE );

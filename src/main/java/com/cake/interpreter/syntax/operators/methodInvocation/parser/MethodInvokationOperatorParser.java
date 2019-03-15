@@ -65,9 +65,12 @@ public class MethodInvokationOperatorParser extends Parser< MethodInvocationOper
     {
         if ( this.canParse( tokens ) )
         {
+//            System.out.println( this.getClass() + " || Parsing: " + tokens );
             String methodName = tokens.get( 0 ).getToken();
 
-            List< Token > paramList = tokens.subList( 2 , tokens.size() );
+            List< Token > paramList = tokens.subList( 2 , tokens.size()-1 );
+            
+//            System.out.println( this.getClass() + " || Param List: " + paramList );
             
             List< Expression > expressions = new ArrayList<>();
             
@@ -82,7 +85,11 @@ public class MethodInvokationOperatorParser extends Parser< MethodInvocationOper
                     currentExpression.add( t );
                 }
             }
-
+            
+            expressions.add( new Expression( currentExpression ) );
+            
+//            System.out.println( this.getClass() + " || Expressions: " + expressions );
+            
             MethodInvocationOperator op = new MethodInvocationOperator( methodName , expressions.toArray( new Expression[0] ) );
 
             String address = Block.joinNames( superblock , op );

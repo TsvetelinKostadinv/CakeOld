@@ -8,6 +8,7 @@ package com.cake.interpreter.syntax.methods.parser;
 
 import java.util.List;
 
+import com.cake.interpreter.syntax.baseElements.SyntaxElement;
 import com.cake.interpreter.syntax.blocks.Block;
 import com.cake.interpreter.syntax.blocks.parser.BlockParser;
 import com.cake.interpreter.syntax.methods.Method;
@@ -75,10 +76,12 @@ public class MethodParser extends Parser< Method > implements Checker
 
             MethodPromise promise = new MethodPromiseParser().parse( superblock , promiseDeclr ).getValue();
 
-            Block body = new BlockParser().parse( superblock , bodyDeclr ).getValue();
-
             String address = Block.joinNames( superblock , promise );
-            Method method = new Method( promise , body , superblock );
+            Method method = new Method( promise , null , superblock );
+            
+            Block body = new BlockParser().parse( method , bodyDeclr ).getValue();
+
+            method.addSubCommands( body.getSubcommands().toArray( new SyntaxElement[0] ) );
 
             return new Pair< String , Method >( address , method );
         }
